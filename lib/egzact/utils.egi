@@ -1,0 +1,130 @@
+; Number of max fields single line can have.
+; This value will be updated by the install script.
+(define $ARGMAX 65535)
+
+(define $num-validation
+  (lambda [$num] (if (gte? 0 num) ARGMAX (min num ARGMAX))))
+
+; Infinite input stream
+(define $stdin
+  (take-while
+    1#(not (eq? <EOF> %1))
+    (recursive-read read-line)))
+
+(define $recursive-read
+  (lambda [$proc] {(if (io (eof?))
+                       <EOF>
+                       (io (proc)))
+                   @(recursive-read proc)}))
+
+; Print whole the input stream with specified fieds.
+(define $print-whole-input
+  (lambda [$FILTER $ARGS $IFS $OFS $EOR $EOS $EOF $INF]
+    (each 1#(write (S.append (join-string OFS %1) EOR))
+      (FILTER ARGS
+            (split-whole-input IFS INF)))))
+
+; Print each lines with specified fields.
+(define $print-each-line
+  (lambda [$FILTER $ARGS $IFS $OFS $EOR $EOS $EOF $INF]
+    (each write
+          (append (intersperse2 EOS
+                    (map 1#(twocol2string OFS EOR %1)
+                         (map (FILTER ARGS $)
+                              (split-each-line IFS INF)))) {EOF}))))
+
+; Initialize arguments.
+(define $initialize-args
+  (lambda [$this-filter $this-args $common-opts $this-input]
+    (set-default-opts
+      this-filter
+      this-args
+      (opts2hash (add "dummy=1" common-opts)) ; Avoid empty arguments.
+      this-input
+      )))
+
+; Set default value of each command line options.
+(define $set-default-opts
+  (lambda [$this-filter $this-args $common-opts $this-input] [
+                   this-filter
+                   this-args
+                   (set-default-value common-opts_"ifs" common-opts_"fs" " ") ; input field separator
+                   (set-default-value common-opts_"ofs" common-opts_"fs" " ") ; output field separator
+                   (set-default-value common-opts_"eor" [] "\n" )             ; output row separator
+                   (1#(if (string? %1)
+                          (S.concat {"\n" %1 "\n"})
+                                           "\n")   common-opts_"eos")         ; output set separator
+                   (set-default-value common-opts_"eof" [] "\n")              ; end of file
+                   this-input
+                   ]))
+
+(define $set-default-value
+  (lambda [$primary $secondary $default]
+    (if (string? primary)
+       primary
+       (if (string? secondary)
+           secondary
+           default))))
+
+; Convert string collection to hash {"P1=A" "P2=B"} => {| ["P1" "A"] ["P2" "B"] |}
+(define $opts2hash
+  (lambda [$args] (read (S.concat {"{| " (join-string " "
+                                                      (map 3#(show [%1 %3])
+                                                           (map 1#(car (regex "=" %1))
+                                                                args))) " |}"}))))
+
+; Convert two-dimensional-collection to string
+; (proc "-" "@" {{"a" "b" "c"} {"d" "e" "f"} {"g"}}) => "a-b-c@d-e-f@g"
+(define $twocol2string
+  (lambda [$field-sep $row-sep $cols]
+    (join-string row-sep
+                 (map (join-string field-sep $) cols))))
+
+; (proc "," {"a" "b" "c"}); => "a,b,c"
+(define $join-string
+  (lambda [$fs $ls]
+    (match ls (list string) {
+                               [<nil> ""] ; in case of empty element
+                               [<cons $lst <nil>> (if (string? lst) lst "")]
+                               [<cons $x $xs> [(S.append (S.append x fs) (join-string fs xs))]]
+                               })))
+
+; new split-string function which can deal with empty separator
+(define $S.split2
+  (lambda [$in $ls]
+    (if (S.empty? in)
+        (map 1#(pack {%1}) (unpack ls))
+        (S.split in ls))))
+
+; (proc " " {"a b c" "1 2 3"}) => {"a" "b" "c" "1" "2" "3"}
+(define $split-whole-input
+  (lambda [$str $line]
+    (match line (list string) {
+                               [<nil> {}]
+                               [<cons $x $xs>
+                                (concat {(S.split2 str x) (split-whole-input str xs)})]
+                               })))
+
+
+; (proc " " {"a b c" "1 2 3"}) => {{"a" "b" "c"} {"1" "2" "3"}}
+; (proc "" {"a b c" "1 2 3"}) => {{"a" " " "b" " " "c"} {"1" " " "2" " " "3"}}
+(define $split-each-line
+  (lambda [$str $line]
+    (match line (list string) {
+                               [<nil> {}]
+                               [<cons $x $xs>
+                                (append {(S.split2 str x)} (split-each-line str xs))]
+                               })))
+
+; The behavior is same as intersperse.
+; But it works even the input is infinite stream.
+; (proc "---" {"a b c" "1 2 3" "e f g"}) => {"a b c" "---" "1 2 3" "---" "e f g"}
+(define $intersperse2
+  (lambda [$str $line]
+    (match line (list string){
+                              [<cons $x <nil>> ;last element
+                               {x}]
+                              [<cons $x $xs> ;first and before last element
+                               (append (append {x} {str}) (intersperse2 str xs))]
+                              })))
+

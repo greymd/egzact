@@ -1,0 +1,22 @@
+#!/usr/bin/env egison
+(load-file "../lib/egzact/utils.egi")
+(load-file "../lib/egzact/filters.egi")
+
+(define $main
+  (lambda [$args]
+    (if (and (not (empty? args)) (eq? (car args) "each"))
+    (print-each-line ; each line mode
+      (initialize-args
+        filter-flat
+        (read (nth 2 args))
+        (drop 2 args)
+        stdin
+        ))
+    (print-whole-input ; stream mode
+      (initialize-args
+        (2#(if (empty? args)
+               [%1 ARGMAX {} %2]
+               [%1 (num-validation (read (car args))) (cdr args) %2])
+         [filter-flat stdin]
+         )))
+    )))

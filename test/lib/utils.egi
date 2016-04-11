@@ -1,0 +1,85 @@
+(load-file "./lib/egzact/utils.egi")
+
+(assert-equal "join-string -- case 1"
+  (join-string "," {"a" "b" "c"})
+  "a,b,c")
+
+(assert-equal "join-string -- case 2"
+  (join-string "," {"a"})
+  "a")
+
+(assert-equal "join-string -- case 3"
+  (join-string "," {})
+  "")
+
+(assert-equal "split-whole-input"
+  (split-whole-input " " {"a b c" "1 2 3 4"})
+  {"a" "b" "c" "1" "2" "3" "4"})
+
+(assert-equal "split-each-line -- case 1"
+  (split-each-line " " {"a b c" "1 2 3"})
+  {{"a" "b" "c"} {"1" "2" "3"}})
+
+(assert-equal "split-each-line -- case 2"
+  (split-each-line "" {"ab bc" "12 3"})
+  {{"a" "b" " " "b" "c"} {"1" "2" " " "3"}})
+
+(assert-equal "opts2hash"
+  (opts2hash {"P1=A" "P2=B"})
+  {| ["P1" "A"] ["P2" "B"] |})
+
+(assert-equal "twocol2string -- case 1"
+  (twocol2string "-" "@" {{"a" "b" "c"} {"d" "e" "f"} {"g"}})
+  "a-b-c@d-e-f@g")
+
+(assert-equal "twocol2string -- case 2"
+  (twocol2string "-" "@" {{} {}})
+  "@")
+
+(assert-equal "twocol2string -- case 3"
+  (twocol2string "-" "@" {{} {} {}})
+  "@@")
+
+(assert-equal "twocol2string -- case 4"
+  (twocol2string "-" "@" {})
+  "")
+
+(assert-equal "set-default-opts -- case 1"
+  (set-default-opts cons "ARGS" {| ["eof" "AAA"] ["ifs" "BBB"] ["eos" "---"] |} (take 5 nats))
+  [cons "ARGS" "BBB" " " "\n" "\n---\n" "AAA" {1 2 3 4 5}])
+
+(assert-equal "set-default-opts -- case 2"
+  (set-default-opts cons "ARGS" {| ["dummy" "1"] |} (take 5 nats))
+  [cons "ARGS" " " " " "\n" "\n" "\n" {1 2 3 4 5}])
+
+(assert-equal "initialize-args"
+  (initialize-args cons "ARGS" {"eof=AAA" "ifs=BBB" "eos=---"} (take 5 nats))
+  [cons "ARGS" "BBB" " " "\n" "\n---\n" "AAA" {1 2 3 4 5}])
+
+(assert-equal "set-default-value -- case 1"
+  (set-default-value "A" "B" "C")
+  "A")
+
+(assert-equal "set-default-value -- case 2"
+  (set-default-value [] "B" "C")
+  "B")
+
+(assert-equal "set-default-value -- case 3"
+  (set-default-value [] [] "C")
+  "C")
+
+(assert-equal "set-default-value -- case 4"
+  (set-default-value "A" [] "C")
+  "A")
+
+(assert-equal "S.split2 -- case 1"
+  (S.split2 " " "a b c")
+  (S.split " " "a b c"))
+
+(assert-equal "S.split2 -- case 2"
+  (S.split2 "" "a b c")
+  {"a" " " "b" " " "c"})
+
+(assert-equal "intersperse2"
+  (intersperse2 "---" {"a b c" "1 2 3" "e f g"})
+  {"a b c" "---" "1 2 3" "---" "e f g"})

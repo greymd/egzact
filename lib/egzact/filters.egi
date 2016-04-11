@@ -1,0 +1,128 @@
+(define $filter-plain
+  (lambda [$str $line]
+    {line}))
+
+(define $filter-addl
+  (lambda [$str $line]
+    {(cons str line)}))
+
+(define $filter-addr
+  (lambda [$str $line]
+    {(snoc str line)}))
+
+(define $filter-mirror
+  (lambda [$str $line]
+    {(reverse line)}))
+
+; (snoc "d" {"a" "b" "c"}); => {"a" "b" "c" "d"}
+(define $snoc
+  (lambda [$col1 $col2]
+    (append col2 {col1})))
+
+(define $filter-cycle
+  (lambda [$num $line]
+    (match-all line (list string)
+      [<join (& $x _) (& $xs !<nil>)>
+       [(concat {xs x})]])))
+
+(define $filter-comb
+  (lambda [$num $line]
+    ((lambda [$min-num $line]
+      (match-all line (list string)
+        [(loop $i [1 min-num]
+               <join _ <cons $a_i ...>>
+               _)
+        (map (1#a_%1 $) (between 1 min-num))]))
+     [(min [num (length line)]) line])))
+
+(define $filter-perm
+  (lambda [$num $line]
+    ((lambda [$min-num $line]
+      (match-all line (multiset string)
+        [(loop $i [1 min-num]
+               <cons $a_i ...>
+               _)
+        (map (1#a_%1 $) (between 1 min-num))]))
+     [(min [num (length line)]) line])))
+
+(define $filter-conv-each
+  (lambda [$num $line]
+    (filter-conv [(min [num (length line)]) line])))
+
+(define $filter-conv
+  (lambda [$num $line]
+    (match-all line (list string)
+      [<join _ (loop $i [1 num]
+                     <cons $a_i ...>
+                     _) >
+             (map (1#a_%1 $) (between 1 num))])))
+
+(define $filter-dupl
+  (lambda [$num $line]
+    (take num (repeat1 line))))
+
+(define $filter-flat
+  (lambda [$num $line]
+    (match line (list string) {
+                               [(loop $i [1 num] <cons $a_i ...> $xs)
+                                {(map 1#a_%1 (between 1 num)) @(filter-flat num xs)}]
+                               [<join $x <cons $xs <nil>>> {(append x {xs})}]
+                               [<nil> {}]
+                               })))
+
+(define $filter-stairal
+  (lambda [$empty $line]
+    (match-all line (list string)
+      [<join _ <join (& $x !<nil>) _>>
+       {@x}])))
+
+(define $filter-stairl
+  (lambda [$empty $line]
+    (match-all line (list string) [<join (& $x !<nil>) $xs> [x]])))
+
+(define $filter-stairr
+  (lambda [$empty $line]
+    (match-all line (list string) [<nioj (& $x !<nil>) $xs> [x]])))
+
+(define $filter-takel
+  (lambda [$num $line]
+    ((lambda [$min-num $line]
+      {(take min-num line)})
+     [(min [num (length line)]) line])))
+
+(define $filter-taker
+  (lambda [$num $line]
+    ((lambda [$min-num $line]
+      {(drop (- (length line) min-num) line)})
+     [(min [num (length line)]) line])))
+
+(define $filter-takexl
+  (lambda [$str $line]
+    {(match line (list string) {[<join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
+                                 (append left {elem})]
+                                [_ {}] ;If there is no mached patterns.
+                                })}))
+
+(define $filter-takexr
+  (lambda [$str $line]
+    {(match line (list string) {[<nioj $right <snoc (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
+                                 (append {elem} right)]
+                                [_ {}] ;If there is no mached patterns.
+                                })}))
+
+(define $filter-algrep
+  (lambda [$str $line]
+    (unique/m (list string)
+    (extract-mached-str
+      (remove-empty-element
+        (match-all line (list string)[<join _ <join (& $x !<nil>) _>>
+                                            (regex str (S.concat x))]))))))
+
+(define $remove-empty-element
+  (lambda [$results]
+    (filter 1#(not (empty? %1)) results)))
+
+(define $extract-mached-str
+  (lambda [$results]
+    (map 1#(3#{%2} %1)
+         (map 1#(car %1) results))))

@@ -1,0 +1,85 @@
+(load-file "./lib/egzact/filters.egi")
+
+(assert-equal "plain"
+  (filter-plain "" {"a" "b" "c" "d"})
+  {{"a" "b" "c" "d"}})
+
+(assert-equal "addl"
+  (filter-addl "A" {"a" "b" "c" "d"})
+  {{"A" "a" "b" "c" "d"}})
+
+(assert-equal "addr"
+  (filter-addr "B" {"a" "b" "c" "d"})
+  {{"a" "b" "c" "d" "B"}})
+
+(assert-equal "algrep"
+  (filter-algrep "1.*1" {"1" "1" "1" "0" "1" "0" "0" "1" "1" "0"})
+  {{"11"} {"111"} {"11101"} {"1101"} {"101"} {"11101001"} {"1101001"} {"101001"} {"1001"} {"111010011"} {"11010011"} {"1010011"} {"10011"}})
+
+(assert-equal "cycle"
+  (filter-cycle "" {"a" "b" "c" "d"})
+  {{"a" "b" "c" "d"} {"b" "c" "d" "a"} {"c" "d" "a" "b"} {"d" "a" "b" "c"}})
+
+(assert-equal "comb"
+  (filter-comb 2 {"a" "b" "c" "d"})
+  {{"a" "b"} {"a" "c"} {"b" "c"} {"a" "d"} {"b" "d"} {"c" "d"}})
+
+(assert-equal "conv"
+  (filter-conv 2 {"a" "b" "c" "d"})
+  {{"a" "b"} {"b" "c"} {"c" "d"}})
+
+(assert-equal "conv-each"
+  (filter-conv-each 5 {"a" "b" "c" "d"})
+  {{"a" "b" "c" "d"}})
+
+(assert-equal "dupl"
+  (filter-dupl 3 {"a" "b" "c" "d"})
+  {{"a" "b" "c" "d"} {"a" "b" "c" "d"} {"a" "b" "c" "d"}})
+
+(assert-equal "flat"
+  (filter-flat 3 {"a" "b" "c" "d" "e" "f" "g"})
+  {{"a" "b" "c"} {"d" "e" "f"} {"g"}})
+
+(assert-equal "perm"
+  (filter-perm 2 {"a" "b" "c" "d"})
+  {{"a" "b"} {"a" "c"} {"b" "a"} {"a" "d"} {"b" "c"} {"c" "a"} {"b" "d"} {"c" "b"} {"d" "a"} {"c" "d"} {"d" "b"} {"d" "c"}})
+
+(assert-equal "stairl"
+ (filter-stairl {} {"a" "b" "c" "d"})
+ {{"a"} {"a" "b"} {"a" "b" "c"} {"a" "b" "c" "d"}})
+
+(assert-equal "stairr"
+ (filter-stairr {} {"a" "b" "c" "d"})
+ {{"d"} {"c" "d"} {"b" "c" "d"} {"a" "b" "c" "d"}})
+
+(assert-equal "stairal"
+ (filter-stairal {} {"a" "b" "c" "d"})
+ {{"a"} {"a" "b"} {"b"} {"a" "b" "c"} {"b" "c"} {"c"} {"a" "b" "c" "d"} {"b" "c" "d"} {"c" "d"} {"d"}})
+
+(assert-equal "takel"
+  (filter-takel 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"aba" "bab" "cbc" "afe"}})
+
+(assert-equal "taker"
+  (filter-taker 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"g4a" "gda" "bbf" "cac"}})
+
+(assert-equal "takexl -- case 1"
+  (filter-takexl "c.c" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"aba" "bab" "cbc"}})
+
+(assert-equal "takexl -- case 2"
+  (filter-takexl "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{}})
+
+(assert-equal "takexr -- case 1"
+  (filter-takexr "g.a" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"gda" "bbf" "cac"}})
+
+(assert-equal "takexr -- case 2"
+  (filter-takexr "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{}})
+
+(assert-equal "mirror"
+  (filter-mirror [] {"a" "b" "c" "d"})
+  {{"d" "c" "b" "a"}})
