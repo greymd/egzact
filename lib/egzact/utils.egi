@@ -52,21 +52,27 @@
   (lambda [$this-filter $this-args $common-opts $this-input] [
                    this-filter
                    this-args
-                   (set-default-value common-opts_"ifs" common-opts_"fs" " ") ; input field separator
-                   (set-default-value common-opts_"ofs" common-opts_"fs" " ") ; output field separator
-                   (set-default-value common-opts_"eor" [] "\n" )             ; output row separator
-                   (1#(if (string? %1)
-                          (S.concat {"\n" %1 "\n"})
-                                           "\n")   common-opts_"eos")         ; output set separator
-                   (set-default-value common-opts_"eof" [] "\n")              ; end of file
+                   (set-default-value  {common-opts_"ifs" common-opts_"fs" " "}) ; input field separator
+                   (set-default-value  {common-opts_"ofs" common-opts_"fs" " "}) ; output field separator
+                   (set-default-value  {common-opts_"eor" "\n"})                 ; output row separator
+                   (set-default-value2 {common-opts_"eos" "\n"})                 ; output set separator
+                   (set-default-value  {common-opts_"eof" "\n"})                 ; end of file
                    this-input
                    ]))
 
 ; Returns the string which is found most early.
 (define $set-default-value
-  (lambda [$primary $secondary $default]
-    (match {primary secondary default} (list something) {
+  (lambda [$ls]
+    (match ls (list something) {
       [<join _ <cons (& $x ?(string? $)) $xs>> [x]] })))
+
+; When the first element is string, put it between new lines.
+(define $set-default-value2
+  (lambda [$ls]
+    (match ls (list something) {
+      [<cons (& $x ?(string? $)) $xs> [(S.concat {"\n" x "\n"})]]
+      [_ [(set-default-value ls)]]})))
+
 
 ; Convert string collection to hash {"P1=A" "P2=B"} => {| ["P1" "A"] ["P2" "B"] |}
 (define $opts2hash

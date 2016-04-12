@@ -73,20 +73,32 @@
   [cons "ARGS" "BBB" " " "\n" "\n---\n" "AAA" {1 2 3 4 5}])
 
 (assert-equal "set-default-value -- case 1"
-  (set-default-value "A" "B" "C")
+  (set-default-value {"A" "B" "C"})
   "A")
 
 (assert-equal "set-default-value -- case 2"
-  (set-default-value [] "B" "C")
+  (set-default-value {[] "B" "C"})
   "B")
 
 (assert-equal "set-default-value -- case 3"
-  (set-default-value [] [] "C")
+  (set-default-value {[] [] "C"})
   "C")
 
 (assert-equal "set-default-value -- case 4"
-  (set-default-value "A" [] "C")
+  (set-default-value {"A" [] "C"})
   "A")
+
+(assert-equal "set-default-value2 -- case 1"
+  (set-default-value2 {[] "C"})
+  "C")
+
+(assert-equal "set-default-value2 -- case 2"
+  (set-default-value2 {"A" "B"})
+  "\nA\n")
+
+(assert-equal "set-default-value2 -- case 3"
+  (set-default-value2 {"A"})
+  "\nA\n")
 
 (assert-equal "S.split2 -- case 1"
   (S.split2 " " "a b c")
