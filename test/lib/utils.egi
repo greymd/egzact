@@ -1,5 +1,21 @@
 (load-file "./lib/egzact/utils.egi")
 
+(assert-equal "num-validation -- case 1"
+  (num-validation 5)
+  5)
+
+(assert-equal "num-validation -- case 2"
+  (num-validation 0)
+  ARGMAX)
+
+(assert-equal "num-validation -- case 3"
+  (num-validation 100000000000)
+  ARGMAX)
+
+(assert-equal "num-validation -- case 4"
+  (num-validation -1)
+  ARGMAX)
+
 (assert-equal "join-string -- case 1"
   (join-string "," {"a" "b" "c"})
   "a,b,c")

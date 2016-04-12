@@ -3,7 +3,11 @@
 (define $ARGMAX 65535)
 
 (define $num-validation
-  (lambda [$num] (if (gte? 0 num) ARGMAX (min num ARGMAX))))
+  (lambda [$num]
+    (match {num} (list integer) {
+                                 [<cons (& $n ?(gt? $ 0)) <nil>> [(min n ARGMAX)]]
+                                 [_ ARGMAX]
+                                 })))
 
 ; Infinite input stream
 (define $stdin
