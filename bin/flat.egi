@@ -5,21 +5,20 @@
 (define $main
   (lambda [$args]
     (match args (list string) {
-      [<cons ,"each" _> (execution print-each-line   (cdr args))] ; each line mode
-      [ _               (execution print-whole-input  args     )] ; stream mode
+      [<cons ,"each" $rest> (execution print-each-line   rest)] ; each line mode
+      [ _                   (execution print-whole-input args)] ; stream mode
       })))
 
 (define $execution
-  (lambda [$proc $args]
+  (lambda [$printer $args]
     (match args (list string) {
       [(args-integer-and-other $num $rest)
-       (proc
+       (printer
          (initialize-args
            filter-flat
            (num-validation num)
            rest
            stdin))]
-      [(args-string-and-other $str $rest) (execution proc (append {(show ARGMAX)} args))]
-      [<nil> (execution proc {(show ARGMAX)})]
+      [(args-string-and-other $str $rest) (execution printer (append {(show ARGMAX)} args))]
+      [<nil> (execution printer {(show ARGMAX)})]
       })))
-
