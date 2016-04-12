@@ -2,10 +2,22 @@
 ; This value will be updated by the install script.
 (define $ARGMAX 65535)
 
+(define $S.nats?
+  (lambda [$str] (not (empty? (regex "^[1-9][0-9]*$" str)))))
+
+(define $args-integer-and-other
+  (pattern-function [$fst $rst]
+                    <cons (& fst ?(S.nats? $)) rst> ))
+
+(define $args-string-and-other
+  (pattern-function [$fst $rst]
+                    <cons (& fst ?1#(not (S.nats? %1))) rst> ))
+
 (define $num-validation
   (lambda [$num]
     (match {num} (list integer) {
-                                 [<cons (& $n ?(gt? $ 0)) <nil>> [(min n ARGMAX)]]
+                                 [<cons (& $n ?(integer? $) ?(gt? $ 0)) _> [(min n ARGMAX)]]
+                                 [<cons (& $n ?(string? $)) _> [(num-validation (read n))]]
                                  [_ ARGMAX]
                                  })))
 

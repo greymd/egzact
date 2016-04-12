@@ -16,6 +16,38 @@
   (num-validation -1)
   ARGMAX)
 
+(assert-equal "num-validation -- case 5"
+  (num-validation [])
+  ARGMAX)
+
+(assert-equal "num-validation -- case 6"
+  (num-validation "10")
+  10)
+
+(assert-equal "num-validation -- case 7"
+  (num-validation "10000000000")
+  ARGMAX)
+
+(assert-equal "S.nats? -- case 1"
+  (S.nats? "100000000")
+  #t)
+
+(assert-equal "S.nats? -- case 2"
+  (S.nats? "1a")
+  #f)
+
+(assert-equal "S.nats? -- case 3"
+  (S.nats? "02")
+  #f)
+
+(assert-equal "S.nats? -- case 4"
+  (S.nats? "1")
+  #t)
+
+(assert-equal "num-validation -- case 8"
+  (num-validation y)
+  ARGMAX)
+
 (assert-equal "join-string -- case 1"
   (join-string "," {"a" "b" "c"})
   "a,b,c")

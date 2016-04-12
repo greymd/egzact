@@ -4,19 +4,22 @@
 
 (define $main
   (lambda [$args]
-    (if (and (not (empty? args)) (eq? (car args) "each"))
-    (print-each-line ; each line mode
-      (initialize-args
-        filter-flat
-        (read (nth 2 args))
-        (drop 2 args)
-        stdin
-        ))
-    (print-whole-input ; stream mode
-      (initialize-args
-        (2#(if (empty? args)
-               [%1 ARGMAX {} %2]
-               [%1 (num-validation (read (car args))) (cdr args) %2])
-         [filter-flat stdin]
-         )))
-    )))
+    (match args (list string) {
+      [<cons ,"each" _> (execution print-each-line   (cdr args))] ; each line mode
+      [ _               (execution print-whole-input  args     )] ; stream mode
+      })))
+
+(define $execution
+  (lambda [$proc $args]
+    (match args (list string) {
+      [(args-integer-and-other $num $rest)
+       (proc
+         (initialize-args
+           filter-flat
+           (num-validation num)
+           rest
+           stdin))]
+      [(args-string-and-other $str $rest) (execution proc (append {(show ARGMAX)} args))]
+      [<nil> (execution proc {(show ARGMAX)})]
+      })))
+
