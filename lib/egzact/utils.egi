@@ -58,13 +58,11 @@
                    this-input
                    ]))
 
+; Returns the string which is found most early.
 (define $set-default-value
   (lambda [$primary $secondary $default]
-    (if (string? primary)
-       primary
-       (if (string? secondary)
-           secondary
-           default))))
+    (match {primary secondary default} (list something) {
+      [<join _ <cons (& $x ?(string? $)) $xs>> [x]] })))
 
 ; Convert string collection to hash {"P1=A" "P2=B"} => {| ["P1" "A"] ["P2" "B"] |}
 (define $opts2hash
@@ -85,7 +83,7 @@
   (lambda [$fs $ls]
     (match ls (list string) {
                                [<nil> ""] ; in case of empty element
-                               [<cons $lst <nil>> (if (string? lst) lst "")]
+                               [<cons (& $lst ?(string? $)) <nil>> lst]
                                [<cons $x $xs> [(S.append (S.append x fs) (join-string fs xs))]]
                                })))
 
