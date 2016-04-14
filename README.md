@@ -121,6 +121,8 @@ $ echo 1110100110 | algrep "1.*1"
 ```
 ### cycle
 
+Generate all the circulated patterns.
+
 ```sh
 $ echo A B C D E | cycle
 A B C D E
@@ -131,6 +133,8 @@ E A B C D
 ```
 
 ### comb
+
+Generate **combinations** of N of fields.
 
 ```
 $ echo A B C D | comb 2
@@ -143,6 +147,8 @@ C D
 ```
 
 ### perm
+
+Generate **permutations** of N of fields.
 
 ```sh
 $ echo A B C D | perm 2
@@ -162,6 +168,8 @@ D C
 
 ### dupl
 
+**Duplicate** lines.
+
 ```sh
 $ echo A B C D | dupl 3
 A B C D
@@ -170,6 +178,8 @@ A B C D
 ```
 
 ### mirror
+
+Reverse the order of the field.
 
 ```sh
 $ echo A B C D | mirror
