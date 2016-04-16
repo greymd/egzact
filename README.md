@@ -188,6 +188,10 @@ D C B A
 
 ### stairl
 
+Generate the patterns which are subsets of the fields.
+Results match to the *left* side of the original input.
+In most cases, it looks *stairs*.
+
 ```sh
 $ echo A B C D | stairl
 A
@@ -198,6 +202,11 @@ A B C D
 
 ### stairr
 
+Generate the patterns which are subsets of the fields.
+Results match to the *right* side of the original input.
+In most cases, it looks *stairs*.
+
+
 ```sh
 $ echo A B C D | stairr
 D
@@ -207,6 +216,8 @@ A B C D
 ```
 
 ### stairal
+
+Generate all the patterns which are subsets of the fields.
 
 ```sh
 $ echo A B C D | stairal
@@ -246,7 +257,7 @@ QBY JCG FCM PAG
 ### takexr
 
 ```sh
-$ echo QBY JCG FCM PAG TPX BQG UGB | ./takexr.egi "^P.*$"
+$ echo QBY JCG FCM PAG TPX BQG UGB | ./takexr "^P.*$"
 PAG TPX BQG UGB
 ```
 
