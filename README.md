@@ -253,7 +253,7 @@ B C D
 
 ### takexl
 
-Print fields from first one to the one which matches the given regular expression.
+Print fields from first one to the one which matches given regular expression.
 
 ```sh
 $ echo QBY JCG FCM PAG TPX BQG UGB | takexl "^P.*$"
@@ -262,7 +262,7 @@ QBY JCG FCM PAG
 
 ### takexr
 
-Print fields from last one to the one which matches the given regular expression.
+Print fields from last one to the one which matches given regular expression.
 
 ```sh
 $ echo QBY JCG FCM PAG TPX BQG UGB | ./takexr "^P.*$"
@@ -273,6 +273,7 @@ PAG TPX BQG UGB
 
 ### `fs`
 Field separator.
+Default value is space " ".
 Format: `fs=STR`
 
 Example
@@ -290,9 +291,14 @@ Input field separator.
 If `fs` is already set, this option is primarily used.
 
 ### `ofs`
-### `eor`
-### `eos`
+Output field separator.
+If `fs` is already set, this option is primarily used.
 
+### `eor`
+End of record (a.k.a, raw).
+
+### `eos`
+End of set.
 
 ## Uninstall
 
