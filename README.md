@@ -235,12 +235,16 @@ D
 
 ### takel
 
+Print first *N* of fields.
+
 ```sh
 $ echo A B C D | takel 3
 A B C
 ```
 
 ### taker
+
+Print last *N* of fields.
 
 ```sh
 $ echo A B C D | taker 3
@@ -249,12 +253,16 @@ B C D
 
 ### takexl
 
+Print fields from first one to the one which matches the given regular expression.
+
 ```sh
 $ echo QBY JCG FCM PAG TPX BQG UGB | takexl "^P.*$"
 QBY JCG FCM PAG
 ```
 
 ### takexr
+
+Print fields from last one to the one which matches the given regular expression.
 
 ```sh
 $ echo QBY JCG FCM PAG TPX BQG UGB | ./takexr "^P.*$"
