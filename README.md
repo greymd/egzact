@@ -1,4 +1,4 @@
-# egzact
+# egzact -- Do what can hardly be done with Shell, easily.
 New command line tools
 
 * Enumeration of various patterns from standard input.
@@ -119,6 +119,7 @@ $ echo 1110100110 | algrep "1.*1"
 1010011
 10011
 ```
+
 ### cycle
 
 Generate all the circulated patterns.
@@ -268,6 +269,19 @@ Print fields from last one to the one which matches given regular expression.
 $ echo QBY JCG FCM PAG TPX BQG UGB | ./takexr "^P.*$"
 PAG TPX BQG UGB
 ```
+
+### dropl
+### dropr
+### droplx
+### droprx
+### ezgrep
+### ezsort
+### ezuniq
+### mirror -> ezrev
+### ezmap
+### algrep -> pats
+### foldl
+### foldr
 
 ## Command Line Options
 
