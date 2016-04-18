@@ -273,8 +273,9 @@ PAG TPX BQG UGB
 
 ### `fs`
 Field separator.
-Default value is space " ".
-Format: `fs=STR`
+
+ * Default value is space ` `.
+ * Format: `fs=STR`
 
 Example
 ```
@@ -290,15 +291,27 @@ $ echo "/usr/local/var/" | stairl fs=/
 Input field separator.
 If `fs` is already set, this option is primarily used.
 
+ * Default value is space ` `.
+ * Format: `ifs=STR`
+
 ### `ofs`
 Output field separator.
 If `fs` is already set, this option is primarily used.
 
+ * Default value is space ` `.
+ * Format: `ofs=STR`
+
 ### `eor`
 End of record (a.k.a, raw).
 
+ * Default value is new line `\n`.
+ * Format: `eor=STR`
+
 ### `eos`
 End of set.
+
+ * Default value is new line `\n`.
+ * Format: `eos=STR`
 
 ## Uninstall
 
