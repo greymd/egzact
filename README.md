@@ -1,4 +1,5 @@
-# egzact -- Do what can hardly be done with Shell, easily.
+![logo](./img/logo.png)
+# Do it easily, what can hardly be done with Shell.
 New command line tools
 
 * Enumeration of various patterns from standard input.
