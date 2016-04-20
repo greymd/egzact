@@ -1,4 +1,4 @@
-![logo](./img/logo2.png)
+![logo](./img/logo3.png)
 # Do it easily, what can hardly be done with Shell.
 New command line tools
 
