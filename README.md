@@ -275,9 +275,9 @@ PAG TPX BQG UGB
 ### dropr
 ### droplx
 ### droprx
-### ezgrep
-### ezsort
-### ezuniq
+### zrep
+### zort
+### zniq
 ### encls
 ### enclsr
 ### enclsl
