@@ -253,21 +253,21 @@ $ echo A B C D | taker 3
 B C D
 ```
 
-### takexl
+### takelx
 
 Print fields from first one to the one which matches given regular expression.
 
 ```sh
-$ echo QBY JCG FCM PAG TPX BQG UGB | takexl "^P.*$"
+$ echo QBY JCG FCM PAG TPX BQG UGB | takelx "^P.*$"
 QBY JCG FCM PAG
 ```
 
-### takexr
+### takerx
 
 Print fields from last one to the one which matches given regular expression.
 
 ```sh
-$ echo QBY JCG FCM PAG TPX BQG UGB | ./takexr "^P.*$"
+$ echo QBY JCG FCM PAG TPX BQG UGB | ./takerx "^P.*$"
 PAG TPX BQG UGB
 ```
 

@@ -64,20 +64,20 @@
   (filter-taker 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"g4a" "gda" "bbf" "cac"}})
 
-(assert-equal "takexl -- case 1"
-  (filter-takexl "c.c" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+(assert-equal "takelx -- case 1"
+  (filter-takelx "c.c" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"aba" "bab" "cbc"}})
 
-(assert-equal "takexl -- case 2"
-  (filter-takexl "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+(assert-equal "takelx -- case 2"
+  (filter-takelx "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{}})
 
-(assert-equal "takexr -- case 1"
-  (filter-takexr "g.a" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+(assert-equal "takerx -- case 1"
+  (filter-takerx "g.a" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"gda" "bbf" "cac"}})
 
-(assert-equal "takexr -- case 2"
-  (filter-takexr "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+(assert-equal "takerx -- case 2"
+  (filter-takerx "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{}})
 
 (assert-equal "mirror"

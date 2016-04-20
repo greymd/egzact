@@ -6,7 +6,7 @@
   (lambda [$args]
     (print-each-line
       (initialize-args
-        filter-takexl
+        filter-takerx
         (car args)
         (cdr args)
         stdin

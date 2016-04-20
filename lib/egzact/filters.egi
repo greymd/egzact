@@ -96,14 +96,14 @@
       {(drop (- (length line) min-num) line)})
      [(min [num (length line)]) line])))
 
-(define $filter-takexl
+(define $filter-takelx
   (lambda [$str $line]
     {(match line (list string) {[<join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
                                  (append left {elem})]
                                 [_ {}] ;If there is no mached patterns.
                                 })}))
 
-(define $filter-takexr
+(define $filter-takerx
   (lambda [$str $line]
     {(match line (list string) {[<nioj $right <snoc (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
                                  (append {elem} right)]
