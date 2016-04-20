@@ -100,12 +100,12 @@ abc
 ABC
 ```
 
-### algrep
+### pattn
 Print pattern which matches given string (regular expression).
 It includes all the patterns (from shortest to longest match).
 
 ```sh
-$ echo 1110100110 | algrep "1.*1"
+$ echo 1110100110 | pattn "1.*1"
 11
 111
 11101
@@ -278,11 +278,9 @@ PAG TPX BQG UGB
 ### ezgrep
 ### ezsort
 ### ezuniq
-### mirror -> ezrev
-### ezmap
-### algrep -> pats
-### foldl
-### foldr
+### encls
+### enclsr
+### enclsl
 
 ## Command Line Options
 

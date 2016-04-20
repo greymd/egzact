@@ -110,7 +110,7 @@
                                 [_ {}] ;If there is no mached patterns.
                                 })}))
 
-(define $filter-algrep
+(define $filter-pattn
   (lambda [$str $line]
     (unique/m (list string)
     (extract-mached-str
