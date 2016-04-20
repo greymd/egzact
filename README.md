@@ -276,8 +276,8 @@ PAG TPX BQG UGB
 ### droplx
 ### droprx
 ### zrep
-### zort
 ### zniq
+### union
 ### encls
 ### enclsr
 ### enclsl

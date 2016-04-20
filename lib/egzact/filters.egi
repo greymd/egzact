@@ -90,6 +90,7 @@
       {(take min-num line)})
      [(min [num (length line)]) line])))
 
+
 (define $filter-taker
   (lambda [$num $line]
     ((lambda [$min-num $line]
@@ -109,6 +110,66 @@
                                  (append {elem} right)]
                                 [_ {}] ;If there is no mached patterns.
                                 })}))
+
+(define $filter-dropl
+  (lambda [$num $line]
+    ((lambda [$min-num $line]
+      {(drop min-num line)})
+     [(min [num (length line)]) line])))
+
+(define $filter-dropr
+  (lambda [$num $line]
+    ((lambda [$min-num $line]
+      {(take (- (length line) min-num) line)})
+     [(min [num (length line)]) line])))
+
+(define $filter-droplx
+  (lambda [$str $line]
+    {(match line (list string) {[<join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) $right>>
+                                 (append {elem} right)]
+                                [_ line] ;If there is no mached patterns.
+                                })}))
+
+(define $filter-droprx
+  (lambda [$str $line]
+    {(match line (list string) {[<nioj $right <snoc (& $elem ?1#(not (empty? (regex str %1))) !<nil>) $left>>
+                                 (append left {elem})]
+                                [_ line] ;If there is no mached patterns.
+                                })}))
+
+(define $filter-zrep
+  (lambda [$str $line]
+    {(match line (list string) {[ <join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) $right>>
+                                        (concat {{elem} @(filter-zrep str right)})]
+       [_ {}] ;If there is no mached patterns.
+       })}))
+
+(define $filter-zniq
+  (lambda [$str $line]
+    {(unique/m string line)}))
+
+(define $filter-wrap
+  (lambda [$str $line]
+    (filter-wrap-impl
+      (3#[%1 %3 line]
+         (car (regex "\\*" str))))))
+
+(define $filter-wrap-impl
+  (lambda [$pre $suf $line]
+    {(match line (list string) {[ <join _ <cons $elem $right>>
+                                        (concat {{(S.concat {pre elem suf})} @(filter-wrap-impl pre suf right)})]
+       [_ {}] ;If there is no mached patterns.
+       })}))
+
+(define $filter-nestl
+  (lambda [$str $line]
+    (filter-nestl-impl
+      (3#[%1 %3 line]
+         (car (regex "\\*" str))))))
+
+(define $filter-nestl-impl
+  (lambda [$pre $suf $line]
+    {(foldl 2#(concat {{pre} %1 {%2} {suf}}) {} line)}))
 
 (define $filter-pattn
   (lambda [$str $line]

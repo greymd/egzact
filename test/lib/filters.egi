@@ -80,6 +80,71 @@
   (filter-takerx "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{}})
 
+(assert-equal "dropl"
+  (filter-dropl 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"g4a" "gda" "bbf" "cac"}})
+
+(assert-equal "dropr"
+  (filter-dropr 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"aba" "bab" "cbc" "afe"}})
+
+(assert-equal "droplx -- case 1"
+  (filter-droplx "c.c" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"cbc" "afe" "g4a" "gda" "bbf" "cac"}})
+
+(assert-equal "droplx -- case 2"
+  (filter-droplx "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"}})
+
+(assert-equal "droprx -- case 1"
+  (filter-droprx "g.a" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"aba" "bab" "cbc" "afe" "g4a" "gda"}})
+
+(assert-equal "droprx -- case 2"
+  (filter-droprx "^b.b$" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"aba" "bab"}})
+
+(assert-equal "droprx -- case 3"
+  (filter-droprx "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"}})
+
+(assert-equal "zrep -- case 1"
+  (filter-zrep "^1" {"1" "2" "3" "4" "5" "6" "7" "8" "9" "10" })
+  {{"1" "10"}})
+
+(assert-equal "zrep -- case 2"
+  (filter-zrep "^a$" {"1" "2" "3" "4" "5" "6" "7" "8" "9" "10" })
+  {{}})
+
+(assert-equal "zrep -- case 3"
+  (filter-zrep "a$" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"aba" "g4a" "gda" }})
+
+(assert-equal "zniq -- case 1"
+  (filter-zniq [] {"aaa" "bbb" "ccc" "aaa" "bbb"})
+  {{"aaa" "bbb" "ccc"}})
+
+(assert-equal "zniq -- case 2"
+  (filter-zniq [] {"aaa"})
+  {{"aaa"}})
+
+(assert-equal "wrap -- case 1"
+  (filter-wrap "<script>*</script>" {"aaa" "bbb" "ccc"})
+  {{"<script>aaa</script>" "<script>bbb</script>" "<script>ccc</script>"}})
+
+(assert-equal "wrap -- case 2"
+  (filter-wrap "<script>*" {"aaa" "bbb" "ccc"})
+  {{"<script>aaa" "<script>bbb" "<script>ccc"}})
+
+(assert-equal "nestl -- case 1"
+  (filter-nestl "<script>*</script>" {"aaa" "bbb" "ccc"})
+  {{"<script>" "<script>" "<script>" "aaa" "</script>" "bbb" "</script>" "ccc" "</script>"}})
+
+
+; (assert-equal "zrep -- case 2"
+;   (filter-zrep "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+;   {{}})
+
 (assert-equal "mirror"
   (filter-mirror [] {"a" "b" "c" "d"})
   {{"d" "c" "b" "a"}})
