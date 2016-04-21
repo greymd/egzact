@@ -277,10 +277,10 @@ PAG TPX BQG UGB
 ### droprx
 ### zrep
 ### zniq
+### wrap
+### nestl
+### nestr
 ### union
-### encls
-### enclsr
-### enclsl
 
 ## Command Line Options
 

@@ -140,10 +140,17 @@
   (filter-nestl "<script>*</script>" {"aaa" "bbb" "ccc"})
   {{"<script>" "<script>" "<script>" "aaa" "</script>" "bbb" "</script>" "ccc" "</script>"}})
 
+(assert-equal "nestr -- case 1"
+  (filter-nestr "<script>*</script>" {"aaa" "bbb" "ccc"})
+  {{"<script>" "aaa" "<script>" "bbb" "<script>" "ccc" "</script>" "</script>" "</script>"}})
 
-; (assert-equal "zrep -- case 2"
-;   (filter-zrep "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
-;   {{}})
+(assert-equal "union -- case 1"
+  (filter-union 2 {"aaa" "bbb" "aaa" "bbb" "ccc"})
+  {{"aaa" "bbb" "ccc"}})
+
+(assert-equal "union -- case 2"
+  (filter-union 3 {"aaa" "bbb" "aaa" "bbb" "ccc"})
+  {{"aaa" "bbb" "aaa" "ccc"}})
 
 (assert-equal "mirror"
   (filter-mirror [] {"a" "b" "c" "d"})

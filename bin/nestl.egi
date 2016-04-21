@@ -1,0 +1,13 @@
+#!/usr/bin/env egison
+(load-file "../lib/egzact/utils.egi")
+(load-file "../lib/egzact/filters.egi")
+
+(define $main
+  (lambda [$args]
+    (print-each-line
+      (initialize-args
+        filter-nestl
+        (car args)
+        (cdr args)
+        stdin
+        ))))
