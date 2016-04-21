@@ -235,6 +235,34 @@ C D
 D
 ```
 
+Whole the results is same as `stairl | stairr` when the duplicated lines can be merged.
+
+```sh
+$ echo A B C D | stairl | stairr | sort | uniq
+A
+A B
+A B C
+A B C D
+B
+B C
+B C D
+C
+C D
+D
+
+$ echo A B C D | subsets | sort | uniq
+A
+A B
+A B C
+A B C D
+B
+B C
+B C D
+C
+C D
+D
+```
+
 ### takel
 
 Print first *N* of fields.
@@ -291,12 +319,17 @@ QBY JCG FCM PAG
 
 ### zrep
 
+Extract particular fields which matches given regular expression.
+Origin of this name is `egZact + gREP`
+
 ```sh
 $ echo 1 2 3 4 5 6 7 8 9 10 | zrep "1"
 1 10
 ```
 
 ### zniq
+Merge duplicated fields.
+Origin of this name is `egZact + uNIQ`
 
 ```sh
 $ echo aaa bbb ccc aaa bbb | zniq
@@ -304,6 +337,9 @@ aaa bbb ccc
 ```
 
 ### wrap
+
+Add particular prefix and suffix in accordance with given argument.
+`*` is the placeholder which represents each field.
 
 ```sh
 $ echo aaa bbb ccc | wrap "<p>*</p>"
