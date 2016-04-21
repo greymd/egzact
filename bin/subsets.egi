@@ -6,7 +6,7 @@
   (lambda [$args]
     (print-each-line
       (initialize-args
-        filter-stairal
+        filter-subsets
         []
         args
         stdin

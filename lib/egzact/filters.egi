@@ -72,7 +72,7 @@
                                [<nil> {}]
                                })))
 
-(define $filter-stairal
+(define $filter-subsets
   (lambda [$empty $line]
     (match-all line (list string)
       [<join _ <join (& $x !<nil>) _>>

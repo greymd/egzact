@@ -217,12 +217,12 @@ B C D
 A B C D
 ```
 
-### stairal
+### subsets
 
 Generate all the patterns which are subsets of the fields.
 
 ```sh
-$ echo A B C D | stairal
+$ echo A B C D | subsets
 A
 A B
 B
