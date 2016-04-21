@@ -267,20 +267,90 @@ QBY JCG FCM PAG
 Print fields from last one to the one which matches given regular expression.
 
 ```sh
-$ echo QBY JCG FCM PAG TPX BQG UGB | ./takerx "^P.*$"
+$ echo QBY JCG FCM PAG TPX BQG UGB | takerx "^P.*$"
 PAG TPX BQG UGB
 ```
 
 ### dropl
+
+Print first *N* of fields.
+
+```sh
+$ echo QBY JCG FCM PAG TPX BQG UGB | dropl 3
+PAG TPX BQG UGB
+```
+
 ### dropr
+
+Print last *N* of fields.
+
+```sh
+$ echo QBY JCG FCM PAG TPX BQG UGB | dropr 3
+QBY JCG FCM PAG
+```
+
+<!-- 
 ### droplx
+
+Print fields from first one to the one which matches given regular expression.
+
+```sh
+$ echo QBY JCG FCM PAG TPX BQG UGB | droplx "^P.*$"
+PAG TPX BQG UGB
+
+```
+
 ### droprx
+
+Print fields from last one to the one which matches given regular expression.
+
+```sh
+$ echo QBY JCG FCM PAG TPX BQG UGB | droplx "^P.*$"
+PAG TPX BQG UGB
+```
+-->
+
 ### zrep
+
+```sh
+$ echo 1 2 3 4 5 6 7 8 9 10 | zrep "1"
+1 10
+```
+
 ### zniq
+
+```sh
+$ echo aaa bbb ccc aaa bbb | zniq
+aaa bbb ccc
+```
+
 ### wrap
+
+```sh
+$ echo aaa bbb ccc | wrap "<p>*</p>"
+<p>aaa</p> <p>bbb</p> <p>ccc</p>
+```
+
 ### nestl
+
+```sh
+$ echo aaa bbb ccc | nestl "<p>*</p>"
+<p> <p> <p> aaa </p> bbb </p> ccc </p>
+```
+
 ### nestr
+
+```sh
+$ echo aaa bbb ccc | nestr "<p>*</p>"
+<p> aaa <p> bbb <p> ccc </p> </p> </p>
+```
+
 ### stick
+
+```sh
+$ echo 1 2 3 10 20 30 | stick 3
+1 10 2 20 3 30
+```
 
 ## Command Line Options
 
@@ -291,7 +361,8 @@ Field separator.
  * Format: `fs=STR`
 
 Example
-```
+
+```sh
 $ echo "/usr/local/var/" | stairl fs=/
 
 /usr
