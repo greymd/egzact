@@ -185,9 +185,17 @@
   (lambda [$pre $suf $line]
     {(foldr 2#(concat {{pre} {%1} %2 {suf}}) {} line)}))
 
-(define $filter-union
+(define $filter-stick
   (lambda [$num $line]
-    {(union/m (2#[string %1 %2] (take-and-drop num line)))}))
+    {(tuplecol2col (zip (take-and-drop (min num (length line)) line)))}))
+
+; {["a" "b"] ["c" "d"]} => {"a" "b" "c" "d"}
+(define $tuplecol2col
+  (lambda [$ls]
+    (match ls (list [string string]) {
+                                    [<cons [$fst $snd] $rest> (concat {{fst snd} (tuplecol2col rest)})]
+                                    [<nil> {}]
+                                    })))
 
 (define $filter-pattn
   (lambda [$str $line]
