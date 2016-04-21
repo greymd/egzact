@@ -6,8 +6,8 @@
   (lambda [$args]
     (print-each-line
       (initialize-args
-        filter-takexr
-        (car args)
+        filter-dropr
+        (read (car args))
         (cdr args)
         stdin
         ))))

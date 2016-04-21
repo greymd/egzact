@@ -12,8 +12,8 @@
   (filter-addr "B" {"a" "b" "c" "d"})
   {{"a" "b" "c" "d" "B"}})
 
-(assert-equal "algrep"
-  (filter-algrep "1.*1" {"1" "1" "1" "0" "1" "0" "0" "1" "1" "0"})
+(assert-equal "pattn"
+  (filter-pattn "1.*1" {"1" "1" "1" "0" "1" "0" "0" "1" "1" "0"})
   {{"11"} {"111"} {"11101"} {"1101"} {"101"} {"11101001"} {"1101001"} {"101001"} {"1001"} {"111010011"} {"11010011"} {"1010011"} {"10011"}})
 
 (assert-equal "cycle"
@@ -52,8 +52,8 @@
  (filter-stairr {} {"a" "b" "c" "d"})
  {{"d"} {"c" "d"} {"b" "c" "d"} {"a" "b" "c" "d"}})
 
-(assert-equal "stairal"
- (filter-stairal {} {"a" "b" "c" "d"})
+(assert-equal "subsets"
+ (filter-subsets {} {"a" "b" "c" "d"})
  {{"a"} {"a" "b"} {"b"} {"a" "b" "c"} {"b" "c"} {"c"} {"a" "b" "c" "d"} {"b" "c" "d"} {"c" "d"} {"d"}})
 
 (assert-equal "takel"
@@ -64,20 +64,76 @@
   (filter-taker 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"g4a" "gda" "bbf" "cac"}})
 
-(assert-equal "takexl -- case 1"
-  (filter-takexl "c.c" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+(assert-equal "takelx -- case 1"
+  (filter-takelx "c.c" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"aba" "bab" "cbc"}})
 
-(assert-equal "takexl -- case 2"
-  (filter-takexl "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+(assert-equal "takelx -- case 2"
+  (filter-takelx "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{}})
 
-(assert-equal "takexr -- case 1"
-  (filter-takexr "g.a" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+(assert-equal "takerx -- case 1"
+  (filter-takerx "g.a" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"gda" "bbf" "cac"}})
 
-(assert-equal "takexr -- case 2"
-  (filter-takexr "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+(assert-equal "takerx -- case 2"
+  (filter-takerx "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{}})
+
+(assert-equal "dropl"
+  (filter-dropl 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"g4a" "gda" "bbf" "cac"}})
+
+(assert-equal "dropr"
+  (filter-dropr 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"aba" "bab" "cbc" "afe"}})
+
+(assert-equal "zrep -- case 1"
+  (filter-zrep "^1" {"1" "2" "3" "4" "5" "6" "7" "8" "9" "10" })
+  {{"1" "10"}})
+
+(assert-equal "zrep -- case 2"
+  (filter-zrep "^a$" {"1" "2" "3" "4" "5" "6" "7" "8" "9" "10" })
+  {{}})
+
+(assert-equal "zrep -- case 3"
+  (filter-zrep "a$" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
+  {{"aba" "g4a" "gda" }})
+
+(assert-equal "zniq -- case 1"
+  (filter-zniq [] {"aaa" "bbb" "ccc" "aaa" "bbb"})
+  {{"aaa" "bbb" "ccc"}})
+
+(assert-equal "zniq -- case 2"
+  (filter-zniq [] {"aaa"})
+  {{"aaa"}})
+
+(assert-equal "wrap -- case 1"
+  (filter-wrap "<script>*</script>" {"aaa" "bbb" "ccc"})
+  {{"<script>aaa</script>" "<script>bbb</script>" "<script>ccc</script>"}})
+
+(assert-equal "wrap -- case 2"
+  (filter-wrap "<script>*" {"aaa" "bbb" "ccc"})
+  {{"<script>aaa" "<script>bbb" "<script>ccc"}})
+
+(assert-equal "nestl -- case 1"
+  (filter-nestl "<script>*</script>" {"aaa" "bbb" "ccc"})
+  {{"<script>" "<script>" "<script>" "aaa" "</script>" "bbb" "</script>" "ccc" "</script>"}})
+
+(assert-equal "nestr -- case 1"
+  (filter-nestr "<script>*</script>" {"aaa" "bbb" "ccc"})
+  {{"<script>" "aaa" "<script>" "bbb" "<script>" "ccc" "</script>" "</script>" "</script>"}})
+
+(assert-equal "stick -- case 1"
+  (filter-stick 3 {"1" "2" "3" "10" "20" "30"})
+  {{"1" "10" "2" "20" "3" "30"}})
+
+(assert-equal "stick -- case 2"
+  (filter-stick 2 {"1" "2" "3" "10" "20" "30"})
+  {{"1" "3" "2" "10"}})
+
+(assert-equal "stick -- case 3"
+  (filter-stick 10 {"1" "2" "3" "10" "20" "30"})
   {{}})
 
 (assert-equal "mirror"

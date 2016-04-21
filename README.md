@@ -1,4 +1,5 @@
-# egzact
+![logo](./img/logo.png)
+# Do it easily, what can hardly be done with Shell.
 New command line tools
 
 * Enumeration of various patterns from standard input.
@@ -99,12 +100,12 @@ abc
 ABC
 ```
 
-### algrep
+### pattn
 Print pattern which matches given string (regular expression).
 It includes all the patterns (from shortest to longest match).
 
 ```sh
-$ echo 1110100110 | algrep "1.*1"
+$ echo 1110100110 | pattn "1.*1"
 11
 111
 11101
@@ -119,6 +120,7 @@ $ echo 1110100110 | algrep "1.*1"
 1010011
 10011
 ```
+
 ### cycle
 
 Generate all the circulated patterns.
@@ -215,12 +217,12 @@ B C D
 A B C D
 ```
 
-### stairal
+### subsets
 
 Generate all the patterns which are subsets of the fields.
 
 ```sh
-$ echo A B C D | stairal
+$ echo A B C D | subsets
 A
 A B
 B
@@ -229,6 +231,34 @@ B C
 C
 A B C D
 B C D
+C D
+D
+```
+
+Whole the results is same as `stairl | stairr` when the duplicated lines can be merged.
+
+```sh
+$ echo A B C D | stairl | stairr | sort | uniq
+A
+A B
+A B C
+A B C D
+B
+B C
+B C D
+C
+C D
+D
+
+$ echo A B C D | subsets | sort | uniq
+A
+A B
+A B C
+A B C D
+B
+B C
+B C D
+C
 C D
 D
 ```
@@ -251,22 +281,90 @@ $ echo A B C D | taker 3
 B C D
 ```
 
-### takexl
+### takelx
 
 Print fields from first one to the one which matches given regular expression.
 
 ```sh
-$ echo QBY JCG FCM PAG TPX BQG UGB | takexl "^P.*$"
+$ echo QBY JCG FCM PAG TPX BQG UGB | takelx "^P.*$"
 QBY JCG FCM PAG
 ```
 
-### takexr
+### takerx
 
 Print fields from last one to the one which matches given regular expression.
 
 ```sh
-$ echo QBY JCG FCM PAG TPX BQG UGB | ./takexr "^P.*$"
+$ echo QBY JCG FCM PAG TPX BQG UGB | takerx "^P.*$"
 PAG TPX BQG UGB
+```
+
+### dropl
+
+Print first *N* of fields.
+
+```sh
+$ echo QBY JCG FCM PAG TPX BQG UGB | dropl 3
+PAG TPX BQG UGB
+```
+
+### dropr
+
+Print last *N* of fields.
+
+```sh
+$ echo QBY JCG FCM PAG TPX BQG UGB | dropr 3
+QBY JCG FCM PAG
+```
+
+### zrep
+
+Extract particular fields which matches given regular expression.
+Origin of this name is `egZact + gREP`
+
+```sh
+$ echo 1 2 3 4 5 6 7 8 9 10 | zrep "1"
+1 10
+```
+
+### zniq
+Merge duplicated fields.
+Origin of this name is `egZact + uNIQ`
+
+```sh
+$ echo aaa bbb ccc aaa bbb | zniq
+aaa bbb ccc
+```
+
+### wrap
+
+Add particular prefix and suffix in accordance with given argument.
+`*` is the placeholder which represents each field.
+
+```sh
+$ echo aaa bbb ccc | wrap "<p>*</p>"
+<p>aaa</p> <p>bbb</p> <p>ccc</p>
+```
+
+### nestl
+
+```sh
+$ echo aaa bbb ccc | nestl "<p>*</p>"
+<p> <p> <p> aaa </p> bbb </p> ccc </p>
+```
+
+### nestr
+
+```sh
+$ echo aaa bbb ccc | nestr "<p>*</p>"
+<p> aaa <p> bbb <p> ccc </p> </p> </p>
+```
+
+### stick
+
+```sh
+$ echo 1 2 3 10 20 30 | stick 3
+1 10 2 20 3 30
 ```
 
 ## Command Line Options
@@ -278,7 +376,8 @@ Field separator.
  * Format: `fs=STR`
 
 Example
-```
+
+```sh
 $ echo "/usr/local/var/" | stairl fs=/
 
 /usr

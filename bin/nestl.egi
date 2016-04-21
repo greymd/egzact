@@ -6,8 +6,8 @@
   (lambda [$args]
     (print-each-line
       (initialize-args
-        filter-algrep
+        filter-nestl
         (car args)
-        (append {"ifs=" "ofs="} (cdr args))
+        (cdr args)
         stdin
         ))))

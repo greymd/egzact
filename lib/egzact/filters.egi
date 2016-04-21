@@ -1,3 +1,5 @@
+(define $PHOLDER "\\*")
+
 (define $filter-plain
   (lambda [$str $line]
     {line}))
@@ -70,7 +72,7 @@
                                [<nil> {}]
                                })))
 
-(define $filter-stairal
+(define $filter-subsets
   (lambda [$empty $line]
     (match-all line (list string)
       [<join _ <join (& $x !<nil>) _>>
@@ -90,27 +92,98 @@
       {(take min-num line)})
      [(min [num (length line)]) line])))
 
+
 (define $filter-taker
   (lambda [$num $line]
     ((lambda [$min-num $line]
       {(drop (- (length line) min-num) line)})
      [(min [num (length line)]) line])))
 
-(define $filter-takexl
+(define $filter-takelx
   (lambda [$str $line]
     {(match line (list string) {[<join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
                                  (append left {elem})]
                                 [_ {}] ;If there is no mached patterns.
                                 })}))
 
-(define $filter-takexr
+(define $filter-takerx
   (lambda [$str $line]
     {(match line (list string) {[<nioj $right <snoc (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
                                  (append {elem} right)]
                                 [_ {}] ;If there is no mached patterns.
                                 })}))
 
-(define $filter-algrep
+(define $filter-dropl
+  (lambda [$num $line]
+    ((lambda [$min-num $line]
+      {(drop min-num line)})
+     [(min [num (length line)]) line])))
+
+(define $filter-dropr
+  (lambda [$num $line]
+    ((lambda [$min-num $line]
+      {(take (- (length line) min-num) line)})
+     [(min [num (length line)]) line])))
+
+(define $filter-zrep
+  (lambda [$str $line]
+    {(match line (list string) {[ <join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) $right>>
+                                        (concat {{elem} @(filter-zrep str right)})]
+       [_ {}] ;If there is no mached patterns.
+       })}))
+
+(define $filter-zniq
+  (lambda [$str $line]
+    {(unique/m string line)}))
+
+(define $get-pre-suf-line
+  (lambda [$str $line]
+      (3#[%1 %3 line]
+         (car (regex PHOLDER str)))))
+
+(define $filter-wrap
+  (lambda [$str $line]
+    (filter-wrap-impl
+      (get-pre-suf-line str line))))
+
+(define $filter-wrap-impl
+  (lambda [$pre $suf $line]
+    {(match line (list string) {[ <join _ <cons $elem $right>>
+                                        (concat {{(S.concat {pre elem suf})} @(filter-wrap-impl pre suf right)})]
+       [_ {}] ;If there is no mached patterns.
+       })}))
+
+(define $filter-nestl
+  (lambda [$str $line]
+    (filter-nestl-impl
+      (get-pre-suf-line str line))))
+
+(define $filter-nestl-impl
+  (lambda [$pre $suf $line]
+    {(foldl 2#(concat {{pre} %1 {%2} {suf}}) {} line)}))
+
+(define $filter-nestr
+  (lambda [$str $line]
+    (filter-nestr-impl
+      (get-pre-suf-line str line))))
+
+(define $filter-nestr-impl
+  (lambda [$pre $suf $line]
+    {(foldr 2#(concat {{pre} {%1} %2 {suf}}) {} line)}))
+
+(define $filter-stick
+  (lambda [$num $line]
+    {(tuplecol2col (zip (take-and-drop (min num (length line)) line)))}))
+
+; {["a" "b"] ["c" "d"]} => {"a" "b" "c" "d"}
+(define $tuplecol2col
+  (lambda [$ls]
+    (match ls (list [string string]) {
+                                    [<cons [$fst $snd] $rest> (concat {{fst snd} (tuplecol2col rest)})]
+                                    [<nil> {}]
+                                    })))
+
+(define $filter-pattn
   (lambda [$str $line]
     (unique/m (list string)
     (extract-mached-str
