@@ -88,26 +88,6 @@
   (filter-dropr 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"aba" "bab" "cbc" "afe"}})
 
-(assert-equal "droplx -- case 1"
-  (filter-droplx "c.c" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
-  {{"cbc" "afe" "g4a" "gda" "bbf" "cac"}})
-
-(assert-equal "droplx -- case 2"
-  (filter-droplx "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
-  {{"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"}})
-
-(assert-equal "droprx -- case 1"
-  (filter-droprx "g.a" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
-  {{"aba" "bab" "cbc" "afe" "g4a" "gda"}})
-
-(assert-equal "droprx -- case 2"
-  (filter-droprx "^b.b$" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
-  {{"aba" "bab"}})
-
-(assert-equal "droprx -- case 3"
-  (filter-droprx "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
-  {{"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"}})
-
 (assert-equal "zrep -- case 1"
   (filter-zrep "^1" {"1" "2" "3" "4" "5" "6" "7" "8" "9" "10" })
   {{"1" "10"}})

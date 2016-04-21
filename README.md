@@ -289,27 +289,6 @@ $ echo QBY JCG FCM PAG TPX BQG UGB | dropr 3
 QBY JCG FCM PAG
 ```
 
-<!-- 
-### droplx
-
-Print fields from first one to the one which matches given regular expression.
-
-```sh
-$ echo QBY JCG FCM PAG TPX BQG UGB | droplx "^P.*$"
-PAG TPX BQG UGB
-
-```
-
-### droprx
-
-Print fields from last one to the one which matches given regular expression.
-
-```sh
-$ echo QBY JCG FCM PAG TPX BQG UGB | droplx "^P.*$"
-PAG TPX BQG UGB
-```
--->
-
 ### zrep
 
 ```sh
