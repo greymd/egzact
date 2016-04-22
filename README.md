@@ -338,7 +338,7 @@ aaa bbb ccc
 
 ### wrap
 
-Add particular prefix and suffix in accordance with given argument.
+Add particular prefix and suffix to each field in accordance with given argument.
 `*` is the placeholder which represents each field.
 
 ```sh
@@ -348,6 +348,10 @@ $ echo aaa bbb ccc | wrap "<p>*</p>"
 
 ### nestl
 
+Nest all the fields with with given argument.
+`*` is the placeholder which represents each field.
+Left field is the most deeply nested element.
+
 ```sh
 $ echo aaa bbb ccc | nestl "<p>*</p>"
 <p> <p> <p> aaa </p> bbb </p> ccc </p>
@@ -355,12 +359,19 @@ $ echo aaa bbb ccc | nestl "<p>*</p>"
 
 ### nestr
 
+Nest all the fields with with given argument.
+`*` is the placeholder which represents each field.
+Right field is the most deeply nested element.
+
 ```sh
 $ echo aaa bbb ccc | nestr "<p>*</p>"
 <p> aaa <p> bbb <p> ccc </p> </p> </p>
 ```
 
 ### stick
+
+Associate each first *N* of fields and each remaining the fields.
+Associated two fields are printed sequentially.
 
 ```sh
 $ echo 1 2 3 10 20 30 | stick 3
