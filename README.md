@@ -1,10 +1,10 @@
 ![logo](./img/logo.png)
-# Do it easily, what can hardly be done with Shell.
+# Simplify what can hardly be done with Shell.
 New command line tools
 
 * Enumeration of various patterns from standard input.
-* Useful equivalents for existent Linux commands (like nixar)
-* Controlling records and fields given by particular separator (like Open-Usp-Tukubai).
+* Useful equivalents for existent Linux commands (like [nixar](askucher/nixar)).
+* Controlling records and fields given by particular separator (like [Open-Usp-Tukubai](usp-engineers-community/Open-usp-Tukubai)).
 
 ## Install
 
