@@ -2,18 +2,16 @@ NAME=	egzact
 LOCALBASE?=	${HOME}/.egison
 BINDIR?=	${LOCALBASE}/bin
 
-COMMANDS=	$(shell /bin/ls bin | sed 's/.egi//')
-DIRS=	$(shell /usr/bin/find lib/${NAME} -type d | /usr/bin/tail -r)
-LIBS=	$(shell /usr/bin/find lib/${NAME} -type f)
-ARGMAX=	$(shell getconf ARG_MAX)
+COMMANDS=	$(shell ls bin | sed 's/.egi//')
+DIRS=	$(shell find lib/${NAME} -type d)
+LIBS=	$(shell find lib/${NAME} -type f)
 
-SED_LIBS=	/usr/bin/sed -i '' -e 's|../lib|${HOME}/.egison/lib|g'
-SED_ARGMAX=	/usr/bin/sed -i '' -e 's|ARGMAX 65535|ARGMAX ${ARGMAX}|g'
+SED_LIBS=	sed -e 's|../lib|${HOME}/.egison/lib|g'
 
-INSTALL?=	/usr/bin/install
-MKDIR?=	/bin/mkdir -p
-RMDIR?=	/bin/rmdir
-RM?=	/bin/rm -f
+INSTALL?=	install
+MKDIR?=	mkdir -p
+RMDIR?=	rmdir
+RM?=	rm -f
 
 INSTALL_PROGRAM=${INSTALL} -m ${BINMODE}
 INSTALL_LIBS=	${INSTALL} -m ${DOCMODE}
@@ -33,16 +31,14 @@ install:
 	do \
 		echo ${INSTALL_LIBS} $${i} ${LOCALBASE}/$${i}; \
 		${INSTALL_LIBS} $${i} ${LOCALBASE}/$${i}; \
-		echo ${SED_ARGMAX} ${LOCALBASE}/$${i}; \
-		${SED_ARGMAX} ${LOCALBASE}/$${i}; \
 	done
 	${MKDIR} ${BINDIR}
 	@for i in ${COMMANDS}; \
 	do \
 		echo ${INSTALL_PROGRAM} bin/$${i}.egi ${BINDIR}/$${i}; \
 		${INSTALL_PROGRAM} bin/$${i}.egi ${BINDIR}/$${i}; \
-		echo ${SED_LIBS} ${BINDIR}/$${i}; \
-		${SED_LIBS} ${BINDIR}/$${i}; \
+		echo cat bin/$${i}.egi | ${SED_LIBS} > ${BINDIR}/$${i}; \
+		cat bin/$${i}.egi | ${SED_LIBS} > ${BINDIR}/$${i}; \
 	done
 
 uninstall:
