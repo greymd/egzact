@@ -3,8 +3,8 @@
 New command line tools
 
 * Enumeration of various patterns from standard input.
-* Useful equivalents for existent Linux commands (like [nixar](askucher/nixar)).
-* Controlling records and fields given by particular separator (like [Open-Usp-Tukubai](usp-engineers-community/Open-usp-Tukubai)).
+* Useful equivalents for existent Linux commands (like [nixar](https://github.com/askucher/nixar)).
+* Controlling records and fields given by particular separator (like [Open-Usp-Tukubai](https://github.com/usp-engineers-community/Open-usp-Tukubai)).
 
 ## Install
 
