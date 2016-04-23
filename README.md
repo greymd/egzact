@@ -99,7 +99,7 @@ $ seq 10 | flat
 1 2 3 4 5 6 7 8 9 10
 ```
 
-The behavior is same as `xargs -n N` option. However [common command line options](## Command Line Options) like `fs` can be used.
+The behavior is same as `xargs -n N` option. However [Common command line options](## Common command line options) like `fs` can be used.
 
 ```sh
 $ seq 10 | flat 2
