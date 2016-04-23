@@ -3,11 +3,29 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
+  (match-lambda (list string)
+                {
+                  [<nil> (execution {} [])]
+                  [(args-check-opts $opts) (execution opts [])]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: mirror [OPTIONS]")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo aaa bbb ccc aaa | mirror")
+       (print "    aaa ccc aaa bbb")
+       }
+       ))
+
+(define $execution
+  (lambda [$opts $arg]
     (print-each-line
       (initialize-args
         filter-mirror
-        []
-        args
+        arg
+        opts
         stdin
         ))))

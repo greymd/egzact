@@ -1,5 +1,25 @@
 (load-file "./lib/egzact/utils.egi")
 
+(assert-equal "check-opts -- case 1"
+  (check-opts {"A=B" "B=3" "C=143"})
+  #t)
+
+(assert-equal "check-opts -- case 2"
+  (check-opts {"A=B" "B=3" "143"})
+  #f)
+
+(assert-equal "check-opts -- case 3"
+  (check-opts {"fs=\n"})
+  #t)
+
+(assert-equal "check-opts -- case 4"
+  (check-opts {})
+  #t)
+
+(assert-equal "check-opts -- case 5"
+  (check-opts {"A"})
+  #f)
+
 (assert-equal "num-validation -- case 1"
   (num-validation 5)
   5)

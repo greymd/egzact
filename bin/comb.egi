@@ -3,11 +3,34 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
+  (match-lambda (list string)
+                {
+                  [<nil> usage]
+                  [(args-check-opts-num $opts $num) (execution opts (read num))]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+    (print "Usage: comb [OPTIONS] number")
+    option-usage
+    (print "tldr:")
+    (print "    $ echo A B C D | comb 2")
+    (print "    A B")
+    (print "    A C")
+    (print "    B C")
+    (print "    A D")
+    (print "    B D")
+    (print "    C D")
+    }
+    ))
+
+(define $execution
+  (lambda [$opts $num]
     (print-each-line
       (initialize-args
         filter-comb
-        (read (car args))
-        (cdr args)
+        num
+        opts
         stdin
         ))))

@@ -13,9 +13,26 @@
   (pattern-function [$fst $rst]
                     <cons (& fst ?1#(not (S.nats? %1))) rst> ))
 
+(define $args-check-opts
+  (pattern-function [$opts]
+                    <join (& opts ?1#(check-opts %1)) <nil>>))
+
 (define $args-check-opts-num
   (pattern-function [$opts $num]
-                    <join opts <cons (& num ?(S.nats? $)) <nil>>>))
+                    <join (& opts ?1#(check-opts %1)) <cons (& num ?(S.nats? $)) <nil>>>))
+
+(define $args-check-opts-str
+  (pattern-function [$opts $arg]
+                    <join (& opts ?1#(check-opts %1)) <cons arg <nil>>>))
+
+(define $check-opts
+  (lambda [$opts]
+    (match opts (list string){
+      [<nil> #t]
+      [(loop $n [1 (length opts)] <cons ?1#(not (empty? (regex "=" %1))) ...> <nil>) #t]
+      [_ #f]
+      })))
+
 
 (define $num-validation
   (lambda [$num]

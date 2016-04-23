@@ -3,11 +3,41 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
+  (match-lambda (list string)
+                {
+                  [<nil> usage]
+                  [(args-check-opts-str $opts $arg) (execution opts arg)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+    (print "Usage: crops [OPTIONS] string")
+    option-usage
+    (print "tldr:")
+    (print "    $ echo 1110100110 | crops \"1.*1\"")
+    (print "    11")
+    (print "    111")
+    (print "    11101")
+    (print "    1101")
+    (print "    101")
+    (print "    11101001")
+    (print "    1101001")
+    (print "    101001")
+    (print "    1001")
+    (print "    111010011")
+    (print "    11010011")
+    (print "    1010011")
+    (print "    10011")
+    }
+    ))
+
+(define $execution
+  (lambda [$opts $arg]
     (print-each-line
       (initialize-args
         filter-crops
-        (car args)
-        (append {"ifs=" "ofs="} (cdr args))
+        arg
+        (append {"ifs=" "ofs="} opts)
         stdin
         ))))

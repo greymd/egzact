@@ -3,11 +3,33 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
+  (match-lambda (list string)
+                {
+                  [<nil> (execution {} [])]
+                  [(args-check-opts $opts) (execution opts [])]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+    (print "Usage: cycle [OPTIONS]")
+    option-usage
+    (print "tldr:")
+    (print "    $ echo A B C D E | cycle")
+    (print "    A B C D E")
+    (print "    B C D E A")
+    (print "    C D E A B")
+    (print "    D E A B C")
+    (print "    E A B C D")
+    }
+    ))
+
+(define $execution
+  (lambda [$opts $arg]
     (print-each-line
       (initialize-args
         filter-cycle
-        []
-        args
+        arg
+        opts
         stdin
         ))))
