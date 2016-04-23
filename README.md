@@ -39,15 +39,17 @@ You can also try commands on the docker container.
 ```sh
 $ git clone https://github.com/greymd/egzact.git
 $ docker build -t ubuntu/egzact egzact
+
+# Open bash on the container
 $ docker run -it ubuntu/egzact /bin/bash
 
 # Works!
-% seq 10 | flat | takel 3
+root@XXXXXXXXX:/# seq 10 | flat | takel 3
 1 2 3
 ```
 
-## Commands
-
+# Commands
+## Generate multiple results from whole the STDIN
 ### flat
 
 It recognizes whole the inputs as the set of fields and prints them with specified number of cols.
@@ -58,7 +60,7 @@ $ seq 10 | flat
 1 2 3 4 5 6 7 8 9 10
 ```
 
-The behavior is same as `xargs -n N` option.
+The behavior is same as `xargs -n N` option. However [common command line options](## Command Line Options) like `fs` can be used.
 
 ```sh
 $ seq 10 | flat 2
@@ -67,6 +69,19 @@ $ seq 10 | flat 2
 5 6
 7 8
 9 10
+
+# Tab separeted files
+$ cat myfile
+AA	AB	AC	AD
+BA	BB	BC	BD
+CA	CB	CC	CD
+DA	DB	DC	DD
+
+# Keep tabs and change the layout.
+$ cat myfile | flat 8 fs="\t"
+```
+AA	AB	AC	AD	BA	BB	BC	BD
+CA	CB	CC	CD	DA	DB	DC	DD
 ```
 
 ### conv
@@ -85,40 +100,105 @@ $ seq 10 | conv 2
 7 8
 8 9
 9 10
+
+# Tab separeted files
+$ cat myfile
+AA	AB	AC	AD
+BA	BB	BC	BD
+CA	CB	CC	CD
+DA	DB	DC	DD
+
+# Input field separator is tab, and print the result with space separated.
+$ cat myfile | conv 5 ifs="\t"
+AA AB AC AD BA
+AB AC AD BA BB
+AC AD BA BB BC
+AD BA BB BC BD
+BA BB BC BD CA
+BB BC BD CA CB
+BC BD CA CB CC
+BD CA CB CC CD
+CA CB CC CD DA
+CB CC CD DA DB
+CC CD DA DB DC
+CD DA DB DC DD
 ```
 
-### addl
-Add str to left side of the input.
+## Generate multiple results for each line.
+
+### stairl
+
+Generate the patterns which are subsets of the fields.
+Results match to the *left* side of the original input.
+In most cases, it looks *stairs*.
 
 ```sh
-$ echo abc | addl ABC
-ABCabc
+$ echo A B C D | stairl
+A
+A B
+A B C
+A B C D
 ```
 
-### addr
-Add str to right side of the input.
+### stairr
+
+Generate the patterns which are subsets of the fields.
+Results match to the *right* side of the original input.
+In most cases, it looks *stairs*.
+
 
 ```sh
-$ echo abc | addr ABC
-abcABC
+$ echo A B C D | stairr
+D
+C D
+B C D
+A B C D
 ```
 
-### addt
-Add str to top of the input.
+### subsets
+
+Generate all the patterns which are subsets of the fields.
 
 ```sh
-$ echo abc | addt ABC
-ABC
-abc
+$ echo A B C D | subsets
+A
+A B
+B
+A B C
+B C
+C
+A B C D
+B C D
+C D
+D
 ```
 
-### addb
-Add str to bottom of the input.
+Whole the results is same as `stairl | stairr` when the duplicated lines can be merged.
 
 ```sh
-$ echo abc | addb ABC
-abc
-ABC
+$ echo A B C D | stairl | stairr | sort | uniq
+A
+A B
+A B C
+A B C D
+B
+B C
+B C D
+C
+C D
+D
+
+$ echo A B C D | subsets | sort | uniq
+A
+A B
+A B C
+A B C D
+B
+B C
+B C D
+C
+C D
+D
 ```
 
 ### pattn
@@ -200,6 +280,41 @@ A B C D
 A B C D
 ```
 
+## Generate single result for each line.
+
+### addl
+Add str to left side of the input.
+
+```sh
+$ echo abc | addl ABC
+ABCabc
+```
+
+### addr
+Add str to right side of the input.
+
+```sh
+$ echo abc | addr ABC
+abcABC
+```
+
+### addt
+Add str to top of the input.
+
+```sh
+$ echo abc | addt ABC
+ABC
+abc
+```
+
+### addb
+Add str to bottom of the input.
+
+```sh
+$ echo abc | addb ABC
+abc
+ABC
+```
 ### mirror
 
 Reverse the order of the field.
@@ -209,80 +324,6 @@ $ echo A B C D | mirror
 D C B A
 ```
 
-### stairl
-
-Generate the patterns which are subsets of the fields.
-Results match to the *left* side of the original input.
-In most cases, it looks *stairs*.
-
-```sh
-$ echo A B C D | stairl
-A
-A B
-A B C
-A B C D
-```
-
-### stairr
-
-Generate the patterns which are subsets of the fields.
-Results match to the *right* side of the original input.
-In most cases, it looks *stairs*.
-
-
-```sh
-$ echo A B C D | stairr
-D
-C D
-B C D
-A B C D
-```
-
-### subsets
-
-Generate all the patterns which are subsets of the fields.
-
-```sh
-$ echo A B C D | subsets
-A
-A B
-B
-A B C
-B C
-C
-A B C D
-B C D
-C D
-D
-```
-
-Whole the results is same as `stairl | stairr` when the duplicated lines can be merged.
-
-```sh
-$ echo A B C D | stairl | stairr | sort | uniq
-A
-A B
-A B C
-A B C D
-B
-B C
-B C D
-C
-C D
-D
-
-$ echo A B C D | subsets | sort | uniq
-A
-A B
-A B C
-A B C D
-B
-B C
-B C D
-C
-C D
-D
-```
 
 ### takel
 
