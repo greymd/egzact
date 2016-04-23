@@ -3,8 +3,8 @@
 New command line tools with three concepts.
 
 * Enumeration of various patterns from standard input.
-* Useful equivalents for existent Linux commands (like [nixar](https://github.com/askucher/nixar)).
-* Controlling records and fields given by particular separator (like [Open-Usp-Tukubai](https://github.com/usp-engineers-community/Open-usp-Tukubai)).
+* Useful equivalents for existent Linux commands (inspired by [nixar](https://github.com/askucher/nixar)).
+* Controlling records and fields given by particular separator (inspired by [Open-Usp-Tukubai](https://github.com/usp-engineers-community/Open-usp-Tukubai)).
 
 ## Install (Mac OSX / Linux)
 
@@ -90,7 +90,7 @@ $ yes | awk '$0=NR' | conv 3 | head
 
 ```
 
-### flat
+### $ `flat`
 It recognizes whole the inputs as the set of fields and prints them with specified number of cols.
 In default, it just removes the new lines.
 
@@ -124,7 +124,7 @@ CA,CB,CC,CD,DA,DB,DC,DD
 
 ## Generate multiple results for each line.
 
-### stairl
+### $ `stairl`
 
 Generate subsets of the fields.
 Each result matches to the *left* side of the original input.
@@ -179,7 +179,7 @@ CA CB CC
 CA CB CC CD
 ```
 
-### stairr
+### $ `stairr`
 
 Generate subsets of the fields.
 Results match to the *right* side of the original input.
@@ -193,7 +193,7 @@ B C D
 A B C D
 ```
 
-### subsets
+### $ `subsets`
 
 Generate all the subsets of the fields.
 
@@ -239,7 +239,7 @@ C D
 D
 ```
 
-### pattn
+### $ `pattn`
 Crop all the patterns which matches given string (regular expression).
 It includes all the patterns (from shortest to longest match).
 
@@ -279,7 +279,7 @@ $ echo 1110100110 | stairr fs="" | stairl fs="" | grep -o '1.*1' | sort | uniq
 111010011
 ```
 
-### cycle
+### $ `cycle`
 
 Generate all the circulated patterns.
 
@@ -292,7 +292,7 @@ D E A B C
 E A B C D
 ```
 
-### comb
+### $ `comb`
 
 Generate **combinations** of N of fields.
 
@@ -306,7 +306,7 @@ B D
 C D
 ```
 
-### perm
+### $ `perm`
 
 Generate **permutations** of N of fields.
 
@@ -326,7 +326,7 @@ D B
 D C
 ```
 
-### dupl
+### $ `dupl`
 
 Duplicate lines.
 
@@ -339,7 +339,7 @@ A B C D
 
 ## Generate single result for each line.
 
-### addl
+### $ `addl`
 
 Add str to left side of the input.
 
@@ -350,7 +350,7 @@ $ echo abc | addl ABC
 ABCabc
 ```
 
-### addr
+### $ `addr`
 
 Add str to right side of the input.
 
@@ -362,7 +362,7 @@ abcABC
 ```
 
 
-### mirror
+### $ `mirror`
 
 Reverse the order of the field.
 
@@ -372,7 +372,7 @@ D C B A
 ```
 
 
-### takel
+### $ `takel`
 
 Print first *N* of fields.
 
@@ -383,7 +383,7 @@ $ echo A B C D | takel 3
 A B C
 ```
 
-### taker
+### $ `taker`
 
 Print last *N* of fields.
 
@@ -394,7 +394,7 @@ $ echo A B C D | taker 3
 B C D
 ```
 
-### takelx
+### $ `takelx`
 
 Print fields from first one to the one which matches given regular expression.
 
@@ -405,7 +405,7 @@ $ echo QBY JCG FCM PAG TPX BQG UGB | takelx "^P.*$"
 QBY JCG FCM PAG
 ```
 
-### takerx
+### $ `takerx`
 
 Print fields from last one to the one which matches given regular expression.
 
@@ -416,7 +416,7 @@ $ echo QBY JCG FCM PAG TPX BQG UGB | takerx "^P.*$"
 PAG TPX BQG UGB
 ```
 
-### dropl
+### $ `dropl`
 
 Remove first *N* of fields.
 
@@ -427,7 +427,7 @@ $ echo QBY JCG FCM PAG TPX BQG UGB | dropl 3
 PAG TPX BQG UGB
 ```
 
-### dropr
+### $ `dropr`
 
 Remove last *N* of fields.
 
@@ -438,7 +438,7 @@ $ echo QBY JCG FCM PAG TPX BQG UGB | dropr 3
 QBY JCG FCM PAG
 ```
 
-### zrep
+### $ `zrep`
 
 Extract particular fields which matches given regular expression.
 
@@ -449,7 +449,7 @@ $ echo 1 2 3 4 5 6 7 8 9 10 | zrep "1"
 1 10
 ```
 
-### zniq
+### $ `zniq`
 
 Merge duplicated fields.
 
@@ -460,7 +460,7 @@ $ echo aaa bbb ccc aaa bbb | zniq
 aaa bbb ccc
 ```
 
-### wrap
+### $ `wrap`
 
 Add particular prefix and suffix to each field in accordance with given argument.
 `*` is the placeholder which represents each field.
@@ -470,7 +470,7 @@ $ echo aaa bbb ccc | wrap "<p>*</p>"
 <p>aaa</p> <p>bbb</p> <p>ccc</p>
 ```
 
-### nestl
+### $ `nestl`
 
 Nest all the fields with with given argument.
 `*` is the placeholder which represents each field.
@@ -483,7 +483,7 @@ $ echo aaa bbb ccc | nestl "<p>*</p>"
 <p> <p> <p> aaa </p> bbb </p> ccc </p>
 ```
 
-### nestr
+### $ `nestr`
 
 Nest all the fields with with given argument.
 `*` is the placeholder which represents each field.
@@ -496,7 +496,7 @@ $ echo aaa bbb ccc | nestr "<p>*</p>"
 <p> aaa <p> bbb <p> ccc </p> </p> </p>
 ```
 
-### stick
+### $ `stick`
 
 Associate each first *N* of fields and each remaining the fields.
 Associated two fields are printed sequentially.
@@ -508,7 +508,7 @@ $ echo 1 2 3 10 20 30 | stick 3
 
 ## Other commands
 
-### addt
+### $ `addt`
 
 Add str to top of the input.
 
@@ -518,7 +518,7 @@ ABC
 abc
 ```
 
-### addb
+### $ `addb`
 
 Add str to bottom of the input.
 
