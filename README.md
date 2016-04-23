@@ -51,7 +51,7 @@ root@XXXXXXXXX:/# seq 10 | flat | takel 3
 # Commands
 ## Generate multiple results from whole the STDIN
 
-### conv
+### $ `conv`
 
 It recognizes whole the inputs as the set of fields and prints them with specified number of cols. It convolutes the each records.
 
@@ -99,7 +99,7 @@ $ seq 10 | flat
 1 2 3 4 5 6 7 8 9 10
 ```
 
-The behavior is same as `xargs -n N` option. However [Common command line options](## Common command line options) like `fs` can be used.
+The behavior is same as `xargs -n N` option. However [Common command line options](#common-command-line-options) like `fs` can be used.
 
 ```sh
 $ seq 10 | flat 2
