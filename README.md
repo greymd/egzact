@@ -512,6 +512,8 @@ $ echo 1 2 3 10 20 30 | stick 3
 
 Add str to top of the input.
 
+*Add* + *Top*
+
 ```sh
 $ echo abc | addt ABC
 ABC
@@ -521,6 +523,8 @@ abc
 ### $ `addb`
 
 Add str to bottom of the input.
+
+*Add* + *Bottom*
 
 ```sh
 $ echo abc | addb ABC
