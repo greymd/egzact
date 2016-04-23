@@ -50,8 +50,70 @@ root@XXXXXXXXX:/# seq 10 | flat | takel 3
 
 # Commands
 ## Generate multiple results from whole the STDIN
-### flat
 
+### conv
+
+It recognizes whole the inputs as the set of fields and prints them with specified number of cols. It convolutes the each records.
+
+```sh
+$ seq 10 | conv 2
+1 2
+2 3
+3 4
+4 5
+5 6
+6 7
+7 8
+8 9
+9 10
+
+# comma separated file
+$ cat myfile
+AA,AB,AC,AD
+BA,BB,BC,BD
+CA,CB,CC,CD
+DA,DB,DC,DD
+
+# Input field separator is comma, and print the result with space separated.
+$ cat myfile | conv 5 fs=,
+AA,AB,AC,AD,BA
+AB,AC,AD,BA,BB
+AC,AD,BA,BB,BC
+AD,BA,BB,BC,BD
+BA,BB,BC,BD,CA
+BB,BC,BD,CA,CB
+BC,BD,CA,CB,CC
+BD,CA,CB,CC,CD
+CA,CB,CC,CD,DA
+CB,CC,CD,DA,DB
+CC,CD,DA,DB,DC
+CD,DA,DB,DC,DD
+
+
+# Infinite input
+$ yes | awk '$0=NR'
+1
+2
+3
+4
+5
+.
+.
+.
+
+$ yes | awk '$0=NR' | conv 3 | head
+1 2 3
+2 3 4
+3 4 5
+4 5 6
+5 6 7
+.
+.
+.
+
+```
+
+### flat
 It recognizes whole the inputs as the set of fields and prints them with specified number of cols.
 In default, it just removes the new lines.
 
@@ -83,46 +145,6 @@ AA,AB,AC,AD,BA,BB,BC,BD
 CA,CB,CC,CD,DA,DB,DC,DD
 ```
 
-### conv
-
-It recognizes whole the inputs as the set of fields and prints them with specified number of cols.
-It convolutes the each records.
-
-```sh
-$ seq 10 | conv 2
-1 2
-2 3
-3 4
-4 5
-5 6
-6 7
-7 8
-8 9
-9 10
-
-# Tab separeted files
-$ cat myfile
-AA,AB,AC,AD
-BA,BB,BC,BD
-CA,CB,CC,CD
-DA,DB,DC,DD
-
-# Input field separator is tab, and print the result with space separated.
-$ cat myfile | conv 5 fs=,
-AA,AB,AC,AD,BA
-AB,AC,AD,BA,BB
-AC,AD,BA,BB,BC
-AD,BA,BB,BC,BD
-BA,BB,BC,BD,CA
-BB,BC,BD,CA,CB
-BC,BD,CA,CB,CC
-BD,CA,CB,CC,CD
-CA,CB,CC,CD,DA
-CB,CC,CD,DA,DB
-CC,CD,DA,DB,DC
-CD,DA,DB,DC,DD
-```
-
 ## Generate multiple results for each line.
 
 ### stairl
@@ -139,7 +161,7 @@ A B C
 A B C D
 ```
 
-#### what's going to happen? if the input has multiple lines?
+#### what's going to happen if the input has multiple lines?
 
 ```sh
 $ cat myfile2
@@ -261,7 +283,7 @@ $ echo 1110100110 | pattn "1.*1"
 10011
 ```
 
-If you want to general `grep` command for matching, `stairr fs="" | stairl fs=""` can works with almost same bihavior. In addition, it is faster than `pattn` because it works with multi processing.
+If you want to use normal `grep` command for matching query, `stairr fs="" | stairl fs=""` can works with almost same behavior. In addition, it is faster than `pattn` because it works with multi processing.
 
 ```sh
 $ echo 1110100110 | stairr fs="" | stairl fs="" | grep -o '1.*1' | sort | uniq
@@ -329,7 +351,7 @@ D C
 
 ### dupl
 
-**Duplicate** lines.
+Duplicate lines.
 
 ```sh
 $ echo A B C D | dupl 3
@@ -341,7 +363,9 @@ A B C D
 ## Generate single result for each line.
 
 ### addl
+
 Add str to left side of the input.
+
 *Add* + *L*eft
 
 ```sh
@@ -350,7 +374,9 @@ ABCabc
 ```
 
 ### addr
+
 Add str to right side of the input.
+
 *Add* + *R*ight
 
 ```sh
@@ -372,6 +398,7 @@ D C B A
 ### takel
 
 Print first *N* of fields.
+
 *Take* + *L*eft
 
 ```sh
@@ -382,6 +409,7 @@ A B C
 ### taker
 
 Print last *N* of fields.
+
 *Take* + *R*ight
 
 ```sh
@@ -392,6 +420,7 @@ B C D
 ### takelx
 
 Print fields from first one to the one which matches given regular expression.
+
 *Take* + *L*eft + rege*X*
 
 ```sh
@@ -402,6 +431,7 @@ QBY JCG FCM PAG
 ### takerx
 
 Print fields from last one to the one which matches given regular expression.
+
 *Take* + *R*ight + rege*X*
 
 ```sh
@@ -412,6 +442,7 @@ PAG TPX BQG UGB
 ### dropl
 
 Remove first *N* of fields.
+
 *Drop* + *L*eft
 
 ```sh
@@ -422,6 +453,7 @@ PAG TPX BQG UGB
 ### dropr
 
 Remove last *N* of fields.
+
 *Drop* + *R*ight
 
 ```sh
@@ -432,6 +464,7 @@ QBY JCG FCM PAG
 ### zrep
 
 Extract particular fields which matches given regular expression.
+
 eg*Z*act + g*REP*
 
 ```sh
@@ -440,7 +473,9 @@ $ echo 1 2 3 4 5 6 7 8 9 10 | zrep "1"
 ```
 
 ### zniq
+
 Merge duplicated fields.
+
 eg*Z*act + u*NIQ*
 
 ```sh
@@ -497,6 +532,7 @@ $ echo 1 2 3 10 20 30 | stick 3
 ## Other commands
 
 ### addt
+
 Add str to top of the input.
 
 ```sh
@@ -506,6 +542,7 @@ abc
 ```
 
 ### addb
+
 Add str to bottom of the input.
 
 ```sh
@@ -540,6 +577,25 @@ If `fs` is already set, this option is primarily used.
  * Default value is space ` `.
  * Format: `ifs=STR`
 
+Example
+
+```sh
+$ cat myfile3
+AA,AB,AC,AD
+BA,BB,BC,BD
+
+# "," separated input -> " " separated output.
+$ cat myfile3 | stairr ifs=","
+AD
+AC AD
+AB AC AD
+AA AB AC AD
+BD
+BC BD
+BB BC BD
+BA BB BC BD
+```
+
 ### `ofs`
 Output field separator.
 If `fs` is already set, this option is primarily used.
@@ -547,17 +603,125 @@ If `fs` is already set, this option is primarily used.
  * Default value is space ` `.
  * Format: `ofs=STR`
 
+
+Example
+
+```sh
+$ cat myfile3
+AA,AB,AC,AD
+BA,BB,BC,BD
+
+# "," separated input -> "_" separated output.
+$ cat myfile3 | cycle ifs="," ofs="_"
+AA_AB_AC_AD
+AB_AC_AD_AA
+AC_AD_AA_AB
+AD_AA_AB_AC
+BA_BB_BC_BD
+BB_BC_BD_BA
+BC_BD_BA_BB
+BD_BA_BB_BC
+
+# "," separated input -> tab separated output.
+$ cat myfile3 | dupl 2 ifs="," ofs="\t"
+AA      AB      AC      AD
+AA      AB      AC      AD
+BA      BB      BC      BD
+BA      BB      BC      BD
+```
+
 ### `eor`
 End of record (a.k.a, raw).
+Result of each line (record) is separated with new line `\n` in default.
+This option change the string for separating each record.
 
  * Default value is new line `\n`.
  * Format: `eor=STR`
 
+Example
+
+```sh
+$ cat myfile4
+AA AB AC AD
+BA BB BC BD
+
+$ cat myfile4 | stairl
+AA           # End of record
+AA AB        # End of record
+AA AB AC     # End of record
+AA AB AC AD  # End of set
+BA           # End of record
+BA BB        # End of record
+BA BB BC     # End of record
+BA BB BC BD  # End of set
+
+$ cat myfile4 | stairr eor=" @@@ "
+AD @@@ AC AD @@@ AB AC AD @@@ AA AB AC AD
+BD @@@ BC BD @@@ BB BC BD @@@ BA BB BC BD
+```
+
 ### `eos`
-End of set.
+End of set. Set means, **result generated from single line**, in this manual.
 
  * Default value is new line `\n`.
  * Format: `eos=STR`
+
+Example
+
+```sh
+$ cat myfile4
+AA AB AC AD
+BA BB BC BD
+
+
+$ cat myfile4 | stairl eos="---"
+AA
+AA AB
+AA AB AC
+AA AB AC AD
+---
+BA
+BA BB
+BA BB BC
+BA BB BC BD
+
+$ cat myfile4 | stairl eos="---" eor=" @@@ " ofs=" | "
+AA @@@ AA | AB @@@ AA | AB | AC @@@ AA | AB | AC | AD
+---
+BA @@@ BA | BB @@@ BA | BB | BC @@@ BA | BB | BC | BD
+```
+
+## Tips
+A special command line option `each` is available in ``flat`` and ``conv`` commands.
+The option make the command's behavior like each line mode.
+In default, those commands handle whole the standard input (STDIN).
+However with this command, those commands can read each line and print the result.
+
+Example
+
+```sh
+$ cat myfile4
+AA AB AC AD
+BA BB BC BD
+
+$ cat myfile4 | flat 3
+AA AB AC
+AD BA BB
+BC BD
+
+$ cat myfile4 | flat each 3
+AA AB AC
+AD
+BA BB BC
+BD
+
+$ cat myfile4 | conv each 3 eos="---"
+AA AB AC
+AB AC AD
+---
+BA BB BC
+BB BC BD
+```
 
 ## Uninstall
 
