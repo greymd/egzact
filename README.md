@@ -239,12 +239,12 @@ C D
 D
 ```
 
-### $ `pattn`
+### $ `crops`
 Crop all the patterns which matches given string (regular expression).
 It includes all the patterns (from shortest to longest match).
 
 ```sh
-$ echo 1110100110 | pattn "1.*1"
+$ echo 1110100110 | crops "1.*1"
 11
 111
 11101
@@ -260,7 +260,7 @@ $ echo 1110100110 | pattn "1.*1"
 10011
 ```
 
-If you want to use normal `grep` command for matching query, `stairr fs="" | stairl fs=""` can works with almost same behavior. In addition, it is faster than `pattn` because it works with multi processing.
+If you want to use normal `grep` command for matching query, `stairr fs="" | stairl fs=""` can works with almost same behavior. In addition, it is faster than `crops` because it works with multi processing.
 
 ```sh
 $ echo 1110100110 | stairr fs="" | stairl fs="" | grep -o '1.*1' | sort | uniq

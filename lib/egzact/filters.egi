@@ -183,7 +183,7 @@
                                     [<nil> {}]
                                     })))
 
-(define $filter-pattn
+(define $filter-crops
   (lambda [$str $line]
     (unique/m (list string)
     (extract-mached-str

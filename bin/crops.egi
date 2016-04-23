@@ -6,7 +6,7 @@
   (lambda [$args]
     (print-each-line
       (initialize-args
-        filter-pattn
+        filter-crops
         (car args)
         (append {"ifs=" "ofs="} (cdr args))
         stdin
