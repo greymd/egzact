@@ -109,7 +109,7 @@ $ seq 10 | flat 2
 7 8
 9 10
 
-# Tab separeted files
+# Comma separeted file
 $ cat myfile
 AA,AB,AC,AD
 BA,BB,BC,BD
@@ -126,8 +126,8 @@ CA,CB,CC,CD,DA,DB,DC,DD
 
 ### stairl
 
-Generate the patterns which are subsets of the fields.
-Results match to the *left* side of the original input.
+Generate subsets of the fields.
+Each result matches to the *left* side of the original input.
 In most cases, it looks *stairs*.
 
 ```sh
@@ -181,7 +181,7 @@ CA CB CC CD
 
 ### stairr
 
-Generate the patterns which are subsets of the fields.
+Generate subsets of the fields.
 Results match to the *right* side of the original input.
 In most cases, it looks *stairs*.
 
@@ -195,7 +195,7 @@ A B C D
 
 ### subsets
 
-Generate all the patterns which are subsets of the fields.
+Generate all the subsets of the fields.
 
 ```sh
 $ echo A B C D | subsets
@@ -240,7 +240,7 @@ D
 ```
 
 ### pattn
-Print pattern which matches given string (regular expression).
+Crop all the patterns which matches given string (regular expression).
 It includes all the patterns (from shortest to longest match).
 
 ```sh
@@ -545,6 +545,16 @@ $ echo "/usr/local/var/" | stairl fs=/
 /usr/local
 /usr/local/var
 /usr/local/var/
+
+# In case of empty, each character is regarded as a field.
+$ echo "abcdefg" | stairl fs=""
+a
+ab
+abc
+abcd
+abcde
+abcdef
+abcdefg
 ```
 
 ### `ifs`
