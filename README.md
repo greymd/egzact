@@ -1,6 +1,6 @@
 ![logo](./img/logo.png)
 # Simplify what can hardly be done with Shell.
-New command line tools for
+New command line tools with three concepts.
 
 * Enumeration of various patterns from standard input.
 * Useful equivalents for existent Linux commands (like [nixar](https://github.com/askucher/nixar)).
@@ -67,29 +67,6 @@ $ seq 10 | conv 2
 8 9
 9 10
 
-# comma separated file
-$ cat myfile
-AA,AB,AC,AD
-BA,BB,BC,BD
-CA,CB,CC,CD
-DA,DB,DC,DD
-
-# Input field separator is comma, and print the result with space separated.
-$ cat myfile | conv 5 fs=,
-AA,AB,AC,AD,BA
-AB,AC,AD,BA,BB
-AC,AD,BA,BB,BC
-AD,BA,BB,BC,BD
-BA,BB,BC,BD,CA
-BB,BC,BD,CA,CB
-BC,BD,CA,CB,CC
-BD,CA,CB,CC,CD
-CA,CB,CC,CD,DA
-CB,CC,CD,DA,DB
-CC,CD,DA,DB,DC
-CD,DA,DB,DC,DD
-
-
 # Infinite input
 $ yes | awk '$0=NR'
 1
@@ -139,7 +116,7 @@ BA,BB,BC,BD
 CA,CB,CC,CD
 DA,DB,DC,DD
 
-# Keep tabs and change the layout.
+# Field separator(fs) option is useful for keeping comma.
 $ cat myfile | flat 8 fs=,
 AA,AB,AC,AD,BA,BB,BC,BD
 CA,CB,CC,CD,DA,DB,DC,DD
@@ -551,7 +528,7 @@ abc
 ABC
 ```
 
-## Command Line Options
+## Common command line options
 
 ### `fs`
 Field separator.
@@ -693,9 +670,9 @@ BA @@@ BA | BB @@@ BA | BB | BC @@@ BA | BB | BC | BD
 
 ## Tips
 A special command line option `each` is available in ``flat`` and ``conv`` commands.
-The option make the command's behavior like each line mode.
+The option change command's behavior to "each line mode".
 In default, those commands handle whole the standard input (STDIN).
-However with this command, those commands can read each line and print the result.
+However with this option, those commands can read each line and print the result.
 
 Example
 
