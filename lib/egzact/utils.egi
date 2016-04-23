@@ -13,6 +13,10 @@
   (pattern-function [$fst $rst]
                     <cons (& fst ?1#(not (S.nats? %1))) rst> ))
 
+(define $args-check-opts-num
+  (pattern-function [$opts $num]
+                    <join opts <cons (& num ?(S.nats? $)) <nil>>>))
+
 (define $num-validation
   (lambda [$num]
     (match {num} (list integer) {
@@ -20,6 +24,16 @@
                                  [<cons (& $n ?(string? $)) _> [(num-validation (read n))]]
                                  [_ ARGMAX]
                                  })))
+
+(define $option-usage
+  (do {
+       (print "OPTIONS:")
+       (print "     fs=STR    Field separator.")
+       (print "    ifs=STR    Input field separator.")
+       (print "    ofs=STR    Output field separator.")
+       (print "    eor=STR    End of record.")
+       (print "    eos=STR    End of set.")
+       }))
 
 ; Infinite input stream
 (define $stdin
