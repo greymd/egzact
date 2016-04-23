@@ -72,15 +72,15 @@ $ seq 10 | flat 2
 
 # Tab separeted files
 $ cat myfile
-AA	AB	AC	AD
-BA	BB	BC	BD
-CA	CB	CC	CD
-DA	DB	DC	DD
+AA,AB,AC,AD
+BA,BB,BC,BD
+CA,CB,CC,CD
+DA,DB,DC,DD
 
 # Keep tabs and change the layout.
-$ cat myfile | flat 8 fs="\t"
-AA	AB	AC	AD	BA	BB	BC	BD
-CA	CB	CC	CD	DA	DB	DC	DD
+$ cat myfile | flat 8 fs=,
+AA,AB,AC,AD,BA,BB,BC,BD
+CA,CB,CC,CD,DA,DB,DC,DD
 ```
 
 ### conv
@@ -102,25 +102,25 @@ $ seq 10 | conv 2
 
 # Tab separeted files
 $ cat myfile
-AA	AB	AC	AD
-BA	BB	BC	BD
-CA	CB	CC	CD
-DA	DB	DC	DD
+AA,AB,AC,AD
+BA,BB,BC,BD
+CA,CB,CC,CD
+DA,DB,DC,DD
 
 # Input field separator is tab, and print the result with space separated.
-$ cat myfile | conv 5 ifs="\t"
-AA AB AC AD BA
-AB AC AD BA BB
-AC AD BA BB BC
-AD BA BB BC BD
-BA BB BC BD CA
-BB BC BD CA CB
-BC BD CA CB CC
-BD CA CB CC CD
-CA CB CC CD DA
-CB CC CD DA DB
-CC CD DA DB DC
-CD DA DB DC DD
+$ cat myfile | conv 5 fs=,
+AA,AB,AC,AD,BA
+AB,AC,AD,BA,BB
+AC,AD,BA,BB,BC
+AD,BA,BB,BC,BD
+BA,BB,BC,BD,CA
+BB,BC,BD,CA,CB
+BC,BD,CA,CB,CC
+BD,CA,CB,CC,CD
+CA,CB,CC,CD,DA
+CB,CC,CD,DA,DB
+CC,CD,DA,DB,DC
+CD,DA,DB,DC,DD
 ```
 
 ## Generate multiple results for each line.
@@ -139,12 +139,52 @@ A B C
 A B C D
 ```
 
+#### what's going to happen? if the input has multiple lines?
+
+```sh
+$ cat myfile2
+AA AB AC AD
+BA BB BC BD
+CA CB CC CD
+
+# The command is executed for each line.
+$ cat myfile2 | stairl
+AA
+AA AB
+AA AB AC
+AA AB AC AD
+BA
+BA BB
+BA BB BC
+BA BB BC BD
+CA
+CA CB
+CA CB CC
+CA CB CC CD
+
+# `eos` option is helpful if you want to know where each result is coming from.
+$ cat myfile2 | stairl eos=---
+AA
+AA AB
+AA AB AC
+AA AB AC AD
+---
+BA
+BA BB
+BA BB BC
+BA BB BC BD
+---
+CA
+CA CB
+CA CB CC
+CA CB CC CD
+```
+
 ### stairr
 
 Generate the patterns which are subsets of the fields.
 Results match to the *right* side of the original input.
 In most cases, it looks *stairs*.
-
 
 ```sh
 $ echo A B C D | stairr
@@ -221,6 +261,25 @@ $ echo 1110100110 | pattn "1.*1"
 10011
 ```
 
+If you want to general `grep` command for matching, `stairr fs="" | stairl fs=""` can works with almost same bihavior. In addition, it is faster than `pattn` because it works with multi processing.
+
+```sh
+$ echo 1110100110 | stairr fs="" | stairl fs="" | grep -o '1.*1' | sort | uniq
+1001
+10011
+101
+101001
+1010011
+11
+1101
+1101001
+11010011
+111
+11101
+11101001
+111010011
+```
+
 ### cycle
 
 Generate all the circulated patterns.
@@ -283,6 +342,7 @@ A B C D
 
 ### addl
 Add str to left side of the input.
+*Add* + *L*eft
 
 ```sh
 $ echo abc | addl ABC
@@ -291,29 +351,14 @@ ABCabc
 
 ### addr
 Add str to right side of the input.
+*Add* + *R*ight
 
 ```sh
 $ echo abc | addr ABC
 abcABC
 ```
 
-### addt
-Add str to top of the input.
 
-```sh
-$ echo abc | addt ABC
-ABC
-abc
-```
-
-### addb
-Add str to bottom of the input.
-
-```sh
-$ echo abc | addb ABC
-abc
-ABC
-```
 ### mirror
 
 Reverse the order of the field.
@@ -327,6 +372,7 @@ D C B A
 ### takel
 
 Print first *N* of fields.
+*Take* + *L*eft
 
 ```sh
 $ echo A B C D | takel 3
@@ -336,6 +382,7 @@ A B C
 ### taker
 
 Print last *N* of fields.
+*Take* + *R*ight
 
 ```sh
 $ echo A B C D | taker 3
@@ -345,6 +392,7 @@ B C D
 ### takelx
 
 Print fields from first one to the one which matches given regular expression.
+*Take* + *L*eft + rege*X*
 
 ```sh
 $ echo QBY JCG FCM PAG TPX BQG UGB | takelx "^P.*$"
@@ -354,6 +402,7 @@ QBY JCG FCM PAG
 ### takerx
 
 Print fields from last one to the one which matches given regular expression.
+*Take* + *R*ight + rege*X*
 
 ```sh
 $ echo QBY JCG FCM PAG TPX BQG UGB | takerx "^P.*$"
@@ -362,7 +411,8 @@ PAG TPX BQG UGB
 
 ### dropl
 
-Print first *N* of fields.
+Remove first *N* of fields.
+*Drop* + *L*eft
 
 ```sh
 $ echo QBY JCG FCM PAG TPX BQG UGB | dropl 3
@@ -371,7 +421,8 @@ PAG TPX BQG UGB
 
 ### dropr
 
-Print last *N* of fields.
+Remove last *N* of fields.
+*Drop* + *R*ight
 
 ```sh
 $ echo QBY JCG FCM PAG TPX BQG UGB | dropr 3
@@ -381,7 +432,7 @@ QBY JCG FCM PAG
 ### zrep
 
 Extract particular fields which matches given regular expression.
-Origin of this name is `egZact + gREP`
+eg*Z*act + g*REP*
 
 ```sh
 $ echo 1 2 3 4 5 6 7 8 9 10 | zrep "1"
@@ -390,7 +441,7 @@ $ echo 1 2 3 4 5 6 7 8 9 10 | zrep "1"
 
 ### zniq
 Merge duplicated fields.
-Origin of this name is `egZact + uNIQ`
+eg*Z*act + u*NIQ*
 
 ```sh
 $ echo aaa bbb ccc aaa bbb | zniq
@@ -411,7 +462,9 @@ $ echo aaa bbb ccc | wrap "<p>*</p>"
 
 Nest all the fields with with given argument.
 `*` is the placeholder which represents each field.
-Left field is the most deeply nested element.
+First field is the most deeply nested element.
+
+*Nest* + *L*eft
 
 ```sh
 $ echo aaa bbb ccc | nestl "<p>*</p>"
@@ -422,7 +475,9 @@ $ echo aaa bbb ccc | nestl "<p>*</p>"
 
 Nest all the fields with with given argument.
 `*` is the placeholder which represents each field.
-Right field is the most deeply nested element.
+Last field is the most deeply nested element.
+
+*Nest* + *R*ight
 
 ```sh
 $ echo aaa bbb ccc | nestr "<p>*</p>"
@@ -437,6 +492,26 @@ Associated two fields are printed sequentially.
 ```sh
 $ echo 1 2 3 10 20 30 | stick 3
 1 10 2 20 3 30
+```
+
+## Other commands
+
+### addt
+Add str to top of the input.
+
+```sh
+$ echo abc | addt ABC
+ABC
+abc
+```
+
+### addb
+Add str to bottom of the input.
+
+```sh
+$ echo abc | addb ABC
+abc
+ABC
 ```
 
 ## Command Line Options
