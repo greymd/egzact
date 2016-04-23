@@ -1,12 +1,12 @@
 ![logo](./img/logo.png)
 # Simplify what can hardly be done with Shell.
-New command line tools
+New command line tools for
 
 * Enumeration of various patterns from standard input.
 * Useful equivalents for existent Linux commands (like [nixar](https://github.com/askucher/nixar)).
 * Controlling records and fields given by particular separator (like [Open-Usp-Tukubai](https://github.com/usp-engineers-community/Open-usp-Tukubai)).
 
-## Install
+## Install (Mac OSX / Linux)
 
 ### 1. Install Egison
 Install *upper 3.6.0*.
@@ -23,6 +23,27 @@ http://www.egison.org/getting-started/getting-started-linux.html
 $ git clone https://github.com/greymd/egzact.git
 $ cd egzact
 $ make install
+
+# Add path
+$ echo 'PATH=$PATH:$HOME/.egison/bin' >> ~/.bashrc
+$ source ~/.bashrc
+
+# Works!
+$ seq 10 | flat | takel 3
+1 2 3
+```
+
+## Docker
+
+You can also try commands on the docker container.
+```sh
+$ git clone https://github.com/greymd/egzact.git
+$ docker build -t ubuntu/egzact egzact
+$ docker run -it ubuntu/egzact /bin/bash
+
+# Works!
+% seq 10 | flat | takel 3
+1 2 3
 ```
 
 ## Commands
