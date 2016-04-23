@@ -79,7 +79,6 @@ DA	DB	DC	DD
 
 # Keep tabs and change the layout.
 $ cat myfile | flat 8 fs="\t"
-```
 AA	AB	AC	AD	BA	BB	BC	BD
 CA	CB	CC	CD	DA	DB	DC	DD
 ```
