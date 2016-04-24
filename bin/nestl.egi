@@ -5,8 +5,9 @@
 (define $main
   (match-lambda (list string)
                 {
-                  [(args-check-opts-str $opts $arg) (execution print-each-line filter-nestl opts arg stdin)]
-                  [(| _ <nil>) usage]
+                  [(args-check-opts-str $opts $arg)
+                   (execution print-each-line filter-nestl opts arg stdin)]
+                  [_ usage]
                 }))
 
 (define $usage

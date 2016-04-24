@@ -113,16 +113,12 @@
   "")
 
 (assert-equal "set-default-opts -- case 1"
-  (set-default-opts cons "ARGS" {| ["eof" "AAA"] ["ifs" "BBB"] ["eos" "---"] |} (take 5 nats))
-  [cons "ARGS" "BBB" " " "\n" "\n---\n" "AAA" {1 2 3 4 5}])
+  (set-default-opts {| ["eof" "AAA"] ["ifs" "BBB"] ["eos" "---"] |})
+  ["BBB" " " "\n" "\n---\n" "AAA"])
 
 (assert-equal "set-default-opts -- case 2"
-  (set-default-opts cons "ARGS" {| ["dummy" "1"] |} (take 5 nats))
-  [cons "ARGS" " " " " "\n" "\n" "\n" {1 2 3 4 5}])
-
-(assert-equal "initialize-args"
-  (initialize-args cons "ARGS" {"eof=AAA" "ifs=BBB" "eos=---"} (take 5 nats))
-  [cons "ARGS" "BBB" " " "\n" "\n---\n" "AAA" {1 2 3 4 5}])
+  (set-default-opts {| ["dummy" "1"] |})
+  [" " " " "\n" "\n" "\n"])
 
 (assert-equal "set-default-value -- case 1"
   (set-default-value {"A" "B" "C"})

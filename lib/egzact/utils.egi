@@ -45,13 +45,27 @@
        }))
 
 (define $execution
-  (lambda [$printer $filter $opts $arg $input]
-    (printer
-      (initialize-args
-        filter
-        arg
-        opts
-        input))))
+  (lambda [$this-printer $this-filter $this-opts $this-arg $this-input]
+    (let {[[$IFS $OFS $EOR $EOS $EOF]
+           (set-default-opts
+             (opts2hash
+               ; Avoid empty arguments.
+               (add "dummy=1" this-opts)))]}
+           (this-printer
+             this-filter
+             this-arg
+             IFS OFS EOR EOS EOF
+             this-input))))
+
+; Set default value of each command line options.
+(define $set-default-opts
+  (lambda [$opts] [
+                   (set-default-value  {opts_"ifs" opts_"fs" " "}) ; input field separator
+                   (set-default-value  {opts_"ofs" opts_"fs" " "}) ; output field separator
+                   (set-default-value  {opts_"eor" "\n"})          ; output row separator
+                   (set-default-value2 {opts_"eos" "\n"})          ; output set separator
+                   (set-default-value  {opts_"eof" "\n"})          ; end of file
+                   ]))
 
 ; Infinite input stream
 (define $stdin
@@ -81,29 +95,6 @@
                          (map (FILTER ARGS $)
                               (split-each-line IFS INF)))) {EOF}))))
 
-; Initialize arguments.
-(define $initialize-args
-  (lambda [$this-filter $this-args $common-opts $this-input]
-    (set-default-opts
-      this-filter
-      this-args
-      (opts2hash (add "dummy=1" common-opts)) ; Avoid empty arguments.
-      this-input
-      )))
-
-; Set default value of each command line options.
-(define $set-default-opts
-  (lambda [$this-filter $this-args $common-opts $this-input] [
-                   this-filter
-                   this-args
-                   (set-default-value  {common-opts_"ifs" common-opts_"fs" " "}) ; input field separator
-                   (set-default-value  {common-opts_"ofs" common-opts_"fs" " "}) ; output field separator
-                   (set-default-value  {common-opts_"eor" "\n"})                 ; output row separator
-                   (set-default-value2 {common-opts_"eos" "\n"})                 ; output set separator
-                   (set-default-value  {common-opts_"eof" "\n"})                 ; end of file
-                   this-input
-                   ]))
-
 ; Returns the string which is found most early.
 (define $set-default-value
   (lambda [$ls]
@@ -116,7 +107,6 @@
     (match ls (list something) {
       [<cons (& $x ?(string? $)) $xs> [(S.concat {"\n" x "\n"})]]
       [_ [(set-default-value ls)]]})))
-
 
 ; Convert string collection to hash {"P1=A" "P2=B"} => {| ["P1" "A"] ["P2" "B"] |}
 (define $opts2hash
