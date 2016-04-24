@@ -57,6 +57,67 @@ B C
 2 3" "${result}"
 }
 
+test_conv() {
+	result=`seq 10 | ./conv.egi 2`
+	assertEquals "1 2
+2 3
+3 4
+4 5
+5 6
+6 7
+7 8
+8 9
+9 10" "${result}"
+
+	result=`echo "AA AB AC AD\nBA BB BC BD" | ./conv.egi 3`
+	assertEquals "AA AB AC
+AB AC AD
+AC AD BA
+AD BA BB
+BA BB BC
+BB BC BD" "${result}"
+
+	result=`echo "AA AB AC AD\nBA BB BC BD" | ./conv.egi each 3`
+	assertEquals "AA AB AC
+AB AC AD
+BA BB BC
+BB BC BD" "${result}"
+
+	result=`echo "AA AB AC AD\nBA BB BC BD" | ./conv.egi each eos="@@@" 3`
+	assertEquals "AA AB AC
+AB AC AD
+@@@
+BA BB BC
+BB BC BD" "${result}"
+}
+
+test_flat() {
+	result=`seq 10 | ./flat.egi 2`
+	assertEquals "1 2
+3 4
+5 6
+7 8
+9 10" "${result}"
+
+	result=`echo "AA AB AC AD\nBA BB BC BD" | ./flat.egi 3`
+	assertEquals "AA AB AC
+AD BA BB
+BC BD" "${result}"
+
+	result=`echo "AA AB AC AD\nBA BB BC BD" | ./flat.egi each 3`
+	assertEquals "AA AB AC
+AD
+BA BB BC
+BD" "${result}"
+
+	result=`echo "AA AB AC AD\nBA BB BC BD" | ./flat.egi each eos="@@@" 3`
+	assertEquals "AA AB AC
+AD
+@@@
+BA BB BC
+BD" "${result}"
+}
+
 test_crops() {
 	result=`echo "(* (cos α) (cos β))" | ./crops.egi "\(.*\)"`
 	assertEquals "(* (cos α)
@@ -70,7 +131,7 @@ test_crops() {
 }
 
 test_cycle() {
-	result=`echo A B C D E | cycle`
+	result=`echo A B C D E | ./cycle.egi`
 	assertEquals "A B C D E
 B C D E A
 C D E A B
