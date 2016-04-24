@@ -55,6 +55,10 @@ B C
 1 2
 1 3
 2 3" "${result}"
+
+	result=`echo A B C D | ./comb.egi 100`
+	assertEquals "A B C D" "${result}"
+
 }
 
 test_conv() {
@@ -231,6 +235,32 @@ D A
 C D
 D B
 D C" "${result}"
+
+	result=`echo A B C D | ./perm.egi 100`
+	assertEquals "A B C D
+A B D C
+A C B D
+B A C D
+A C D B
+A D B C
+B A D C
+B C A D
+C A B D
+A D C B
+B C D A
+B D A C
+C A D B
+C B A D
+D A B C
+B D C A
+C B D A
+C D A B
+D A C B
+D B A C
+C D B A
+D B C A
+D C A B
+D C B A" "${result}"
 }
 
 test_stairl() {

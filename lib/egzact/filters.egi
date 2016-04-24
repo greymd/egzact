@@ -10,16 +10,11 @@
 
 (define $filter-addr
   (lambda [$str $line]
-    {(snoc str line)}))
+    {(append line {str})}))
 
 (define $filter-mirror
   (lambda [$str $line]
     {(reverse line)}))
-
-; (snoc "d" {"a" "b" "c"}); => {"a" "b" "c" "d"}
-(define $snoc
-  (lambda [$col1 $col2]
-    (append col2 {col1})))
 
 (define $filter-cycle
   (lambda [$num $line]
@@ -29,23 +24,21 @@
 
 (define $filter-comb
   (lambda [$num $line]
-    ((lambda [$min-num $line]
+    (let {[$min-num (min [num (length line)])]}
       (match-all line (list string)
         [(loop $i [1 min-num]
                <join _ <cons $a_i ...>>
                _)
-        (map (1#a_%1 $) (between 1 min-num))]))
-     [(min [num (length line)]) line])))
+        (map (1#a_%1 $) (between 1 min-num))]))))
 
 (define $filter-perm
   (lambda [$num $line]
-    ((lambda [$min-num $line]
+    (let {[$min-num (min [num (length line)])]}
       (match-all line (multiset string)
         [(loop $i [1 min-num]
                <cons $a_i ...>
                _)
-        (map (1#a_%1 $) (between 1 min-num))]))
-     [(min [num (length line)]) line])))
+        (map (1#a_%1 $) (between 1 min-num))]))))
 
 (define $filter-conv-each
   (lambda [$num $line]
@@ -88,16 +81,13 @@
 
 (define $filter-takel
   (lambda [$num $line]
-    ((lambda [$min-num $line]
-      {(take min-num line)})
-     [(min [num (length line)]) line])))
-
+    (let {[$min-num (min [num (length line)])]}
+      {(take min-num line)})))
 
 (define $filter-taker
   (lambda [$num $line]
-    ((lambda [$min-num $line]
-      {(drop (- (length line) min-num) line)})
-     [(min [num (length line)]) line])))
+    (let {[$min-num (min [num (length line)])]}
+      {(drop (- (length line) min-num) line)})))
 
 (define $filter-takelx
   (lambda [$str $line]
@@ -155,21 +145,13 @@
 
 (define $filter-nestl
   (lambda [$str $line]
-    (filter-nestl-impl
-      (get-pre-suf-line str line))))
-
-(define $filter-nestl-impl
-  (lambda [$pre $suf $line]
-    {(foldl 2#(concat {{pre} %1 {%2} {suf}}) {} line)}))
+    (let {[[$pre $pl $suf] (car (regex PHOLDER str))]}
+     {(foldl 2#(concat {{pre} %1 {%2} {suf}}) {} line)})))
 
 (define $filter-nestr
   (lambda [$str $line]
-    (filter-nestr-impl
-      (get-pre-suf-line str line))))
-
-(define $filter-nestr-impl
-  (lambda [$pre $suf $line]
-    {(foldr 2#(concat {{pre} {%1} %2 {suf}}) {} line)}))
+    (let {[[$pre $pl $suf] (car (regex PHOLDER str))]}
+     {(foldr 2#(concat {{pre} {%1} %2 {suf}}) {} line)})))
 
 (define $filter-stick
   (lambda [$num $line]
