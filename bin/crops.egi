@@ -13,7 +13,7 @@
 (define $usage
   (do {
     (print "Usage: crops [OPTIONS] string")
-    option-usage
+    option-usage2
     (print "tldr:")
     (print "    $ echo 1110100110 | crops \"1.*1\"")
     (print "    11")

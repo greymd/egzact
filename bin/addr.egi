@@ -13,7 +13,7 @@
 (define $usage
   (do {
        (print "Usage: addr [OPTIONS] string")
-        option-usage
+        option-usage2
        (print "tldr:")
        (print "    $ echo abc | addr ABC")
        (print "    abcABC")

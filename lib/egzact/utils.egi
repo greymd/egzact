@@ -44,6 +44,14 @@
        (print "    eos=STR    End of set.")
        }))
 
+(define $option-usage2
+  (do {
+       (print "OPTIONS:")
+       (print "    eor=STR    End of record.")
+       (print "    eos=STR    End of set.")
+       }))
+
+
 (define $execution
   (lambda [$this-printer $this-filter $this-opts $this-arg $this-input]
     (let {[[$IFS $OFS $EOR $EOS $EOF]
@@ -169,4 +177,3 @@
                               [<cons $x $xs> ;first and before last element
                                (append (append {x} {str}) (intersperse2 str xs))]
                               })))
-
