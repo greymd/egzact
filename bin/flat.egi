@@ -6,15 +6,15 @@
     (match-lambda (list string) {
       ; each line mode
       [<cons ,"each" (args-check-opts-num $opts $arg)>
-       (execution print-each-line   filter-flat opts arg)]
+       (execution print-each-line filter-flat opts (num-validation arg) stdin)]
       [<cons ,"each" (args-check-opts $opts)>
-       (execution print-each-line   filter-flat opts (show ARGMAX))]
+       (execution print-each-line filter-flat opts ARGMAX stdin)]
 
       ; stream mode
       [(args-check-opts-num $opts $arg)
-       (execution print-whole-input filter-flat opts arg)]
+       (execution print-whole-input filter-flat opts (num-validation arg) stdin)]
       [(args-check-opts $opts)
-       (execution print-whole-input filter-flat opts (show ARGMAX))]
+       (execution print-whole-input filter-flat opts ARGMAX stdin)]
 
       [_ usage]
       }))
@@ -23,9 +23,8 @@
   (do {
        (print "Usage: flat [OPTIONS] [number]")
        (print "       flat each [OPTIONS] [number]")
-       (print "")
+       (print "Description:")
        (print "       With `each`, it reads & prints results for each line.")
-       (print "")
         option-usage
        (print "")
        (print "tldr:")
@@ -35,12 +34,3 @@
        (print "    E")
        }
        ))
-
-(define $execution
-  (lambda [$printer $filter $opts $arg]
-    (printer
-      (initialize-args
-        filter
-        (num-validation arg)
-        opts
-        stdin))))

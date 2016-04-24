@@ -5,9 +5,8 @@
 (define $main
   (match-lambda (list string)
                 {
-                  [<nil> usage]
-                  [(args-check-opts-str $opts $arg) (execution opts arg)]
-                  [_ usage]
+                  [(args-check-opts-str $opts $arg) (execution print-each-line filter-takelx opts arg stdin)]
+                  [(| _ <nil>) usage]
                 }))
 
 (define $usage
@@ -19,13 +18,3 @@
        (print "    QBY JCG FCM PAG")
        }
        ))
-
-(define $execution
-  (lambda [$opts $arg]
-    (print-each-line
-      (initialize-args
-        filter-takelx
-        arg
-        opts
-        stdin
-        ))))

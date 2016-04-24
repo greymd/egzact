@@ -5,9 +5,8 @@
 (define $main
   (match-lambda (list string)
                 {
-                  [<nil> usage]
-                  [(args-check-opts-str $opts $arg) (execution opts arg)]
-                  [_ usage]
+                  [(args-check-opts-str $opts $arg) (execution print-each-line filter-nestr opts arg stdin)]
+                  [(| _ <nil>) usage]
                 }))
 
 (define $usage
@@ -19,13 +18,3 @@
        (print "    <p> AAA <p> BBB <p> CCC </p> </p> </p>")
        }
        ))
-
-(define $execution
-  (lambda [$opts $arg]
-    (print-each-line
-      (initialize-args
-        filter-nestr
-        arg
-        opts
-        stdin
-        ))))

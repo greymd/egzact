@@ -6,7 +6,7 @@
   (match-lambda (list string)
                 {
                   [<nil> usage]
-                  [(args-check-opts-str $opts $arg) (execution opts arg)]
+                  [(args-check-opts-str $opts $arg) (execution print-each-line filter-plain opts arg (append stdin {arg}))]
                   [_ usage]
                 }))
 
@@ -20,13 +20,3 @@
        (print "    ABC")
        }
        ))
-
-(define $execution
-  (lambda [$opts $arg]
-    (print-each-line
-      (initialize-args
-        filter-plain
-        arg
-        opts
-        (append stdin {arg})
-        ))))

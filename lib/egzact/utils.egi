@@ -10,8 +10,8 @@
                     <join (& opts ?1#(check-opts %1)) <nil>>))
 
 (define $args-check-opts-num
-  (pattern-function [$opts $num]
-                    <join (& opts ?1#(check-opts %1)) <cons (& num ?(S.nats? $)) <nil>>>))
+  (pattern-function [$opts $arg]
+                    <join (& opts ?1#(check-opts %1)) <cons (& arg ?(S.nats? $)) <nil>>>))
 
 (define $args-check-opts-str
   (pattern-function [$opts $arg]
@@ -37,12 +37,21 @@
 (define $option-usage
   (do {
        (print "OPTIONS:")
-       (print "     fs=STR    Field separator.")
+       (print "    fs=STR     Field separator.")
        (print "    ifs=STR    Input field separator.")
        (print "    ofs=STR    Output field separator.")
        (print "    eor=STR    End of record.")
        (print "    eos=STR    End of set.")
        }))
+
+(define $execution
+  (lambda [$printer $filter $opts $arg $input]
+    (printer
+      (initialize-args
+        filter
+        arg
+        opts
+        input))))
 
 ; Infinite input stream
 (define $stdin

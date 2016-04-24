@@ -5,9 +5,8 @@
 (define $main
   (match-lambda (list string)
                 {
-                  [<nil> usage]
-                  [(args-check-opts-str $opts $arg) (execution opts arg)]
-                  [_ usage]
+                  [(args-check-opts-str $opts $arg) (execution print-each-line filter-addr (append {"ifs=" "ofs="} opts) arg stdin)]
+                  [(| _ <nil>) usage]
                 }))
 
 (define $usage
@@ -20,12 +19,3 @@
        }
        ))
 
-(define $execution
-  (lambda [$opts $arg]
-    (print-each-line
-      (initialize-args
-        filter-addr
-        arg
-        (append {"ifs=" "ofs="} opts)
-        stdin
-        ))))
