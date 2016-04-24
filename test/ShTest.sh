@@ -58,6 +58,30 @@ B C
 }
 
 test_conv() {
+	result=`seq 10 | xargs | ./conv.egi`
+	assertEquals "1
+2
+3
+4
+5
+6
+7
+8
+9
+10" "${result}"
+
+	result=`seq 10 | xargs -n 5 | ./conv.egi each`
+	assertEquals "1
+2
+3
+4
+5
+6
+7
+8
+9
+10" "${result}"
+
 	result=`seq 10 | ./conv.egi 2`
 	assertEquals "1 2
 2 3
@@ -92,6 +116,13 @@ BB BC BD" "${result}"
 }
 
 test_flat() {
+	result=`seq 10 | ./flat.egi`
+	assertEquals "1 2 3 4 5 6 7 8 9 10" "${result}"
+
+	result=`seq 10 | ./flat.egi 5 | ./flat.egi each`
+	assertEquals "1 2 3 4 5
+6 7 8 9 10" "${result}"
+
 	result=`seq 10 | ./flat.egi 2`
 	assertEquals "1 2
 3 4
@@ -227,6 +258,9 @@ test_takel() {
 	result=`echo A B C D E F G | ./takel.egi 3`
 	assertEquals "A B C" "${result}"
 
+	result=`echo A B C D E F G | ./takel.egi 100`
+	assertEquals "A B C D E F G" "${result}"
+
 	result=`echo A B C D E F G | ./takel.egi ofs=_ 3`
 	assertEquals "A_B_C" "${result}"
 }
@@ -234,6 +268,9 @@ test_takel() {
 test_taker() {
 	result=`echo A B C D E F G | ./taker.egi 3`
 	assertEquals "E F G" "${result}"
+
+	result=`echo A B C D E F G | ./taker.egi 100`
+	assertEquals "A B C D E F G" "${result}"
 
 	result=`echo A B C D E F G | ./taker.egi ofs=_ 3`
 	assertEquals "E_F_G" "${result}"
