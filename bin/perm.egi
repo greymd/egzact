@@ -3,11 +3,40 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
+  (match-lambda (list string)
+                {
+                  [<nil> usage]
+                  [(args-check-opts-num $opts $num) (execution opts (read num))]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+    (print "Usage: perm [OPTIONS] number")
+    option-usage
+    (print "tldr:")
+    (print "    $ echo A B C D | perm 2")
+    (print "    A B")
+    (print "    A C")
+    (print "    B A")
+    (print "    A D")
+    (print "    B C")
+    (print "    C A")
+    (print "    B D")
+    (print "    C B")
+    (print "    D A")
+    (print "    C D")
+    (print "    D B")
+    (print "    D C")
+    }
+    ))
+
+(define $execution
+  (lambda [$opts $num]
     (print-each-line
       (initialize-args
         filter-perm
-        (read (car args))
-        (cdr args)
+        num
+        opts
         stdin
         ))))

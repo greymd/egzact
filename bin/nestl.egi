@@ -3,11 +3,29 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
+  (match-lambda (list string)
+                {
+                  [<nil> usage]
+                  [(args-check-opts-str $opts $arg) (execution opts arg)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: nestl [OPTIONS] string")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo AAA BBB CCC | nestl \"<p>*</p>\"")
+       (print "    <p> <p> <p> AAA </p> BBB </p> CCC </p>")
+       }
+       ))
+
+(define $execution
+  (lambda [$opts $arg]
     (print-each-line
       (initialize-args
         filter-nestl
-        (car args)
-        (cdr args)
+        arg
+        opts
         stdin
         ))))

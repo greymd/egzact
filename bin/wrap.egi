@@ -15,8 +15,8 @@
        (print "Usage: wrap [OPTIONS] string")
         option-usage
        (print "tldr:")
-       (print "    $ echo aaa bbb ccc | wrap \"<p>*</p>\"")
-       (print "    <p>aaa</p> <p>bbb</p> <p>ccc</p>")
+       (print "    $ echo AAA BBB CCC | wrap \"<p>*</p>\"")
+       (print "    <p>AAA</p> <p>BBB</p> <p>CCC</p>")
        }
        ))
 

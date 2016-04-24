@@ -15,8 +15,8 @@
        (print "Usage: mirror [OPTIONS]")
         option-usage
        (print "tldr:")
-       (print "    $ echo aaa bbb ccc aaa | mirror")
-       (print "    aaa ccc aaa bbb")
+       (print "    $ echo AAA BBB CCC AAA | mirror")
+       (print "    AAA CCC AAA BBB")
        }
        ))
 

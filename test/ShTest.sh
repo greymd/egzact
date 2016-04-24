@@ -111,8 +111,55 @@ D_E_F_G" "${result}"
 }
 
 test_mirror() {
-	result=`echo aaa bbb ccc aaa | ./mirror.egi`
-	assertEquals "aaa ccc bbb aaa" "${result}"
+	result=`echo AAA BBB CCC AAA | ./mirror.egi`
+	assertEquals "AAA CCC BBB AAA" "${result}"
+}
+
+test_nestl() {
+	result=`echo AAA BBB CCC | ./nestl.egi "<p>*</p>"`
+	assertEquals "<p> <p> <p> AAA </p> BBB </p> CCC </p>" "${result}"
+}
+
+test_nestr() {
+	result=`echo AAA BBB CCC | ./nestr.egi "<p>*</p>"`
+	assertEquals "<p> AAA <p> BBB <p> CCC </p> </p> </p>" "${result}"
+}
+
+test_perm() {
+	result=`echo A B C D | ./perm.egi 2`
+	assertEquals "A B
+A C
+B A
+A D
+B C
+C A
+B D
+C B
+D A
+C D
+D B
+D C" "${result}"
+}
+
+test_stairl() {
+	result=`echo A B C D | ./stairl.egi`
+	assertEquals "A
+A B
+A B C
+A B C D" "${result}"
+}
+
+test_stairr() {
+	result=`echo A B C D | ./stairr.egi`
+	assertEquals "D
+C D
+B C D
+A B C D" "${result}"
+}
+
+test_stick() {
+	result=`echo 1 2 3 10 20 30 | stick 3`
+	assertEquals "1 10 2 20 3 30" "${result}"
 }
 
 test_takel() {
