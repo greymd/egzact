@@ -3,22 +3,44 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
-    (match args (list string) {
-      [<cons ,"each" $rest> (execution print-each-line   rest)] ; each line mode
-      [ _                   (execution print-whole-input args)] ; stream mode
-      })))
+    (match-lambda (list string) {
+      ; each line mode
+      [<cons ,"each" (args-check-opts-num $opts $arg)>
+       (execution print-each-line   filter-flat opts arg)]
+      [<cons ,"each" <nil>>
+       (execution print-each-line   filter-flat {} (show ARGMAX))]
+
+      ; stream mode
+      [(args-check-opts-num $opts $arg)
+       (execution print-whole-input filter-flat    opts arg)]
+      [<nil>
+       (execution print-whole-input filter-flat {} (show ARGMAX))]
+
+      [_ usage]
+      }))
+
+(define $usage
+  (do {
+       (print "Usage: flat [OPTIONS] [number]")
+       (print "       flat each [OPTIONS] [number]")
+       (print "")
+       (print "       With `each`, it reads & prints results for each line.")
+       (print "")
+        option-usage
+       (print "")
+       (print "tldr:")
+       (print "    $ echo A B C D E | flat 2")
+       (print "    A B")
+       (print "    C D")
+       (print "    E")
+       }
+       ))
 
 (define $execution
-  (lambda [$printer $args]
-    (match args (list string) {
-      [(args-integer-and-other $num $rest)
-       (printer
-         (initialize-args
-           filter-flat
-           (num-validation num)
-           rest
-           stdin))]
-      [(args-string-and-other $str $rest) (execution printer (append {(show ARGMAX)} args))]
-      [<nil> (execution printer {(show ARGMAX)})]
-      })))
+  (lambda [$printer $filter $opts $arg]
+    (printer
+      (initialize-args
+        filter
+        (num-validation arg)
+        opts
+        stdin))))
