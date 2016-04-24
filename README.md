@@ -2,7 +2,7 @@
 # Simplify what can hardly be done with Shell.
 New command line tools with three concepts.
 
-* Enumeration of various patterns from standard input.
+* Enumeration of various patterns from input.
 * Useful equivalents for existent Linux commands (inspired by [nixar](https://github.com/askucher/nixar)).
 * Controlling records and fields given by particular separator (inspired by [Open-Usp-Tukubai](https://github.com/usp-engineers-community/Open-usp-Tukubai)).
 
@@ -52,8 +52,8 @@ root@XXXXXXXXX:/# seq 10 | flat | takel 3
 ## Generate multiple results from whole the STDIN
 
 ### $ `conv`
-
-It recognizes whole the inputs as the set of fields and prints them with specified number of cols. It convolutes the each records.
+Print whole the inputs as multiple rows with given number of cols.
+It convolutes the each row.
 
 ```sh
 $ seq 10 | conv 2
@@ -91,7 +91,7 @@ $ yes | awk '$0=NR' | conv 3 | head
 ```
 
 ### $ `flat`
-It recognizes whole the inputs as the set of fields and prints them with specified number of cols.
+Print whole the inputs as multiple rows with given number of cols.
 In default, it just removes the new lines.
 
 ```sh
