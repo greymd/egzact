@@ -5,14 +5,6 @@
 (define $S.nats?
   (lambda [$str] (not (empty? (regex "^[1-9][0-9]*$" str)))))
 
-(define $args-integer-and-other
-  (pattern-function [$fst $rst]
-                    <cons (& fst ?(S.nats? $)) rst> ))
-
-(define $args-string-and-other
-  (pattern-function [$fst $rst]
-                    <cons (& fst ?1#(not (S.nats? %1))) rst> ))
-
 (define $args-check-opts
   (pattern-function [$opts]
                     <join (& opts ?1#(check-opts %1)) <nil>>))
