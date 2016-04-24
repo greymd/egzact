@@ -74,6 +74,9 @@ test_conv() {
 9
 10" "${result}"
 
+	result=`seq 10 | ./conv.egi eor=@`
+	assertEquals "1@2@3@4@5@6@7@8@9@10@" "${result}"
+
 	result=`seq 10 | xargs -n 5 | ./conv.egi each`
 	assertEquals "1
 2
@@ -122,6 +125,9 @@ BB BC BD" "${result}"
 test_flat() {
 	result=`seq 10 | ./flat.egi`
 	assertEquals "1 2 3 4 5 6 7 8 9 10" "${result}"
+
+	result=`seq 10 | tr ' ' '@' | ./flat.egi fs=@`
+	assertEquals "1@2@3@4@5@6@7@8@9@10" "${result}"
 
 	result=`seq 10 | ./flat.egi 5 | ./flat.egi each`
 	assertEquals "1 2 3 4 5
@@ -280,7 +286,7 @@ A B C D" "${result}"
 }
 
 test_stick() {
-	result=`echo 1 2 3 10 20 30 | stick 3`
+	result=`echo 1 2 3 10 20 30 | ./stick.egi 3`
 	assertEquals "1 10 2 20 3 30" "${result}"
 }
 

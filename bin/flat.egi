@@ -7,14 +7,14 @@
       ; each line mode
       [<cons ,"each" (args-check-opts-num $opts $arg)>
        (execution print-each-line   filter-flat opts arg)]
-      [<cons ,"each" <nil>>
-       (execution print-each-line   filter-flat {} (show ARGMAX))]
+      [<cons ,"each" (args-check-opts $opts)>
+       (execution print-each-line   filter-flat opts (show ARGMAX))]
 
       ; stream mode
       [(args-check-opts-num $opts $arg)
-       (execution print-whole-input filter-flat    opts arg)]
-      [<nil>
-       (execution print-whole-input filter-flat {} (show ARGMAX))]
+       (execution print-whole-input filter-flat opts arg)]
+      [(args-check-opts $opts)
+       (execution print-whole-input filter-flat opts (show ARGMAX))]
 
       [_ usage]
       }))

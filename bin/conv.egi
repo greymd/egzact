@@ -7,14 +7,14 @@
       ; each line mode
       [<cons ,"each" (args-check-opts-num $opts $arg)>
        (execution print-each-line   filter-conv-each opts arg)]
-      [<cons ,"each" <nil>>
-       (execution print-each-line   filter-conv-each {} (show 1))]
+      [<cons ,"each" (args-check-opts $opts)>
+       (execution print-each-line   filter-conv-each opts (show 1))]
 
       ; stream mode
       [(args-check-opts-num $opts $arg)
-       (execution print-whole-input filter-conv    opts arg)]
-      [<nil>
-       (execution print-whole-input filter-conv {} (show 1))]
+       (execution print-whole-input filter-conv opts arg)]
+      [(args-check-opts $opts)
+       (execution print-whole-input filter-conv opts (show 1))]
 
       [_ usage]
       }))
