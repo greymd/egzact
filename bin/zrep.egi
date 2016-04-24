@@ -3,11 +3,19 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
-    (print-each-line
-      (initialize-args
-        filter-zrep
-        (car args)
-        (cdr args)
-        stdin
-        ))))
+  (match-lambda (list string)
+                {
+                  [(args-check-opts-str $opts $arg)
+                   (execution print-each-line filter-zrep opts arg stdin)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: zrep [OPTIONS] string")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo 1 2 3 4 5 6 7 8 9 10 | zrep \"1\"")
+       (print "    1 10")
+       }
+       ))

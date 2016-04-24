@@ -3,22 +3,35 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
-    (match args (list string) {
-      [<cons ,"each" $rest> (execution print-each-line   filter-conv-each rest)] ; each line mode
-      [ _                   (execution print-whole-input filter-conv      args)] ; stream mode
-      })))
+    (match-lambda (list string) {
+      ; each line mode
+      [<cons ,"each" (args-check-opts-num $opts $arg)>
+       (execution print-each-line   filter-conv-each opts (num-validation arg) stdin)]
+      [<cons ,"each" (args-check-opts $opts)>
+       (execution print-each-line   filter-conv-each opts 1 stdin)]
 
-(define $execution
-  (lambda [$printer $filter $args]
-    (match args (list string) {
-      [(args-integer-and-other $num $rest)
-       (printer
-         (initialize-args
-           filter
-           (num-validation num)
-           rest
-           stdin))]
-      [(args-string-and-other $str $rest) (execution printer filter (append {(show 1)} args))]
-      [<nil> (execution printer filter {(show 1)})]
-      })))
+      ; stream mode
+      [(args-check-opts-num $opts $arg)
+       (execution print-whole-input filter-conv opts (num-validation arg) stdin)]
+      [(args-check-opts $opts)
+       (execution print-whole-input filter-conv opts 1 stdin)]
+
+      [_ usage]
+      }))
+
+(define $usage
+  (do {
+       (print "Usage: conv [OPTIONS] [number]")
+       (print "       conv each [OPTIONS] [number]")
+       (print "Description:")
+       (print "       With `each`, it reads & prints results for each line.")
+        option-usage
+       (print "")
+       (print "tldr:")
+       (print "    $ echo A B C D E | conv 2")
+       (print "    A B")
+       (print "    B C")
+       (print "    C D")
+       (print "    D E")
+       }
+       ))

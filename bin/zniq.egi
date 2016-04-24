@@ -3,11 +3,19 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-(lambda [$args]
-  (print-each-line
-    (initialize-args
-      filter-zniq
-      []
-      args
-      stdin
-      ))))
+  (match-lambda (list string)
+                {
+                  [(args-check-opts $opts)
+                   (execution print-each-line filter-zniq opts [] stdin)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: zniq [OPTIONS]")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo aaa bbb ccc aaa bbb | zniq")
+       (print "    aaa bbb ccc")
+       }
+       ))

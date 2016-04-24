@@ -3,11 +3,19 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
-    (print-each-line
-      (initialize-args
-        filter-takel
-        (read (car args))
-        (cdr args)
-        stdin
-        ))))
+  (match-lambda (list string)
+                {
+                  [(args-check-opts-num $opts $num)
+                   (execution print-each-line filter-takel opts (read num) stdin)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: takel [OPTIONS] number")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo A B C D E | takel 2")
+       (print "    A B")
+       }
+       ))

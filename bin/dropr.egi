@@ -3,11 +3,19 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
-    (print-each-line
-      (initialize-args
-        filter-dropr
-        (read (car args))
-        (cdr args)
-        stdin
-        ))))
+  (match-lambda (list string)
+                {
+                  [(args-check-opts-num $opts $num)
+                   (execution print-each-line filter-dropr opts (read num) stdin)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: dropr [OPTIONS] number")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo A B C D E | dropr 2")
+       (print "    A B C")
+       }
+       ))

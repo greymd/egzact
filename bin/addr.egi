@@ -3,11 +3,20 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
-    (print-each-line
-      (initialize-args
-        filter-addr
-        (car args)
-        (append {"ifs=" "ofs="} (cdr args))
-        stdin
-        ))))
+  (match-lambda (list string)
+                {
+                  [(args-check-opts-str $opts $arg)
+                   (execution print-each-line filter-addr (append {"ifs=" "ofs="} opts) arg stdin)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: addr [OPTIONS] string")
+        option-usage2
+       (print "tldr:")
+       (print "    $ echo abc | addr ABC")
+       (print "    abcABC")
+       }
+       ))
+

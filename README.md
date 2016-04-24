@@ -117,7 +117,7 @@ CA,CB,CC,CD
 DA,DB,DC,DD
 
 # Field separator(fs) option is useful for keeping comma.
-$ cat myfile | flat 8 fs=,
+$ cat myfile | flat fs=, 8
 AA,AB,AC,AD,BA,BB,BC,BD
 CA,CB,CC,CD,DA,DB,DC,DD
 ```
@@ -239,12 +239,12 @@ C D
 D
 ```
 
-### $ `pattn`
+### $ `crops`
 Crop all the patterns which matches given string (regular expression).
 It includes all the patterns (from shortest to longest match).
 
 ```sh
-$ echo 1110100110 | pattn "1.*1"
+$ echo 1110100110 | crops "1.*1"
 11
 111
 11101
@@ -260,7 +260,7 @@ $ echo 1110100110 | pattn "1.*1"
 10011
 ```
 
-If you want to use normal `grep` command for matching query, `stairr fs="" | stairl fs=""` can works with almost same behavior. In addition, it is faster than `pattn` because it works with multi processing.
+If you want to use normal `grep` command for matching query, `stairr fs="" | stairl fs=""` can works with almost same behavior. In addition, it is faster than `crops` because it works with multi processing.
 
 ```sh
 $ echo 1110100110 | stairr fs="" | stairl fs="" | grep -o '1.*1' | sort | uniq
@@ -512,6 +512,8 @@ $ echo 1 2 3 10 20 30 | stick 3
 
 Add str to top of the input.
 
+*Add* + *Top*
+
 ```sh
 $ echo abc | addt ABC
 ABC
@@ -521,6 +523,8 @@ abc
 ### $ `addb`
 
 Add str to bottom of the input.
+
+*Add* + *Bottom*
 
 ```sh
 $ echo abc | addb ABC
@@ -610,7 +614,7 @@ BC_BD_BA_BB
 BD_BA_BB_BC
 
 # "," separated input -> tab separated output.
-$ cat myfile3 | dupl 2 ifs="," ofs="\t"
+$ cat myfile3 | dupl ifs="," ofs="\t" 2
 AA      AB      AC      AD
 AA      AB      AC      AD
 BA      BB      BC      BD

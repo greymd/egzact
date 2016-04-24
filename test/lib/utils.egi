@@ -1,5 +1,25 @@
 (load-file "./lib/egzact/utils.egi")
 
+(assert-equal "check-opts -- case 1"
+  (check-opts {"A=B" "B=3" "C=143"})
+  #t)
+
+(assert-equal "check-opts -- case 2"
+  (check-opts {"A=B" "B=3" "143"})
+  #f)
+
+(assert-equal "check-opts -- case 3"
+  (check-opts {"fs=\n"})
+  #t)
+
+(assert-equal "check-opts -- case 4"
+  (check-opts {})
+  #t)
+
+(assert-equal "check-opts -- case 5"
+  (check-opts {"A"})
+  #f)
+
 (assert-equal "num-validation -- case 1"
   (num-validation 5)
   5)
@@ -93,16 +113,12 @@
   "")
 
 (assert-equal "set-default-opts -- case 1"
-  (set-default-opts cons "ARGS" {| ["eof" "AAA"] ["ifs" "BBB"] ["eos" "---"] |} (take 5 nats))
-  [cons "ARGS" "BBB" " " "\n" "\n---\n" "AAA" {1 2 3 4 5}])
+  (set-default-opts {| ["eof" "AAA"] ["ifs" "BBB"] ["eos" "---"] |})
+  ["BBB" " " "\n" "\n---\n" "AAA"])
 
 (assert-equal "set-default-opts -- case 2"
-  (set-default-opts cons "ARGS" {| ["dummy" "1"] |} (take 5 nats))
-  [cons "ARGS" " " " " "\n" "\n" "\n" {1 2 3 4 5}])
-
-(assert-equal "initialize-args"
-  (initialize-args cons "ARGS" {"eof=AAA" "ifs=BBB" "eos=---"} (take 5 nats))
-  [cons "ARGS" "BBB" " " "\n" "\n---\n" "AAA" {1 2 3 4 5}])
+  (set-default-opts {| ["dummy" "1"] |})
+  [" " " " "\n" "\n" "\n"])
 
 (assert-equal "set-default-value -- case 1"
   (set-default-value {"A" "B" "C"})

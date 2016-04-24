@@ -3,11 +3,20 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
-    (print-each-line
-      (initialize-args
-        filter-dupl
-        (read (car args))
-        (cdr args)
-        stdin
-        ))))
+  (match-lambda (list string)
+                {
+                  [(args-check-opts-num $opts $num)
+                   (execution print-each-line filter-dupl opts (read num) stdin)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: dupl [OPTIONS] number")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo A B C D E | dupl 2")
+       (print "    A B C D E")
+       (print "    A B C D E")
+       }
+       ))

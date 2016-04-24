@@ -3,11 +3,28 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
-    (print-each-line
-      (initialize-args
-        filter-subsets
-        []
-        args
-        stdin
-        ))))
+  (match-lambda (list string)
+                {
+                  [(args-check-opts $opts)
+                   (execution print-each-line filter-subsets opts [] stdin)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: subsets [OPTIONS]")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo A B C D | subsets")
+       (print "    A")
+       (print "    A B")
+       (print "    B")
+       (print "    A B C")
+       (print "    B C")
+       (print "    C")
+       (print "    A B C D")
+       (print "    B C D")
+       (print "    C D")
+       (print "    D")
+       }
+       ))

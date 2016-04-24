@@ -3,11 +3,22 @@
 (load-file "../lib/egzact/filters.egi")
 
 (define $main
-  (lambda [$args]
-    (print-each-line
-      (initialize-args
-        filter-stairl
-        []
-        args
-        stdin
-        ))))
+  (match-lambda (list string)
+                {
+                  [(args-check-opts $opts)
+                   (execution print-each-line filter-stairl opts [] stdin)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: stairl [OPTIONS]")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo A B C D | stairl")
+       (print "    A")
+       (print "    A B")
+       (print "    A B C")
+       (print "    A B C D")
+       }
+       ))
