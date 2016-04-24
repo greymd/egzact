@@ -117,7 +117,7 @@ CA,CB,CC,CD
 DA,DB,DC,DD
 
 # Field separator(fs) option is useful for keeping comma.
-$ cat myfile | flat 8 fs=,
+$ cat myfile | flat fs=, 8
 AA,AB,AC,AD,BA,BB,BC,BD
 CA,CB,CC,CD,DA,DB,DC,DD
 ```
@@ -614,7 +614,7 @@ BC_BD_BA_BB
 BD_BA_BB_BC
 
 # "," separated input -> tab separated output.
-$ cat myfile3 | dupl 2 ifs="," ofs="\t"
+$ cat myfile3 | dupl ifs="," ofs="\t" 2
 AA      AB      AC      AD
 AA      AB      AC      AD
 BA      BB      BC      BD
