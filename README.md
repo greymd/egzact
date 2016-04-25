@@ -496,16 +496,6 @@ $ echo aaa bbb ccc | nestr "<p>*</p>"
 <p> aaa <p> bbb <p> ccc </p> </p> </p>
 ```
 
-### $ `stick`
-
-Associate each first *N* of fields and each remaining the fields.
-Associated two fields are printed sequentially.
-
-```sh
-$ echo 1 2 3 10 20 30 | stick 3
-1 10 2 20 3 30
-```
-
 ## Other commands
 
 ### $ `addt`

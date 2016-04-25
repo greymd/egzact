@@ -146,10 +146,6 @@
     (let {[[$pre $pl $suf] (car (regex PHOLDER str))]}
      {(foldr 2#(concat {{pre} {%1} %2 {suf}}) {} line)})))
 
-(define $filter-stick
-  (lambda [$num $line]
-    {(tuplecol2col (zip (take-and-drop (min num (length line)) line)))}))
-
 ; {["a" "b"] ["c" "d"]} => {"a" "b" "c" "d"}
 (define $tuplecol2col
   (lambda [$ls]

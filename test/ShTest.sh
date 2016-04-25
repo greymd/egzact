@@ -285,11 +285,6 @@ B C D
 A B C D" "${result}"
 }
 
-test_stick() {
-	result=`echo 1 2 3 10 20 30 | ./stick.egi 3`
-	assertEquals "1 10 2 20 3 30" "${result}"
-}
-
 test_takel() {
 	result=`echo A B C D E F G | ./takel.egi 3`
 	assertEquals "A B C" "${result}"
