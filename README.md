@@ -614,7 +614,7 @@ BA      BB      BC      BD
 ### `eor`
 End of record (a.k.a, raw).
 Result of each line (record) is separated with new line `\n` in default.
-This option change the string for separating each record.
+This option changes the string for separating each record.
 
  * Default value is new line `\n`.
  * Format: `eor=STR`
@@ -674,7 +674,7 @@ BA @@@ BA | BB @@@ BA | BB | BC @@@ BA | BB | BC | BD
 
 ## Tips
 A special command line option `each` is available in ``flat`` and ``conv`` commands.
-The option change command's behavior to "each line mode".
+The option changes command's behavior to "each line mode".
 In default, those commands handle whole the standard input (STDIN).
 However with this option, those commands can read each line and print the result.
 
