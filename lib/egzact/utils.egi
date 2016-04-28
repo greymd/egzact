@@ -1,5 +1,3 @@
-; Number of max fields single line can have.
-; This value will be updated by the install script.
 (define $ARGMAX 65535)
 
 (define $S.nats?
