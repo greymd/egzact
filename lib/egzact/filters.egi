@@ -16,6 +16,10 @@
   (lambda [$str $line]
     {(reverse line)}))
 
+(define $filter-obrev
+  (lambda [$str $line]
+    {line (reverse line)}))
+
 (define $filter-cycle
   (lambda [$num $line]
     (match-all line (list string)

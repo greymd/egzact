@@ -337,6 +337,19 @@ A B C D
 A B C D
 ```
 
+### $ `obrev`
+
+Show given line and reversed line.
+
+*Obverse and Reverse*
+
+```sh
+$ echo A B C D | obrev
+A B C D
+D C B A
+```
+
+
 ## Generate single result for each line.
 
 ### $ `addl`
