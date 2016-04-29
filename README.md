@@ -337,6 +337,19 @@ A B C D
 A B C D
 ```
 
+### $ `ioside`
+
+Show given line and reversed line.
+
+*Inside and Outside.*
+
+```sh
+$ echo A B C D | ioside
+A B C D
+D C B A
+```
+
+
 ## Generate single result for each line.
 
 ### $ `addl`
