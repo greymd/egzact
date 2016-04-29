@@ -337,14 +337,14 @@ A B C D
 A B C D
 ```
 
-### $ `ioside`
+### $ `bothfb`
 
 Show given line and reversed line.
 
 *Inside and Outside.*
 
 ```sh
-$ echo A B C D | ioside
+$ echo A B C D | bothfb
 A B C D
 D C B A
 ```

@@ -128,6 +128,6 @@
   (filter-mirror [] {"a" "b" "c" "d"})
   {{"d" "c" "b" "a"}})
 
-(assert-equal "ioside"
-  (filter-ioside [] {"a" "b" "c" "d"})
+(assert-equal "bothfb"
+  (filter-bothfb [] {"a" "b" "c" "d"})
   {{"a" "b" "c" "d"} {"d" "c" "b" "a"}})
