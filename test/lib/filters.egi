@@ -128,6 +128,6 @@
   (filter-mirror [] {"a" "b" "c" "d"})
   {{"d" "c" "b" "a"}})
 
-(assert-equal "bothfb"
-  (filter-bothfb [] {"a" "b" "c" "d"})
+(assert-equal "orirev"
+  (filter-orirev [] {"a" "b" "c" "d"})
   {{"a" "b" "c" "d"} {"d" "c" "b" "a"}})

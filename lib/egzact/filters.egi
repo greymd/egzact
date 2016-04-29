@@ -16,7 +16,7 @@
   (lambda [$str $line]
     {(reverse line)}))
 
-(define $filter-bothfb
+(define $filter-orirev
   (lambda [$str $line]
     {line (reverse line)}))
 

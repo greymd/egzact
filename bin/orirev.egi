@@ -6,16 +6,16 @@
   (match-lambda (list string)
                 {
                   [(args-check-opts $opts)
-                   (execution print-each-line filter-bothfb opts [] stdin)]
+                   (execution print-each-line filter-orirev opts [] stdin)]
                   [_ usage]
                 }))
 
 (define $usage
   (do {
-       (print "Usage: bothfb [OPTIONS]")
+       (print "Usage: orirev [OPTIONS]")
         option-usage
        (print "tldr:")
-       (print "    $ echo A B C D E | bothfb")
+       (print "    $ echo A B C D E | orirev")
        (print "    A B C D E")
        (print "    E D C B A")
        }

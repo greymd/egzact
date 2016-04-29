@@ -337,14 +337,14 @@ A B C D
 A B C D
 ```
 
-### $ `bothfb`
+### $ `orirev`
 
 Show given line and reversed line.
 
-*Inside and Outside.*
+*Original and Reversed*
 
 ```sh
-$ echo A B C D | bothfb
+$ echo A B C D | orirev
 A B C D
 D C B A
 ```
