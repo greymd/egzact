@@ -337,14 +337,14 @@ A B C D
 A B C D
 ```
 
-### $ `orirev`
+### $ `obrev`
 
 Show given line and reversed line.
 
-*Original and Reversed*
+*Obverse and Reverse*
 
 ```sh
-$ echo A B C D | orirev
+$ echo A B C D | obrev
 A B C D
 D C B A
 ```

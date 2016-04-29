@@ -217,12 +217,12 @@ test_mirror() {
 	assertEquals "AAA CCC BBB AAA" "${result}"
 }
 
-test_orirev() {
-	result=`echo AAA BBB CCC AAA | ./orirev.egi`
+test_obrev() {
+	result=`echo AAA BBB CCC AAA | ./obrev.egi`
 	assertEquals "AAA BBB CCC AAA
 AAA CCC BBB AAA" "${result}"
 
-	result=`echo "1 2 3 4\nA B C D" | ./orirev.egi eos=---`
+	result=`echo "1 2 3 4\nA B C D" | ./obrev.egi eos=---`
 	assertEquals "1 2 3 4
 4 3 2 1
 ---
