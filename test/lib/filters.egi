@@ -127,3 +127,7 @@
 (assert-equal "mirror"
   (filter-mirror [] {"a" "b" "c" "d"})
   {{"d" "c" "b" "a"}})
+
+(assert-equal "iosides"
+  (filter-iosides [] {"a" "b" "c" "d"})
+  {{"a" "b" "c" "d"} {"d" "c" "b" "a"}})

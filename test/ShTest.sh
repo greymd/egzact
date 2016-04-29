@@ -217,6 +217,20 @@ test_mirror() {
 	assertEquals "AAA CCC BBB AAA" "${result}"
 }
 
+test_iosides() {
+	result=`echo AAA BBB CCC AAA | ./iosides.egi`
+	assertEquals "AAA BBB CCC AAA
+AAA CCC BBB AAA" "${result}"
+
+	result=`echo "1 2 3 4\nA B C D" | ./iosides.egi eos=---`
+	assertEquals "1 2 3 4
+4 3 2 1
+---
+A B C D
+D C B A" "${result}"
+
+}
+
 test_nestl() {
 	result=`echo AAA BBB CCC | ./nestl.egi "<p>*</p>"`
 	assertEquals "<p> <p> <p> AAA </p> BBB </p> CCC </p>" "${result}"

@@ -1,0 +1,22 @@
+#!/usr/bin/env egison
+(load-file "../lib/egzact/utils.egi")
+(load-file "../lib/egzact/filters.egi")
+
+(define $main
+  (match-lambda (list string)
+                {
+                  [(args-check-opts $opts)
+                   (execution print-each-line filter-iosides opts [] stdin)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: iosides [OPTIONS]")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo A B C D E | iosides")
+       (print "    A B C D E")
+       (print "    E D C B A")
+       }
+       ))
