@@ -217,12 +217,12 @@ test_mirror() {
 	assertEquals "AAA CCC BBB AAA" "${result}"
 }
 
-test_iosides() {
-	result=`echo AAA BBB CCC AAA | ./iosides.egi`
+test_ioside() {
+	result=`echo AAA BBB CCC AAA | ./ioside.egi`
 	assertEquals "AAA BBB CCC AAA
 AAA CCC BBB AAA" "${result}"
 
-	result=`echo "1 2 3 4\nA B C D" | ./iosides.egi eos=---`
+	result=`echo "1 2 3 4\nA B C D" | ./ioside.egi eos=---`
 	assertEquals "1 2 3 4
 4 3 2 1
 ---

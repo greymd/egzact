@@ -16,7 +16,7 @@
   (lambda [$str $line]
     {(reverse line)}))
 
-(define $filter-iosides
+(define $filter-ioside
   (lambda [$str $line]
     {line (reverse line)}))
 

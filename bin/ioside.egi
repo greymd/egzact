@@ -6,16 +6,16 @@
   (match-lambda (list string)
                 {
                   [(args-check-opts $opts)
-                   (execution print-each-line filter-iosides opts [] stdin)]
+                   (execution print-each-line filter-ioside opts [] stdin)]
                   [_ usage]
                 }))
 
 (define $usage
   (do {
-       (print "Usage: iosides [OPTIONS]")
+       (print "Usage: ioside [OPTIONS]")
         option-usage
        (print "tldr:")
-       (print "    $ echo A B C D E | iosides")
+       (print "    $ echo A B C D E | ioside")
        (print "    A B C D E")
        (print "    E D C B A")
        }
