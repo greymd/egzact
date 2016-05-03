@@ -1,6 +1,38 @@
 ![logo](./img/logo.png)
 # Simplify what can hardly be done with Shell.
-New command line tools with three concepts.
+
+### `conv` : Generate [Bi-gram](https://en.wikipedia.org/wiki/N-gram) from the poem. 
+
+```bash
+$ echo "If a man understands a poem, he shall have troubles." | conv 2
+If a
+a man
+man understands
+understands a
+a poem,
+poem, he
+he shall
+shall have
+have troubles.
+```
+
+### `conv` `mirror` `addl` : Create a zip file nested 100 times.
+
+```bash
+$ echo file {1..100}.zip | conv 2 | mirror | addl "zip " | sh
+
+$ unzip -Z -2 100.zip
+99.zip
+```
+
+### `flat` `stairl` `wrap` `addl` : Caluculate the approximation of Napier's Constant
+
+```bash
+$ seq 10 | flat | stairl ofs="*" | flat | wrap ofs="+" '1/(*)' | addl "1+" | bc -l
+2.71828180114638447967
+```
+
+## New command line tools with three concepts.
 
 * Enumeration of various patterns from input.
 * Useful equivalents for existent Linux commands (inspired by [nixar](https://github.com/askucher/nixar)).
@@ -9,7 +41,7 @@ New command line tools with three concepts.
 ## Install (Mac OSX / Linux)
 
 ### 1. Install Egison
-Install *upper 3.6.0*.
+Install *version 3.6.0*.
 
 Mac
 http://www.egison.org/getting-started/getting-started-mac.html
@@ -655,7 +687,7 @@ BD @@@ BC BD @@@ BB BC BD @@@ BA BB BC BD
 ```
 
 ### `eos`
-End of set. Set means, **result generated from single line**, in this manual.
+End of set. Set means, **all results generated from single line**, in this manual.
 
  * Default value is new line `\n`.
  * Format: `eos=STR`
