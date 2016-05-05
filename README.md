@@ -34,7 +34,7 @@ $ seq 10 | flat | stairl ofs="*" | flat | wrap ofs="+" '1/(*)' | addl "1+" | bc 
 
 ## New command line tools with three concepts.
 
-* Enumeration of various patterns from input.
+* Enumeration of various patterns from the standard input.
 * Useful equivalents for existent Linux commands (inspired by [nixar](https://github.com/askucher/nixar)).
 * Controlling records and fields given by particular separator (inspired by [Open-Usp-Tukubai](https://github.com/usp-engineers-community/Open-usp-Tukubai)).
 
