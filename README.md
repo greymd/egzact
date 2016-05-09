@@ -1,5 +1,5 @@
 ![logo](./img/logo.png)
-# Simplify what can hardly be done with Shell.
+# Simplify your terminal life.
 
 ### `conv` : Generate [Bi-gram](https://en.wikipedia.org/wiki/N-gram) from the poem. 
 
