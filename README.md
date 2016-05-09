@@ -25,7 +25,7 @@ $ unzip -Z -2 100.zip
 99.zip
 ```
 
-### `flat` `stairl` `wrap` `addl` : Caluculate the approximation of Napier's Constant
+### `flat` `stairl` `wrap` `addl` : Calculate the approximation of Napier's Constant
 
 ```bash
 $ seq 10 | flat | stairl ofs="*" | flat | wrap ofs="+" '1/(*)' | addl "1+" | bc -l
