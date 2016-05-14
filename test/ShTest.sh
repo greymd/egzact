@@ -159,8 +159,8 @@ BA BB BC
 BD" "${result}"
 }
 
-test_part() {
-	result=`seq 10 | ./part.egi`
+test_slit() {
+	result=`seq 10 | ./slit.egi`
 	assertEquals "1
 2
 3
@@ -172,40 +172,40 @@ test_part() {
 9
 10" "${result}"
 
-	result=`seq 10 | ./part.egi 4`
+	result=`seq 10 | ./slit.egi 4`
 	assertEquals "1 2 3
 4 5 6
 7 8
 9 10" "${result}"
 
-	result=`seq 10 | ./part.egi ofs="-" 5`
+	result=`seq 10 | ./slit.egi ofs="-" 5`
 	assertEquals "1-2
 3-4
 5-6
 7-8
 9-10" "${result}"
 
-	result=`seq 10 | ./flat.egi ofs="@" | ./part.egi fs="@" 2`
+	result=`seq 10 | ./flat.egi ofs="@" | ./slit.egi fs="@" 2`
 	assertEquals "1@2@3@4@5
 6@7@8@9@10" "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./part.egi 3`
+	result=`echo "AA AB AC AD\nBA BB BC BD" | ./slit.egi 3`
 	assertEquals "AA AB AC
 AD BA BB
 BC BD" "${result}"
 
-	result=`echo "AA AB AC AD AE\nBA BB BC BD BE" | ./part.egi each 2`
+	result=`echo "AA AB AC AD AE\nBA BB BC BD BE" | ./slit.egi each 2`
 	assertEquals "AA AB AC
 AD AE
 BA BB BC
 BD BE" "${result}"
 
-	result=`echo "AA AB AC AD" | ./part.egi 3`
+	result=`echo "AA AB AC AD" | ./slit.egi 3`
 	assertEquals "AA AB
 AC
 AD" "${result}"
 
-	result=`echo "AA AB AC AD AE\nBA BB BC BD BE" | ./part.egi each 4`
+	result=`echo "AA AB AC AD AE\nBA BB BC BD BE" | ./slit.egi each 4`
 	assertEquals "AA AB
 AC
 AD
@@ -215,7 +215,7 @@ BC
 BD
 BE" "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./part.egi each eos="@@@" 3`
+	result=`echo "AA AB AC AD\nBA BB BC BD" | ./slit.egi each eos="@@@" 3`
 	assertEquals "AA AB
 AC
 AD

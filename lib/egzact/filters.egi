@@ -69,7 +69,7 @@
                                [<nil> {}]
                                })))
 
-(define $filter-part
+(define $filter-slit
   (lambda [$num $line]
     (letrec {[$exec-partition
                (lambda [$part-nums $ls]

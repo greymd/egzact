@@ -145,16 +145,16 @@
   (equalized-partition-nums 3 6)
   {1 1 1 0 0 0})
 
-(assert-equal "filter-part -- case 1"
-  (filter-part 4 {"A" "B" "C" "D" "E" "F" "G" "H" "I"})
+(assert-equal "filter-slit -- case 1"
+  (filter-slit 4 {"A" "B" "C" "D" "E" "F" "G" "H" "I"})
   {{"A" "B" "C"} {"D" "E"} {"F" "G"} {"H" "I"}})
 
-(assert-equal "filter-part -- case 2"
-  (filter-part 2 {"a" "b" "c" "d" "e" "f" "g"})
+(assert-equal "filter-slit -- case 2"
+  (filter-slit 2 {"a" "b" "c" "d" "e" "f" "g"})
   {{"a" "b" "c" "d"} {"e" "f""g"}})
 
-(assert-equal "filter-part -- case 3"
-  (filter-part 3 {"a" "b" "c" "d" "e" "f" "g"})
+(assert-equal "filter-slit -- case 3"
+  (filter-slit 3 {"a" "b" "c" "d" "e" "f" "g"})
   {{"a" "b" "c"} {"d" "e"} {"f" "g"}})
 
 
