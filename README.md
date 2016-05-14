@@ -1,5 +1,5 @@
 ![logo](./img/logo.png)
-# Simplify your terminal life.
+# Strengthen weak points of the shell.
 
 ### `conv` : Generate [Bi-gram](https://en.wikipedia.org/wiki/N-gram) from the poem. 
 
@@ -85,7 +85,8 @@ root@XXXXXXXXX:/# seq 10 | flat | takel 3
 
 ### $ `conv`
 Print whole the inputs as multiple rows with given number of cols.
-It convolutes the each row.
+Location of each field is shifted over to the left by comparison with one upper line.
+The reason why the name is `conv` is, the behavior looks like the **convolution**.
 
 ```sh
 $ seq 10 | conv 2
@@ -98,17 +99,6 @@ $ seq 10 | conv 2
 7 8
 8 9
 9 10
-
-# Infinite input
-$ yes | awk '$0=NR'
-1
-2
-3
-4
-5
-.
-.
-.
 
 $ yes | awk '$0=NR' | conv 3 | head
 1 2 3
@@ -154,7 +144,25 @@ AA,AB,AC,AD,BA,BB,BC,BD
 CA,CB,CC,CD,DA,DB,DC,DD
 ```
 
-## Generate multiple results for each line.
+### $ `slit`
+
+Divide whole the inputs into given number of rows.
+
+```sh
+# Print A to Z with 3 rows.
+$ echo {A..Z} | slit 3
+A B C D E F G H I
+J K L M N O P Q R
+S T U V W X Y Z
+
+# Each line's number of field is adjusted to be near each other as much as possible.
+$ echo A B C D | slit 3
+A B
+C
+D
+```
+
+## Generate multiple results per line.
 
 ### $ `stairl`
 
@@ -657,7 +665,7 @@ BA      BB      BC      BD
 ```
 
 ### `eor`
-End of record (a.k.a, raw).
+End of record (a.k.a, row).
 Result of each line (record) is separated with new line `\n` in default.
 This option changes the string for separating each record.
 
@@ -718,7 +726,7 @@ BA @@@ BA | BB @@@ BA | BB | BC @@@ BA | BB | BC | BD
 ```
 
 ## Tips
-A special command line option `each` is available in ``flat`` and ``conv`` commands.
+A special command line option `each` is available in ``flat``, ``conv`` and ``slit`` commands.
 The option changes command's behavior to "each line mode".
 In default, those commands handle whole the standard input (STDIN).
 However with this option, those commands can read each line and print the result.
