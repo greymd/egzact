@@ -69,6 +69,38 @@
                                [<nil> {}]
                                })))
 
+(define $filter-slit
+  (lambda [$num $line]
+    (letrec {[$exec-partition
+               (lambda [$part-nums $ls]
+                 (match ls (list integer)
+                   {
+                   [<nil> {}]
+                   [(loop $n [1 (car part-nums)] <cons $a_n ...> $rest)
+                    [(concat
+                       {{(map (1#a_%1 $) (between 1 (car part-nums)))}
+                       (exec-partition (cdr part-nums) rest)})]]
+                   }))
+               ]}
+      (exec-partition
+        (equalized-partition-nums (length line) num)
+        line))))
+
+; Devide a number into the collection which has "num-length" of elements.
+; Returns a "integer partition" which equalized each element as much as possible.
+; (equalized-partition-nums 100 10); => {10 10 10 10 10 10 10 10 10 10}
+; (equalized-partition-nums 100 6); => {17 17 17 17 16 16}
+(define $equalized-partition-nums
+  (lambda [$num $num-length]
+  (let* {
+        [$upper-num (ceiling (rtof (/ num num-length)))]
+        [$lower-num (- upper-num 1)]
+        [$lower-num-count (- (* upper-num num-length) num)]
+        [$upper-num-count (- num-length lower-num-count)]}
+        (concat
+          {(take upper-num-count (repeat1 upper-num))
+          (take lower-num-count (repeat1 lower-num))}))))
+
 (define $filter-subsets
   (lambda [$empty $line]
     (match-all line (list string)
@@ -149,14 +181,6 @@
   (lambda [$str $line]
     (let {[[$pre $pl $suf] (car (regex PHOLDER str))]}
      {(foldr 2#(concat {{pre} {%1} %2 {suf}}) {} line)})))
-
-; {["a" "b"] ["c" "d"]} => {"a" "b" "c" "d"}
-(define $tuplecol2col
-  (lambda [$ls]
-    (match ls (list [string string]) {
-                                    [<cons [$fst $snd] $rest> (concat {{fst snd} (tuplecol2col rest)})]
-                                    [<nil> {}]
-                                    })))
 
 (define $filter-crops
   (lambda [$str $line]

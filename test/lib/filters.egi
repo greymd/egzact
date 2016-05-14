@@ -40,6 +40,7 @@
   (filter-flat 3 {"a" "b" "c" "d" "e" "f" "g"})
   {{"a" "b" "c"} {"d" "e" "f"} {"g"}})
 
+
 (assert-equal "perm"
   (filter-perm 2 {"a" "b" "c" "d"})
   {{"a" "b"} {"a" "c"} {"b" "a"} {"a" "d"} {"b" "c"} {"c" "a"} {"b" "d"} {"c" "b"} {"d" "a"} {"c" "d"} {"d" "b"} {"d" "c"}})
@@ -131,3 +132,29 @@
 (assert-equal "obrev"
   (filter-obrev [] {"a" "b" "c" "d"})
   {{"a" "b" "c" "d"} {"d" "c" "b" "a"}})
+
+(assert-equal "equalized-partition-nums -- case 1"
+  (equalized-partition-nums 100 6)
+  {17 17 17 17 16 16})
+
+(assert-equal "equalized-partition-nums -- case 2"
+  (equalized-partition-nums 100 10)
+  {10 10 10 10 10 10 10 10 10 10})
+
+(assert-equal "equalized-partition-nums -- case 3"
+  (equalized-partition-nums 3 6)
+  {1 1 1 0 0 0})
+
+(assert-equal "filter-slit -- case 1"
+  (filter-slit 4 {"A" "B" "C" "D" "E" "F" "G" "H" "I"})
+  {{"A" "B" "C"} {"D" "E"} {"F" "G"} {"H" "I"}})
+
+(assert-equal "filter-slit -- case 2"
+  (filter-slit 2 {"a" "b" "c" "d" "e" "f" "g"})
+  {{"a" "b" "c" "d"} {"e" "f""g"}})
+
+(assert-equal "filter-slit -- case 3"
+  (filter-slit 3 {"a" "b" "c" "d" "e" "f" "g"})
+  {{"a" "b" "c"} {"d" "e"} {"f" "g"}})
+
+
