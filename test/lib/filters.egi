@@ -149,11 +149,11 @@
   (filter-part 4 {"A" "B" "C" "D" "E" "F" "G" "H" "I"})
   {{"A" "B" "C"} {"D" "E"} {"F" "G"} {"H" "I"}})
 
-(assert-equal "part -- case 2"
+(assert-equal "filter-part -- case 2"
   (filter-part 2 {"a" "b" "c" "d" "e" "f" "g"})
   {{"a" "b" "c" "d"} {"e" "f""g"}})
 
-(assert-equal "part -- case 3"
+(assert-equal "filter-part -- case 3"
   (filter-part 3 {"a" "b" "c" "d" "e" "f" "g"})
   {{"a" "b" "c"} {"d" "e"} {"f" "g"}})
 
