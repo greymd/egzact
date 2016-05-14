@@ -150,14 +150,6 @@
     (let {[[$pre $pl $suf] (car (regex PHOLDER str))]}
      {(foldr 2#(concat {{pre} {%1} %2 {suf}}) {} line)})))
 
-; {["a" "b"] ["c" "d"]} => {"a" "b" "c" "d"}
-(define $tuplecol2col
-  (lambda [$ls]
-    (match ls (list [string string]) {
-                                    [<cons [$fst $snd] $rest> (concat {{fst snd} (tuplecol2col rest)})]
-                                    [<nil> {}]
-                                    })))
-
 (define $filter-crops
   (lambda [$str $line]
     (unique/m (list string)
