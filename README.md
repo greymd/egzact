@@ -1,7 +1,12 @@
+<p align="center">
 ![logo](./img/logo.png)
+</p>
+
 # Strengthen weak points of the shell.
 
-### `conv` : Generate [Bi-gram](https://en.wikipedia.org/wiki/N-gram) from the poem. 
+### Generate [Bi-gram](https://en.wikipedia.org/wiki/N-gram) from the poem. 
+
+COMMAND: `conv`
 
 ```bash
 $ echo "If a man understands a poem, he shall have troubles." | conv 2
@@ -16,7 +21,9 @@ shall have
 have troubles.
 ```
 
-### `conv` `mirror` `addl` : Create a zip file nested 100 times.
+### Create a zip file nested 100 times.
+
+COMMAND: `conv` `mirror` `addl`
 
 ```bash
 $ echo file {1..100}.zip | conv 2 | mirror | addl "zip " | sh
@@ -25,7 +32,9 @@ $ unzip -Z -2 100.zip
 99.zip
 ```
 
-### `flat` `stairl` `wrap` `addl` : Calculate the approximation of Napier's Constant
+### Calculate the approximation of Napier's Constant
+
+COMMAND: `flat` `stairl` `wrap` `addl`
 
 ```bash
 $ seq 10 | flat | stairl ofs="*" | flat | wrap ofs="+" '1/(*)' | addl "1+" | bc -l
