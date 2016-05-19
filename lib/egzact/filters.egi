@@ -30,19 +30,15 @@
   (lambda [$num $line]
     (let {[$min-num (min [num (length line)])]}
       (match-all line (list string)
-        [(loop $i [1 min-num]
-               <join _ <cons $a_i ...>>
-               _)
-        (map (1#a_%1 $) (between 1 min-num))]))))
+        [(loop $i [1 min-num] <join _ <cons $a_i ...>> _)
+         (map (1#a_%1 $) (between 1 min-num))]))))
 
 (define $filter-perm
   (lambda [$num $line]
     (let {[$min-num (min [num (length line)])]}
       (match-all line (multiset string)
-        [(loop $i [1 min-num]
-               <cons $a_i ...>
-               _)
-        (map (1#a_%1 $) (between 1 min-num))]))))
+        [(loop $i [1 min-num] <cons $a_i ...> _)
+         (map (1#a_%1 $) (between 1 min-num))]))))
 
 (define $filter-conv-each
   (lambda [$num $line]
@@ -51,9 +47,7 @@
 (define $filter-conv
   (lambda [$num $line]
     (match-all line (list string)
-      [<join _ (loop $i [1 num]
-                     <cons $a_i ...>
-                     _) >
+      [<join _ (loop $i [1 num] <cons $a_i ...> _) >
              (map (1#a_%1 $) (between 1 num))])))
 
 (define $filter-dupl
@@ -62,12 +56,13 @@
 
 (define $filter-flat
   (lambda [$num $line]
-    (match line (list string) {
-                               [(loop $i [1 num] <cons $a_i ...> $xs)
-                                {(map 1#a_%1 (between 1 num)) @(filter-flat num xs)}]
-                               [<join $x <cons $xs <nil>>> {(append x {xs})}]
-                               [<nil> {}]
-                               })))
+    (match line (list string)
+      {
+      [(loop $i [1 num] <cons $a_i ...> $xs)
+       {(map 1#a_%1 (between 1 num)) @(filter-flat num xs)}]
+      [<join $x <cons $xs <nil>>> {(append x {xs})}]
+      [<nil> {}]
+       })))
 
 (define $filter-slit
   (lambda [$num $line]
@@ -77,11 +72,10 @@
                    {
                    [<nil> {}]
                    [(loop $n [1 (car part-nums)] <cons $a_n ...> $rest)
-                    [(concat
-                       {{(map (1#a_%1 $) (between 1 (car part-nums)))}
-                       (exec-partition (cdr part-nums) rest)})]]
-                   }))
-               ]}
+                    (concat
+                      {{(map (1#a_%1 $) (between 1 (car part-nums)))}
+                      (exec-partition (cdr part-nums) rest)})]
+                   }))]}
       (exec-partition
         (equalized-partition-nums (length line) num)
         line))))
@@ -127,17 +121,21 @@
 
 (define $filter-takelx
   (lambda [$str $line]
-    {(match line (list string) {[<join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
-                                 (append left {elem})]
-                                [_ {}] ;If there is no mached patterns.
-                                })}))
+    {(match line (list string)
+       {
+       [<join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
+              (append left {elem})]
+       [_ {}] ;If there is no mached patterns.
+       })}))
 
 (define $filter-takerx
   (lambda [$str $line]
-    {(match line (list string) {[<nioj $right <snoc (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
-                                 (append {elem} right)]
-                                [_ {}] ;If there is no mached patterns.
-                                })}))
+    {(match line (list string)
+       {
+       [<nioj $right <snoc (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
+              (append {elem} right)]
+       [_ {}] ;If there is no mached patterns.
+       })}))
 
 (define $filter-dropl
   (lambda [$num $line]
@@ -151,8 +149,10 @@
 
 (define $filter-zrep
   (lambda [$str $line]
-    {(match line (list string) {[ <join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) $right>>
-                                        (concat {{elem} @(filter-zrep str right)})]
+    {(match line (list string)
+       {
+       [ <join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) $right>>
+               (concat {{elem} @(filter-zrep str right)})]
        [_ {}] ;If there is no mached patterns.
        })}))
 
@@ -167,8 +167,10 @@
 
 (define $filter-wrap-impl
   (lambda [$pre $suf $line]
-    {(match line (list string) {[ <join _ <cons $elem $right>>
-                                        (concat {{(S.concat {pre elem suf})} @(filter-wrap-impl pre suf right)})]
+    {(match line (list string)
+       {
+       [ <join _ <cons $elem $right>>
+               (concat {{(S.concat {pre elem suf})} @(filter-wrap-impl pre suf right)})]
        [_ {}] ;If there is no mached patterns.
        })}))
 
