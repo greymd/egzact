@@ -1,5 +1,5 @@
 <p align="center">
-![logo](./img/logo.png)
+<img src="./img/logo.png" />
 </p>
 
 # Strengthen weak points of the shell.
