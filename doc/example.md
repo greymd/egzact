@@ -1,4 +1,4 @@
-# [!logo](./img/logo.png) examples
+# ![logo](./img/logo.png) examples
 
 ## Enumerate all the possible parent domains from the sub domain.
 
