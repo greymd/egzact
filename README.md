@@ -288,6 +288,29 @@ C D
 D
 ```
 
+### $ `subset`
+
+Generate all the subsets of the fields.
+
+```sh
+$ echo A B C D | subset
+A
+B
+C
+D
+A B
+A C
+B C
+A D
+B D
+C D
+A B C
+A B D
+A C D
+B C D
+A B C D
+```
+
 ### $ `crops`
 Crop all the patterns which matches given string (regular expression).
 It includes all the patterns (from shortest to longest match).

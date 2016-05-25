@@ -1,0 +1,35 @@
+#!/usr/bin/env egison
+(load-file "../lib/egzact/utils.egi")
+(load-file "../lib/egzact/filters.egi")
+
+(define $main
+  (match-lambda (list string)
+                {
+                  [(args-check-opts $opts)
+                   (execution print-each-line filter-subset opts [] stdin)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: subset [OPTIONS]")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo A B C D | subset")
+       (print "    A")
+       (print "    B")
+       (print "    C")
+       (print "    D")
+       (print "    A B")
+       (print "    A C")
+       (print "    B C")
+       (print "    A D")
+       (print "    B D")
+       (print "    C D")
+       (print "    A B C")
+       (print "    A B D")
+       (print "    A C D")
+       (print "    B C D")
+       (print "    A B C D")
+       }
+       ))

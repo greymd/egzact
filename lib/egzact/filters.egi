@@ -101,6 +101,12 @@
       [<join _ <join (& $x !<nil>) _>>
        {@x}])))
 
+(define $filter-subset
+  (lambda [$empty $line]
+    (match-all line (set string)
+      [<join (& $x !<nil>) _>
+       {@x}])))
+
 (define $filter-stairl
   (lambda [$empty $line]
     (match-all line (list string) [<join (& $x !<nil>) $xs> [x]])))

@@ -40,7 +40,6 @@
   (filter-flat 3 {"a" "b" "c" "d" "e" "f" "g"})
   {{"a" "b" "c"} {"d" "e" "f"} {"g"}})
 
-
 (assert-equal "perm"
   (filter-perm 2 {"a" "b" "c" "d"})
   {{"a" "b"} {"a" "c"} {"b" "a"} {"a" "d"} {"b" "c"} {"c" "a"} {"b" "d"} {"c" "b"} {"d" "a"} {"c" "d"} {"d" "b"} {"d" "c"}})
@@ -56,6 +55,10 @@
 (assert-equal "sublist"
  (filter-sublist {} {"a" "b" "c" "d"})
  {{"a"} {"a" "b"} {"b"} {"a" "b" "c"} {"b" "c"} {"c"} {"a" "b" "c" "d"} {"b" "c" "d"} {"c" "d"} {"d"}})
+
+(assert-equal "subset"
+ (filter-subset {} {"a" "b" "c" "d"})
+ {{"a"} {"b"} {"c"} {"d"} {"a" "b"} {"a" "c"} {"b" "c"} {"a" "d"} {"b" "d"} {"c" "d"} {"a" "b" "c"} {"a" "b" "d"} {"a" "c" "d"} {"b" "c" "d"} {"a" "b" "c" "d"}})
 
 (assert-equal "takel"
   (filter-takel 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
