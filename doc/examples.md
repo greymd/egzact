@@ -54,7 +54,7 @@ aaa.bbb.ccc.example.com/a/b/c/d
 
 ## Enumerate all the `that ... that` parts from [the complicated sequence](https://en.wikipedia.org/wiki/That_that_is_is_that_that_is_not_is_not_is_that_it_it_is) .
 
-``stairl | stairr`` generates all the sublists from the input.
+``stairl | stairr`` generates all the sublist from the input.
 
 ```bash
 $ echo "That that is is that that is not is not is that it it is" | stairl | stairr | grep -o "that.*that" | sort | uniq

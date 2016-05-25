@@ -95,7 +95,7 @@
           {(take upper-num-count (repeat1 upper-num))
           (take lower-num-count (repeat1 lower-num))}))))
 
-(define $filter-sublists
+(define $filter-sublist
   (lambda [$empty $line]
     (match-all line (list string)
       [<join _ <join (& $x !<nil>) _>>

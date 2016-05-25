@@ -53,8 +53,8 @@
  (filter-stairr {} {"a" "b" "c" "d"})
  {{"d"} {"c" "d"} {"b" "c" "d"} {"a" "b" "c" "d"}})
 
-(assert-equal "sublists"
- (filter-sublists {} {"a" "b" "c" "d"})
+(assert-equal "sublist"
+ (filter-sublist {} {"a" "b" "c" "d"})
  {{"a"} {"a" "b"} {"b"} {"a" "b" "c"} {"b" "c"} {"c"} {"a" "b" "c" "d"} {"b" "c" "d"} {"c" "d"} {"d"}})
 
 (assert-equal "takel"

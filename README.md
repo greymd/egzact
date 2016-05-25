@@ -175,7 +175,7 @@ D
 
 ### $ `stairl`
 
-Generate sublists of the fields.
+Generate sublist of the fields.
 Each result matches to the *left* side of the original input.
 In most cases, it looks *stairs*.
 
@@ -230,7 +230,7 @@ CA CB CC CD
 
 ### $ `stairr`
 
-Generate sublists of the fields.
+Generate sublist of the fields.
 Results match to the *right* side of the original input.
 In most cases, it looks *stairs*.
 
@@ -242,12 +242,12 @@ B C D
 A B C D
 ```
 
-### $ `sublists`
+### $ `sublist`
 
-Generate all the sublists of the fields.
+Generate all the sublist of the fields.
 
 ```sh
-$ echo A B C D | sublists
+$ echo A B C D | sublist
 A
 A B
 B
@@ -275,7 +275,7 @@ C
 C D
 D
 
-$ echo A B C D | sublists | sort | uniq
+$ echo A B C D | sublist | sort | uniq
 A
 A B
 A B C

@@ -1,0 +1,30 @@
+#!/usr/bin/env egison
+(load-file "../lib/egzact/utils.egi")
+(load-file "../lib/egzact/filters.egi")
+
+(define $main
+  (match-lambda (list string)
+                {
+                  [(args-check-opts $opts)
+                   (execution print-each-line filter-sublist opts [] stdin)]
+                  [_ usage]
+                }))
+
+(define $usage
+  (do {
+       (print "Usage: sublist [OPTIONS]")
+        option-usage
+       (print "tldr:")
+       (print "    $ echo A B C D | sublist")
+       (print "    A")
+       (print "    A B")
+       (print "    B")
+       (print "    A B C")
+       (print "    B C")
+       (print "    C")
+       (print "    A B C D")
+       (print "    B C D")
+       (print "    C D")
+       (print "    D")
+       }
+       ))
