@@ -6,16 +6,16 @@
   (match-lambda (list string)
                 {
                   [(args-check-opts $opts)
-                   (execution print-each-line filter-subsets opts [] stdin)]
+                   (execution print-each-line filter-sublists opts [] stdin)]
                   [_ usage]
                 }))
 
 (define $usage
   (do {
-       (print "Usage: subsets [OPTIONS]")
+       (print "Usage: sublists [OPTIONS]")
         option-usage
        (print "tldr:")
-       (print "    $ echo A B C D | subsets")
+       (print "    $ echo A B C D | sublists")
        (print "    A")
        (print "    A B")
        (print "    B")
