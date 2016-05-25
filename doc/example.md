@@ -1,4 +1,4 @@
-# ![logo](./img/logo.png) examples
+# "egzact" Examples
 
 ## Enumerate all the possible parent domains from the sub domain.
 
@@ -58,7 +58,7 @@ aaa.bbb.ccc.example.com/a/b/c
 aaa.bbb.ccc.example.com/a/b/c/d
 ```
 
-## Enumerate all the `that ... that` parts from [the complicated sequence](https://en.wikipedia.org/wiki/That_that_is_is_that_that_is_not_is_not_is_that_it_it_is) .
+## Enumerate all the `that ... that` parts from [the word sequence](https://en.wikipedia.org/wiki/That_that_is_is_that_that_is_not_is_not_is_that_it_it_is) .
 
 Command: `stairr` `stairl`
 
