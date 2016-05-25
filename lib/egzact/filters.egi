@@ -95,10 +95,16 @@
           {(take upper-num-count (repeat1 upper-num))
           (take lower-num-count (repeat1 lower-num))}))))
 
-(define $filter-subsets
+(define $filter-sublist
   (lambda [$empty $line]
     (match-all line (list string)
       [<join _ <join (& $x !<nil>) _>>
+       {@x}])))
+
+(define $filter-subset
+  (lambda [$empty $line]
+    (match-all line (set string)
+      [<join (& $x !<nil>) _>
        {@x}])))
 
 (define $filter-stairl

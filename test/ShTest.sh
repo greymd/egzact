@@ -366,6 +366,40 @@ B C D
 A B C D" "${result}"
 }
 
+test_sublist() {
+	result=`echo A B C D | ./sublist.egi`
+	assertEquals "A
+A B
+B
+A B C
+B C
+C
+A B C D
+B C D
+C D
+D" "${result}"
+}
+
+test_subset() {
+	result=`echo A B C D | ./subset.egi`
+	assertEquals "A
+B
+C
+D
+A B
+A C
+B C
+A D
+B D
+C D
+A B C
+A B D
+A C D
+B C D
+A B C D" "${result}"
+}
+
+
 test_takel() {
 	result=`echo A B C D E F G | ./takel.egi 3`
 	assertEquals "A B C" "${result}"

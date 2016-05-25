@@ -1,7 +1,12 @@
-![logo](./img/logo.png)
+<p align="center">
+<img src="./img/logo.png" />
+</p>
+
 # Strengthen weak points of the shell.
 
-### `conv` : Generate [Bi-gram](https://en.wikipedia.org/wiki/N-gram) from the poem. 
+### Generate [Bi-gram](https://en.wikipedia.org/wiki/N-gram) from the poem. 
+
+COMMAND: `conv`
 
 ```bash
 $ echo "If a man understands a poem, he shall have troubles." | conv 2
@@ -16,7 +21,9 @@ shall have
 have troubles.
 ```
 
-### `conv` `mirror` `addl` : Create a zip file nested 100 times.
+### Create a zip file nested 100 times.
+
+COMMAND: `conv` `mirror` `addl`
 
 ```bash
 $ echo file {1..100}.zip | conv 2 | mirror | addl "zip " | sh
@@ -25,7 +32,9 @@ $ unzip -Z -2 100.zip
 99.zip
 ```
 
-### `flat` `stairl` `wrap` `addl` : Calculate the approximation of Napier's Constant
+### Calculate the approximation of Napier's Constant
+
+COMMAND: `flat` `stairl` `wrap` `addl`
 
 ```bash
 $ seq 10 | flat | stairl ofs="*" | flat | wrap ofs="+" '1/(*)' | addl "1+" | bc -l
@@ -166,7 +175,7 @@ D
 
 ### $ `stairl`
 
-Generate subsets of the fields.
+Generate sublist of the fields.
 Each result matches to the *left* side of the original input.
 In most cases, it looks *stairs*.
 
@@ -221,7 +230,7 @@ CA CB CC CD
 
 ### $ `stairr`
 
-Generate subsets of the fields.
+Generate sublist of the fields.
 Results match to the *right* side of the original input.
 In most cases, it looks *stairs*.
 
@@ -233,12 +242,12 @@ B C D
 A B C D
 ```
 
-### $ `subsets`
+### $ `sublist`
 
-Generate all the subsets of the fields.
+Generate all the sublist of the fields.
 
 ```sh
-$ echo A B C D | subsets
+$ echo A B C D | sublist
 A
 A B
 B
@@ -266,7 +275,7 @@ C
 C D
 D
 
-$ echo A B C D | subsets | sort | uniq
+$ echo A B C D | sublist | sort | uniq
 A
 A B
 A B C
@@ -277,6 +286,29 @@ B C D
 C
 C D
 D
+```
+
+### $ `subset`
+
+Generate all the subsets of the fields.
+
+```sh
+$ echo A B C D | subset
+A
+B
+C
+D
+A B
+A C
+B C
+A D
+B D
+C D
+A B C
+A B D
+A C D
+B C D
+A B C D
 ```
 
 ### $ `crops`
