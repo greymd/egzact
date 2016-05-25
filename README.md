@@ -2,44 +2,9 @@
 <img src="./img/logo.png" />
 </p>
 
-# Strengthen weak points of the shell.
+# Strengthen the weak points of the shell.
 
-### Generate [Bi-gram](https://en.wikipedia.org/wiki/N-gram) from the poem. 
-
-COMMAND: `conv`
-
-```bash
-$ echo "If a man understands a poem, he shall have troubles." | conv 2
-If a
-a man
-man understands
-understands a
-a poem,
-poem, he
-he shall
-shall have
-have troubles.
-```
-
-### Create a zip file nested 100 times.
-
-COMMAND: `conv` `mirror` `addl`
-
-```bash
-$ echo file {1..100}.zip | conv 2 | mirror | addl "zip " | sh
-
-$ unzip -Z -2 100.zip
-99.zip
-```
-
-### Calculate the approximation of Napier's Constant
-
-COMMAND: `flat` `stairl` `wrap` `addl`
-
-```bash
-$ seq 10 | flat | stairl ofs="*" | flat | wrap ofs="+" '1/(*)' | addl "1+" | bc -l
-2.71828180114638447967
-```
+How to utilize it? See [examples](./doc/example.md).
 
 ## New command line tools with three concepts.
 
