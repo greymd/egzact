@@ -1,6 +1,8 @@
-# egzact examples
+# "egzact" Examples
 
 ## Enumerate all the possible parent domains from the sub domain.
+
+Command: `stairr`
 
 ```bash
 $ echo hoge.huga.pre.cure.example.com | stairr fs=.
@@ -14,6 +16,8 @@ hoge.huga.pre.cure.example.com
 
 ## Enumerate all the possible parent directories from the sub directory.
 
+Command: `stairl`
+
 ```bash
 $ pwd | stairl fs=/
 /usr
@@ -22,6 +26,8 @@ $ pwd | stairl fs=/
 ```
 
 ## Enumerate all the possible FQDN
+
+Command: `stairr` `stairl`
 
 ```bash
 $ echo aaa.bbb.ccc.example.com/a/b/c/d | stairr fs=. | stairl fs=/
@@ -52,9 +58,11 @@ aaa.bbb.ccc.example.com/a/b/c
 aaa.bbb.ccc.example.com/a/b/c/d
 ```
 
-## Enumerate all the `that ... that` parts from [the complicated sequence](https://en.wikipedia.org/wiki/That_that_is_is_that_that_is_not_is_not_is_that_it_it_is) .
+## Enumerate all the `that ... that` parts from [the word sequence](https://en.wikipedia.org/wiki/That_that_is_is_that_that_is_not_is_not_is_that_it_it_is) .
 
-``stairl | stairr`` generates all the sublist from the input.
+Command: `stairr` `stairl`
+
+``stairl | stairr`` generates all the sublists from the input.
 
 ```bash
 $ echo "That that is is that that is not is not is that it it is" | stairl | stairr | grep -o "that.*that" | sort | uniq
@@ -67,6 +75,8 @@ that that is not is not is that
 ```
 
 ## Split the file into 17 indivisual files.
+
+Command: `slit`
 
 ```sh
 $ seq $(awk 'END{print NR}' mytext) | slit 17 | awk '{print "sed -n "$1","$NF"p mytext > mytext."NR}'
@@ -94,6 +104,8 @@ $ seq $(awk 'END{print NR}' mytext) | slit 17 | awk '{print "sed -n "$1","$NF"p 
 
 ## Generate [Bi-gram](https://en.wikipedia.org/wiki/N-gram) from the poem.
 
+Command: `conv`
+
 ```bash
 $ echo "If a man understands a poem, he shall have troubles." | conv 2
 If a
@@ -108,6 +120,8 @@ have troubles.
 ```
 
 ## Create a zip file nested 100 times.
+
+Command: `conv` `mirror` `addl`
 
 ```bash
 $ echo file {1..100}.zip | conv 2 | mirror | addl "zip "
@@ -132,12 +146,16 @@ $ unzip -Z -2 100.zip
 
 ## Calculate the approximation of Napier's Constant
 
+Command: `flat` `stairl` `wrap` `addl`
+
 ```bash
 $ seq 10 | flat | stairl ofs="*" | flat | wrap ofs="+" '1/(*)' | addl "1+" | bc -l
 2.71828180114638447967
 ```
 
 ## Calculate the approximation of PI
+
+Command: `addr` `mirror` `flat` `nestr` `wrap`
 
 ```bash
 $ seq 1 2 50 | nl | awk '$1=$1"^2/"' | addr '+' | mirror | flat | addr ' 1' | nestr '(*)' | wrap ifs="_" '(4/ *)' | bc -l
@@ -146,12 +164,16 @@ $ seq 1 2 50 | nl | awk '$1=$1"^2/"' | addr '+' | mirror | flat | addr ' 1' | ne
 
 ## Generate too nexted DOM element
 
+Command: `nestr`
+
 ```bash
 $ echo {1..10} | nestr "<p>*</p>"
 <p> 1 <p> 2 <p> 3 <p> 4 <p> 5 <p> 6 <p> 7 <p> 8 <p> 9 <p> 10 </p> </p> </p> </p> </p> </p> </p> </p> </p> </p>
 ```
 
 ## Generate too nexted JSON element
+
+Command: `wrap` `addr` `nestr`
 
 `jq` command is necessary.
 
@@ -172,11 +194,12 @@ $ echo A B C D E F | wrap '"*":' | addr "\"G\"" | nestr "{*}" | jq .
 }
 ```
 
-## Easily create table element.
+## Easily create the table DOM element from the space separated input.
+
+Command: `wrap` `flat` `addt` `addb`
 
 ```
 $ COL=3
-
 $ echo A B C D E F G H | wrap '<td>*</td>' | flat $COL | wrap fs=_ '<tr>*</tr>' | addt '<table border=1>' | addb '</table>'
 <table border=1>
 <tr><td>A</td> <td>B</td> <td>C</td></tr>
