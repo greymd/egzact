@@ -190,19 +190,26 @@
     (let {[[$pre $pl $suf] (car (regex PHOLDER str))]}
      {(foldr 2#(concat {{pre} {%1} %2 {suf}}) {} line)})))
 
+; > (filter-crops "1.1$" {"123" "131" "222"})
+; {{"131"}}
 (define $filter-crops
   (lambda [$str $line]
     (unique/m (list string)
-    (extract-mached-str
-      (remove-empty-element
-        (match-all line (list string)[<join _ <join (& $x !<nil>) _>>
-                                            (regex str (S.concat x))]))))))
+              (extract-mached-str
+                (remove-empty-element
+                  (match-all line (list string)
+                    [<join _ <join (& $x !<nil>) _>>
+                           (regex str (S.concat x))]))))))
 
+; > (remove-empty-element {"11" "22" {} "1"})
+; {"11" "22" "1"}
 (define $remove-empty-element
   (lambda [$results]
     (filter 1#(not (empty? %1)) results)))
 
+; > (extract-mached-str {{["123" "AAA" ""]} {["" "BBB" ""]}})
+; {{"AAA"} {"BBB"}}
 (define $extract-mached-str
   (lambda [$results]
-    (map 1#(3#{%2} %1)
+    (map (lambda [$elem] (3#{%2} elem))
          (map 1#(car %1) results))))
