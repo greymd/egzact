@@ -116,10 +116,17 @@
   (twocol2string "-" "@" {})
   "")
 
+(assert-equal "escape-chars"
+  ((escape-chars c#a) {c#a c#b c#c c#a c#b c#d})
+  {c#\ c#a c#b c#c c#\ c#a c#b c#d})
+
+(assert-equal "escape-string"
+  (escape-string "\"hoge\"fuga")
+  "\\\"hoge\\\"fuga")
+
 (assert-equal "set-default-opts -- case 1"
   (set-default-opts (match-lambda something {[,"eof" "AAA"] [,"ifs" "BBB"] [,"eos" "---"] [_ {}]}))
   ["BBB" " " "\n" "\n---\n" "AAA"])
-
 (assert-equal "set-default-opts -- case 2"
   (set-default-opts (match-lambda something {[,"dummy" "1"] [_ {}]}))
   [" " " " "\n" "\n" "\n"])
