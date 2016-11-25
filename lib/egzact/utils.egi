@@ -126,7 +126,7 @@
         { "(match-lambda something {"
         (S.concat
           (map 2#(S.concat {"[," %1 " " %2 "] "})
-               (map 3#[(show %1) (show %3)]
+               (map 3#[(show (escape-string %1)) (show (escape-string %3))]
                     (map 1#(car (regex "=" %1)) args))))
         " [_ []]})"}))))
 
@@ -153,6 +153,7 @@
 ; Example:
 ; > (escape-string "\"hoge\"fuga")
 ; "\"hoge\"fuga"
+; ; (Not ""hoge"fuga")
 (define $escape-string
   (lambda [$target]
     (pack ((escape-chars (car (unpack ESCAPE-TARGET))) (unpack target)))))
