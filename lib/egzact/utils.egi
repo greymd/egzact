@@ -136,6 +136,18 @@
     (join-string row-sep
                  (map (join-string field-sep $) cols))))
 
+; Escape particular character
+; Example: escaping "a" character.
+; > ((escape-chars c#a) {c#a c#b c#c c#a c#b c#d})
+; {c#\ c#a c#b c#c c#\ c#a c#b c#d}
+(define $escape-chars
+  (lambda [$target]
+    (match-lambda (list char)
+      {[<nil> {}]
+       [<cons (& $c ,target) $cs>  (append {c#\ c} ((escape-chars target) cs))]
+       [<cons $c $cs>  (append {c} ((escape-chars target) cs))]
+       })))
+
 ; (proc "," {"a" "b" "c"}); => "a,b,c"
 (define $join-string
   (lambda [$fs $ls]
