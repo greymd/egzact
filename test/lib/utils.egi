@@ -92,9 +92,13 @@
   (split-each-line "" {"ab bc" "12 3"})
   {{"a" "b" " " "b" "c"} {"1" "2" " " "3"}})
 
-(assert-equal "opts2hash"
-  (opts2hash {"P1=A" "P2=B"})
-  {| ["P1" "A"] ["P2" "B"] |})
+(assert-equal "opts2hash -- case 1"
+  ((opts2hash {"P1=A" "P2=B"}) "P1")
+  "A")
+
+(assert-equal "opts2hash -- case 2"
+  ((opts2hash {"P1=A" "P2="}) "P2")
+  "")
 
 (assert-equal "twocol2string -- case 1"
   (twocol2string "-" "@" {{"a" "b" "c"} {"d" "e" "f"} {"g"}})
@@ -113,11 +117,11 @@
   "")
 
 (assert-equal "set-default-opts -- case 1"
-  (set-default-opts {| ["eof" "AAA"] ["ifs" "BBB"] ["eos" "---"] |})
+  (set-default-opts (match-lambda something {[,"eof" "AAA"] [,"ifs" "BBB"] [,"eos" "---"] [_ {}]}))
   ["BBB" " " "\n" "\n---\n" "AAA"])
 
 (assert-equal "set-default-opts -- case 2"
-  (set-default-opts {| ["dummy" "1"] |})
+  (set-default-opts (match-lambda something {[,"dummy" "1"] [_ {}]}))
   [" " " " "\n" "\n" "\n"])
 
 (assert-equal "set-default-value -- case 1"
