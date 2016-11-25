@@ -1,4 +1,5 @@
 (define $ARGMAX 65535)
+(define $ESCAPE-TARGET "\"")
 
 (define $S.nats?
   (lambda [$str] (not (empty? (regex "^[1-9][0-9]*$" str)))))
@@ -147,6 +148,14 @@
        [<cons (& $c ,target) $cs>  (append {c#\ c} ((escape-chars target) cs))]
        [<cons $c $cs>  (append {c} ((escape-chars target) cs))]
        })))
+
+; Escape doubole quotation.
+; Example:
+; > (escape-string "\"hoge\"fuga")
+; "\"hoge\"fuga"
+(define $escape-string
+  (lambda [$target]
+    (pack ((escape-chars (car (unpack ESCAPE-TARGET))) (unpack target)))))
 
 ; (proc "," {"a" "b" "c"}); => "a,b,c"
 (define $join-string
