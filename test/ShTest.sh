@@ -108,6 +108,22 @@ AD BA BB
 BA BB BC
 BB BC BD" "${result}"
 
+	result=`echo "AA AB AC AD\nBA BB BC BD" | ./conv.egi ofs='"' 3`
+	assertEquals 'AA"AB"AC
+AB"AC"AD
+AC"AD"BA
+AD"BA"BB
+BA"BB"BC
+BB"BC"BD' "${result}"
+
+	result=`echo 'AA"AB"AC"AD"BA"BB"BC"BD' | ./conv.egi ifs="\"" ofs="\"\"" 3`
+	assertEquals 'AA""AB""AC
+AB""AC""AD
+AC""AD""BA
+AD""BA""BB
+BA""BB""BC
+BB""BC""BD' "${result}"
+
 	result=`echo "AA AB AC AD\nBA BB BC BD" | ./conv.egi each 3`
 	assertEquals "AA AB AC
 AB AC AD
@@ -140,6 +156,13 @@ test_flat() {
 7 8
 9 10" "${result}"
 
+	result=`seq 10 | ./flat.egi ofs='"\' 2`
+	assertEquals '1"\2
+3"\4
+5"\6
+7"\8
+9"\10' "${result}"
+
 	result=`echo "AA AB AC AD\nBA BB BC BD" | ./flat.egi 3`
 	assertEquals "AA AB AC
 AD BA BB
@@ -157,6 +180,13 @@ AD
 @@@
 BA BB BC
 BD" "${result}"
+
+	result=`echo "AA AB AC AD\nBA BB BC BD" | ./flat.egi each eos='\' 3`
+	assertEquals 'AA AB AC
+AD
+\
+BA BB BC
+BD' "${result}"
 }
 
 test_slit() {
