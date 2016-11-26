@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+THIS_DIR=$(cd $(dirname $0) && pwd)
+
+echo $THIS_DIR
 # Unit testing
-runhaskell test/UnitTest.hs
+(cd "$THIS_DIR"; runhaskell "$THIS_DIR/test/UnitTest.hs")
 
 # Integration testing
-sh test/ShTest.sh
+sh "$THIS_DIR/test/ShTest.sh"
