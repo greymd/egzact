@@ -1,5 +1,5 @@
 (define $ARGMAX 65535)
-(define $ESCAPE-TARGET "\"")
+(define $ESCAPE-TARGET "\\\"")
 
 (define $S.nats?
   (lambda [$str] (not (empty? (regex "^[1-9][0-9]*$" str)))))
@@ -156,7 +156,7 @@
 ; ; (Not ""hoge"fuga")
 (define $escape-string
   (lambda [$target]
-    (pack ((escape-chars (car (unpack ESCAPE-TARGET))) (unpack target)))))
+    (pack (foldl 2#((escape-chars %2) %1) (unpack target) (unpack ESCAPE-TARGET)))))
 
 ; (proc "," {"a" "b" "c"}); => "a,b,c"
 (define $join-string
