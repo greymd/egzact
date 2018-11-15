@@ -15,7 +15,7 @@ How to utilize it? See [examples](./doc/example.md).
 ## Install (Mac OSX / Linux)
 
 ### 1. Install Egison
-Install *version 3.6.3*.
+Install *version 3.7.13*.
 
 Mac
 http://www.egison.org/getting-started/getting-started-mac.html

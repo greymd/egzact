@@ -47,7 +47,7 @@ A D
 B D
 C D" "${result}"
 
-	result=`echo "A B C\n1 2 3" | ./comb.egi eos="---" 2`
+	result=`printf "A B C\n1 2 3" | ./comb.egi eos="---" 2`
 	assertEquals "A B
 A C
 B C
@@ -100,7 +100,7 @@ test_conv() {
 8 9
 9 10" "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./conv.egi 3`
+	result=`printf "AA AB AC AD\nBA BB BC BD" | ./conv.egi 3`
 	assertEquals "AA AB AC
 AB AC AD
 AC AD BA
@@ -108,7 +108,7 @@ AD BA BB
 BA BB BC
 BB BC BD" "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./conv.egi ofs='"' 3`
+	result=`printf "AA AB AC AD\nBA BB BC BD" | ./conv.egi ofs='"' 3`
 	assertEquals 'AA"AB"AC
 AB"AC"AD
 AC"AD"BA
@@ -124,13 +124,13 @@ AD""BA""BB
 BA""BB""BC
 BB""BC""BD' "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./conv.egi each 3`
+	result=`printf "AA AB AC AD\nBA BB BC BD" | ./conv.egi each 3`
 	assertEquals "AA AB AC
 AB AC AD
 BA BB BC
 BB BC BD" "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./conv.egi each eos="@@@" 3`
+	result=`printf "AA AB AC AD\nBA BB BC BD" | ./conv.egi each eos="@@@" 3`
 	assertEquals "AA AB AC
 AB AC AD
 @@@
@@ -163,25 +163,25 @@ test_flat() {
 7"\8
 9"\10' "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./flat.egi 3`
+	result=`printf "AA AB AC AD\nBA BB BC BD" | ./flat.egi 3`
 	assertEquals "AA AB AC
 AD BA BB
 BC BD" "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./flat.egi each 3`
+	result=`printf "AA AB AC AD\nBA BB BC BD" | ./flat.egi each 3`
 	assertEquals "AA AB AC
 AD
 BA BB BC
 BD" "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./flat.egi each eos="@@@" 3`
+	result=`printf "AA AB AC AD\nBA BB BC BD" | ./flat.egi each eos="@@@" 3`
 	assertEquals "AA AB AC
 AD
 @@@
 BA BB BC
 BD" "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./flat.egi each eos='\' 3`
+	result=`printf "AA AB AC AD\nBA BB BC BD" | ./flat.egi each eos='\' 3`
 	assertEquals 'AA AB AC
 AD
 \
@@ -219,12 +219,12 @@ test_slit() {
 	assertEquals "1@2@3@4@5
 6@7@8@9@10" "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./slit.egi 3`
+	result=`printf "AA AB AC AD\nBA BB BC BD" | ./slit.egi 3`
 	assertEquals "AA AB AC
 AD BA BB
 BC BD" "${result}"
 
-	result=`echo "AA AB AC AD AE\nBA BB BC BD BE" | ./slit.egi each 2`
+	result=`printf "AA AB AC AD AE\nBA BB BC BD BE" | ./slit.egi each 2`
 	assertEquals "AA AB AC
 AD AE
 BA BB BC
@@ -235,7 +235,7 @@ BD BE" "${result}"
 AC
 AD" "${result}"
 
-	result=`echo "AA AB AC AD AE\nBA BB BC BD BE" | ./slit.egi each 4`
+	result=`printf "AA AB AC AD AE\nBA BB BC BD BE" | ./slit.egi each 4`
 	assertEquals "AA AB
 AC
 AD
@@ -245,7 +245,7 @@ BC
 BD
 BE" "${result}"
 
-	result=`echo "AA AB AC AD\nBA BB BC BD" | ./slit.egi each eos="@@@" 3`
+	result=`printf "AA AB AC AD\nBA BB BC BD" | ./slit.egi each eos="@@@" 3`
 	assertEquals "AA AB
 AC
 AD
@@ -299,7 +299,7 @@ test_dupl() {
 A B C D E F G
 A B C D E F G" "${result}"
 
-	result=`echo "A B C\nD E F G" | ./dupl.egi ofs=_ eos=--- 3`
+	result=`printf "A B C\nD E F G" | ./dupl.egi ofs=_ eos=--- 3`
 	assertEquals "A_B_C
 A_B_C
 A_B_C
@@ -319,7 +319,7 @@ test_obrev() {
 	assertEquals "AAA BBB CCC AAA
 AAA CCC BBB AAA" "${result}"
 
-	result=`echo "1 2 3 4\nA B C D" | ./obrev.egi eos=---`
+	result=`printf "1 2 3 4\nA B C D" | ./obrev.egi eos=---`
 	assertEquals "1 2 3 4
 4 3 2 1
 ---
