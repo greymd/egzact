@@ -7,3 +7,4 @@ changelog : bug fix.
 url : https://github.com/greymd/egzact
 author : Yasuhiro, Yamada
 email : greengregson@gmail.com
+libdir : /usr/lib
