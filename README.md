@@ -12,10 +12,10 @@ How to utilize it? See [examples](./doc/example.md).
 * Useful equivalents for existent Linux commands (inspired by [nixar](https://github.com/askucher/nixar)).
 * Controlling records and fields given by particular separator (inspired by [Open-Usp-Tukubai](https://github.com/usp-engineers-community/Open-usp-Tukubai)).
 
-## Install (Mac OSX / Linux)
+## Installation
 
 ### 1. Install Egison
-Install *version 3.7.13*.
+Install *version 3.7.14*.
 
 Mac
 http://www.egison.org/getting-started/getting-started-mac.html
@@ -23,7 +23,23 @@ http://www.egison.org/getting-started/getting-started-mac.html
 Linux
 http://www.egison.org/getting-started/getting-started-linux.html
 
-### 2. Execute following commands
+### [Linux] Execute following commands
+
+* RHEL compatible distros
+
+```
+$ sudo yum install https://git.io/egzact-1.3.1.rpm
+```
+
+* Debian base distros
+
+```
+$ wget https://git.io/egzact-1.3.1.deb
+$ sudo dpkg -i ./egison-*.deb
+```
+
+### [Other platform] Execute following commands
+
 
 ```sh
 $ git clone https://github.com/greymd/egzact.git
@@ -36,21 +52,6 @@ $ source ~/.bashrc
 
 # Works!
 $ seq 10 | flat | takel 3
-1 2 3
-```
-
-## Docker
-
-You can also try commands on the docker container.
-```sh
-$ git clone https://github.com/greymd/egzact.git
-$ docker build -t ubuntu/egzact egzact
-
-# Open bash on the container
-$ docker run -it ubuntu/egzact /bin/bash
-
-# Works!
-root@XXXXXXXXX:/# seq 10 | flat | takel 3
 1 2 3
 ```
 
