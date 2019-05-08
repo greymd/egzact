@@ -2,7 +2,7 @@
 <img src="./img/logo.png" />
 </p>
 
-# Strengthen the weak points of the shell.
+# Generate flexible patterns on the shell
 
 How to utilize it? See [examples](./doc/example.md).
 
@@ -14,32 +14,44 @@ How to utilize it? See [examples](./doc/example.md).
 
 ## Installation
 
-### 1. Install Egison
-Install *version 3.7.14*.
-
-Mac
-http://www.egison.org/getting-started/getting-started-mac.html
-
-Linux
-http://www.egison.org/getting-started/getting-started-linux.html
+egzact requires [Egison](https://www.egison.org/) version 3.7.14.
 
 ### [Linux] Execute following commands
 
 * RHEL compatible distros
 
+Install Egison & egzact
+
 ```
-$ sudo yum install https://git.io/egzact-1.3.1.rpm
+$ sudo yum install https://git.io/{egison-3.7.14.x86_64,egzact-1.3.1}.rpm
 ```
 
 * Debian base distros
 
+Install Egison & egzact
+
 ```
-$ wget https://git.io/egzact-1.3.1.deb
-$ sudo dpkg -i ./egzact-*.deb
+$ wget https://git.io/{egison-3.7.14.x86_64,egzact-1.3.1}.deb
+$ sudo dpkg -i ./eg*.deb
+```
+
+### [macOS] Execute following commands
+
+Install Egison & egzact
+
+```
+$ brew tap egison/egison
+$ brew tap greymd/tools
+$ brew install egison egzact
 ```
 
 ### [Other platform] Execute following commands
 
+(1). Install Egison manually
+* For Linux users: https://www.egison.org/getting-started/getting-started-linux.html
+* For macOS users: https://www.egison.org/getting-started/getting-started-mac.html
+
+(2). Install egzact manually
 
 ```sh
 $ git clone https://github.com/greymd/egzact.git
