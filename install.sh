@@ -33,6 +33,6 @@ install -d "${PREFIX_LIB}"
 {
   cd "${THIS_DIR}/lib/egzact"
   for _file in *.egi ;do
-    _install "${LIBMODE}" "${_file}" > "${PREFIX_LIB}/${_file}"
+    _install "${LIBMODE}" "${_file}" "${PREFIX_LIB}/${_file}"
   done
 }
