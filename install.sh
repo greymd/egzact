@@ -25,7 +25,7 @@ install -d "${PREFIX_LIB}"
 {
   cd "${THIS_DIR}/lib/egzact"
   for _file in * ;do
-    echo install -m "${LIBMODE}" "${THIS_DIR}/lib/egzact/${_file}" "${PREFIX_LIB}/${_file/.egi}"
-    install -m "${LIBMODE}" "${THIS_DIR}/lib/egzact/${_file}" "${PREFIX_LIB}/${_file/.egi}"
+    echo install -m "${LIBMODE}" "${THIS_DIR}/lib/egzact/${_file}" "${PREFIX_LIB}/${_file}"
+    install -m "${LIBMODE}" "${THIS_DIR}/lib/egzact/${_file}" "${PREFIX_LIB}/${_file}"
   done
 }
