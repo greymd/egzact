@@ -17,20 +17,20 @@ How to utilize it? See [examples](./doc/example.md).
 egzact requires [Egison](https://www.egison.org/) version 3.7.14.
 Following installation procedure include installation of Egison.
 
-* Linux users (RHEL compatible distros)
+#### Linux users (RHEL compatible distros)
 
 ```
 $ sudo yum install https://git.io/{egison-3.7.14.x86_64,egzact-1.3.1}.rpm
 ```
 
-* Linux users (Debian base distros)
+#### Linux users (Debian base distros)
 
 ```
 $ wget https://git.io/{egison-3.7.14.x86_64,egzact-1.3.1}.deb
 $ sudo dpkg -i ./eg*.deb
 ```
 
-* macOS users
+#### macOS users
 
 ```
 $ brew tap egison/egison
@@ -38,7 +38,7 @@ $ brew tap greymd/tools
 $ brew install egison egzact
 ```
 
-* Other platform users
+#### Other platform users
 
 (1). Install Egison manually
 * For Linux users: https://www.egison.org/getting-started/getting-started-linux.html
