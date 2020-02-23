@@ -118,7 +118,7 @@
 
 (assert-equal (debug "escape-chars")
   ((escape-chars c#a) {c#a c#b c#c c#a c#b c#d})
-  {c#\ c#a c#b c#c c#\ c#a c#b c#d})
+  {c#\\ c#a c#b c#c c#\\ c#a c#b c#d})
 
 (assert-equal (debug "escape-string")
   (escape-string "\"hoge\"fuga")

@@ -146,7 +146,7 @@
   (lambda [$target]
     (match-lambda (list char)
       {[<nil> {}]
-       [<cons (& $c ,target) $cs>  (append {c#\ c} ((escape-chars target) cs))]
+       [<cons (& $c ,target) $cs>  (append {c#\\ c} ((escape-chars target) cs))]
        [<cons $c $cs>  (append {c} ((escape-chars target) cs))]
        })))
 
