@@ -22,13 +22,13 @@ Following installation procedure include installation of Egison.
 #### Linux users (RHEL compatible distros)
 
 ```
-$ sudo yum install https://git.io/{egison.x86_64,egzact-1.3.2}.rpm
+$ sudo yum install https://git.io/{egison.x86_64,egzact}.rpm
 ```
 
 #### Linux users (Debian base distros)
 
 ```
-$ wget https://git.io/{egison.x86_64,egzact-1.3.2}.deb
+$ wget https://git.io/{egison.x86_64,egzact}.deb
 $ sudo dpkg -i ./eg*.deb
 ```
 
@@ -38,28 +38,6 @@ $ sudo dpkg -i ./eg*.deb
 $ brew tap egison/egison
 $ brew tap greymd/tools
 $ brew install egison egzact
-```
-
-#### Other platform users
-
-(1). Install Egison manually
-* For Linux users: https://www.egison.org/getting-started/getting-started-linux.html
-* For macOS users: https://www.egison.org/getting-started/getting-started-mac.html
-
-(2). Install egzact manually
-
-```sh
-$ git clone https://github.com/greymd/egzact.git
-$ cd egzact
-$ make install
-
-# Add path
-$ echo 'PATH=$PATH:$HOME/.egison/bin' >> ~/.bashrc
-$ source ~/.bashrc
-
-# Works!
-$ seq 10 | flat | takel 3
-1 2 3
 ```
 
 # Commands
