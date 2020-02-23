@@ -1,0 +1,22 @@
+name: test
+
+on:
+  push:
+  schedule:
+    - cron: "0 8 * * 6" # UTC 08:00 (Sat)
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Checkout submodules
+      run:  git submodule update --init --recursive
+    - name: Install egison
+      run: |
+        curl --retry 3 -OL https://git.io/egison.x86_64.deb
+        sudo dpkg -i ./egison.x86_64.deb
+    - name: Run tests
+      run: ./test.sh

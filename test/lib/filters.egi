@@ -1,163 +1,161 @@
 (load-file "./lib/egzact/filters.egi")
 
-(assert-equal "plain"
+(assert-equal (debug "plain")
   (filter-plain "" {"a" "b" "c" "d"})
   {{"a" "b" "c" "d"}})
 
-(assert-equal "addl"
+(assert-equal (debug "addl")
   (filter-addl "A" {"a" "b" "c" "d"})
   {{"A" "a" "b" "c" "d"}})
 
-(assert-equal "addr"
+(assert-equal (debug "addr")
   (filter-addr "B" {"a" "b" "c" "d"})
   {{"a" "b" "c" "d" "B"}})
 
-(assert-equal "crops"
+(assert-equal (debug "crops")
   (filter-crops "1.*1" {"1" "1" "1" "0" "1" "0" "0" "1" "1" "0"})
   {{"11"} {"111"} {"11101"} {"1101"} {"101"} {"11101001"} {"1101001"} {"101001"} {"1001"} {"111010011"} {"11010011"} {"1010011"} {"10011"}})
 
-(assert-equal "cycle"
+(assert-equal (debug "cycle")
   (filter-cycle "" {"a" "b" "c" "d"})
   {{"a" "b" "c" "d"} {"b" "c" "d" "a"} {"c" "d" "a" "b"} {"d" "a" "b" "c"}})
 
-(assert-equal "comb"
+(assert-equal (debug "comb")
   (filter-comb 2 {"a" "b" "c" "d"})
   {{"a" "b"} {"a" "c"} {"b" "c"} {"a" "d"} {"b" "d"} {"c" "d"}})
 
-(assert-equal "conv"
+(assert-equal (debug "conv")
   (filter-conv 2 {"a" "b" "c" "d"})
   {{"a" "b"} {"b" "c"} {"c" "d"}})
 
-(assert-equal "conv-each"
+(assert-equal (debug "conv-each")
   (filter-conv-each 5 {"a" "b" "c" "d"})
   {{"a" "b" "c" "d"}})
 
-(assert-equal "dupl"
+(assert-equal (debug "dupl")
   (filter-dupl 3 {"a" "b" "c" "d"})
   {{"a" "b" "c" "d"} {"a" "b" "c" "d"} {"a" "b" "c" "d"}})
 
-(assert-equal "flat"
+(assert-equal (debug "flat")
   (filter-flat 3 {"a" "b" "c" "d" "e" "f" "g"})
   {{"a" "b" "c"} {"d" "e" "f"} {"g"}})
 
-(assert-equal "perm"
+(assert-equal (debug "perm")
   (filter-perm 2 {"a" "b" "c" "d"})
   {{"a" "b"} {"a" "c"} {"b" "a"} {"a" "d"} {"b" "c"} {"c" "a"} {"b" "d"} {"c" "b"} {"d" "a"} {"c" "d"} {"d" "b"} {"d" "c"}})
 
-(assert-equal "stairl"
+(assert-equal (debug "stairl")
  (filter-stairl {} {"a" "b" "c" "d"})
  {{"a"} {"a" "b"} {"a" "b" "c"} {"a" "b" "c" "d"}})
 
-(assert-equal "stairr"
+(assert-equal (debug "stairr")
  (filter-stairr {} {"a" "b" "c" "d"})
  {{"d"} {"c" "d"} {"b" "c" "d"} {"a" "b" "c" "d"}})
 
-(assert-equal "sublist"
+(assert-equal (debug "sublist")
  (filter-sublist {} {"a" "b" "c" "d"})
  {{"a"} {"a" "b"} {"b"} {"a" "b" "c"} {"b" "c"} {"c"} {"a" "b" "c" "d"} {"b" "c" "d"} {"c" "d"} {"d"}})
 
-(assert-equal "subset"
+(assert-equal (debug "subset")
  (filter-subset {} {"a" "b" "c" "d"})
  {{"a"} {"b"} {"c"} {"d"} {"a" "b"} {"a" "c"} {"b" "c"} {"a" "d"} {"b" "d"} {"c" "d"} {"a" "b" "c"} {"a" "b" "d"} {"a" "c" "d"} {"b" "c" "d"} {"a" "b" "c" "d"}})
 
-(assert-equal "takel"
+(assert-equal (debug "takel")
   (filter-takel 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"aba" "bab" "cbc" "afe"}})
 
-(assert-equal "taker"
+(assert-equal (debug "taker")
   (filter-taker 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"g4a" "gda" "bbf" "cac"}})
 
-(assert-equal "takelx -- case 1"
+(assert-equal (debug "takelx -- case 1")
   (filter-takelx "c.c" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"aba" "bab" "cbc"}})
 
-(assert-equal "takelx -- case 2"
+(assert-equal (debug "takelx -- case 2")
   (filter-takelx "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{}})
 
-(assert-equal "takerx -- case 1"
+(assert-equal (debug "takerx -- case 1")
   (filter-takerx "g.a" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"gda" "bbf" "cac"}})
 
-(assert-equal "takerx -- case 2"
+(assert-equal (debug "takerx -- case 2")
   (filter-takerx "h.*" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{}})
 
-(assert-equal "dropl"
+(assert-equal (debug "dropl")
   (filter-dropl 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"g4a" "gda" "bbf" "cac"}})
 
-(assert-equal "dropr"
+(assert-equal (debug "dropr")
   (filter-dropr 4 {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"aba" "bab" "cbc" "afe"}})
 
-(assert-equal "zrep -- case 1"
+(assert-equal (debug "zrep -- case 1")
   (filter-zrep "^1" {"1" "2" "3" "4" "5" "6" "7" "8" "9" "10" })
   {{"1" "10"}})
 
-(assert-equal "zrep -- case 2"
+(assert-equal (debug "zrep -- case 2")
   (filter-zrep "^a$" {"1" "2" "3" "4" "5" "6" "7" "8" "9" "10" })
   {{}})
 
-(assert-equal "zrep -- case 3"
+(assert-equal (debug "zrep -- case 3")
   (filter-zrep "a$" {"aba" "bab" "cbc" "afe" "g4a" "gda" "bbf" "cac"})
   {{"aba" "g4a" "gda" }})
 
-(assert-equal "zniq -- case 1"
+(assert-equal (debug "zniq -- case 1")
   (filter-zniq [] {"aaa" "bbb" "ccc" "aaa" "bbb"})
   {{"aaa" "bbb" "ccc"}})
 
-(assert-equal "zniq -- case 2"
+(assert-equal (debug "zniq -- case 2")
   (filter-zniq [] {"aaa"})
   {{"aaa"}})
 
-(assert-equal "wrap -- case 1"
+(assert-equal (debug "wrap -- case 1")
   (filter-wrap "<script>*</script>" {"aaa" "bbb" "ccc"})
   {{"<script>aaa</script>" "<script>bbb</script>" "<script>ccc</script>"}})
 
-(assert-equal "wrap -- case 2"
+(assert-equal (debug "wrap -- case 2")
   (filter-wrap "<script>*" {"aaa" "bbb" "ccc"})
   {{"<script>aaa" "<script>bbb" "<script>ccc"}})
 
-(assert-equal "nestl -- case 1"
+(assert-equal (debug "nestl -- case 1")
   (filter-nestl "<script>*</script>" {"aaa" "bbb" "ccc"})
   {{"<script>" "<script>" "<script>" "aaa" "</script>" "bbb" "</script>" "ccc" "</script>"}})
 
-(assert-equal "nestr -- case 1"
+(assert-equal (debug "nestr -- case 1")
   (filter-nestr "<script>*</script>" {"aaa" "bbb" "ccc"})
   {{"<script>" "aaa" "<script>" "bbb" "<script>" "ccc" "</script>" "</script>" "</script>"}})
 
-(assert-equal "mirror"
+(assert-equal (debug "mirror")
   (filter-mirror [] {"a" "b" "c" "d"})
   {{"d" "c" "b" "a"}})
 
-(assert-equal "obrev"
+(assert-equal (debug "obrev")
   (filter-obrev [] {"a" "b" "c" "d"})
   {{"a" "b" "c" "d"} {"d" "c" "b" "a"}})
 
-(assert-equal "equalized-partition-nums -- case 1"
+(assert-equal (debug "equalized-partition-nums -- case 1")
   (equalized-partition-nums 100 6)
   {17 17 17 17 16 16})
 
-(assert-equal "equalized-partition-nums -- case 2"
+(assert-equal (debug "equalized-partition-nums -- case 2")
   (equalized-partition-nums 100 10)
   {10 10 10 10 10 10 10 10 10 10})
 
-(assert-equal "equalized-partition-nums -- case 3"
+(assert-equal (debug "equalized-partition-nums -- case 3")
   (equalized-partition-nums 3 6)
   {1 1 1 0 0 0})
 
-(assert-equal "filter-slit -- case 1"
+(assert-equal (debug "filter-slit -- case 1")
   (filter-slit 4 {"A" "B" "C" "D" "E" "F" "G" "H" "I"})
   {{"A" "B" "C"} {"D" "E"} {"F" "G"} {"H" "I"}})
 
-(assert-equal "filter-slit -- case 2"
+(assert-equal (debug "filter-slit -- case 2")
   (filter-slit 2 {"a" "b" "c" "d" "e" "f" "g"})
   {{"a" "b" "c" "d"} {"e" "f""g"}})
 
-(assert-equal "filter-slit -- case 3"
+(assert-equal (debug "filter-slit -- case 3")
   (filter-slit 3 {"a" "b" "c" "d" "e" "f" "g"})
   {{"a" "b" "c"} {"d" "e"} {"f" "g"}})
-
-

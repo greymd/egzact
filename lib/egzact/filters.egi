@@ -28,21 +28,21 @@
 
 (define $filter-comb
   (lambda [$num $line]
-    (let {[$min-num (min [num (length line)])]}
+    (let {[$min-num (min {num (length line)})]}
       (match-all line (list string)
         [(loop $i [1 min-num] <join _ <cons $a_i ...>> _)
          (map (1#a_%1 $) (between 1 min-num))]))))
 
 (define $filter-perm
   (lambda [$num $line]
-    (let {[$min-num (min [num (length line)])]}
+    (let {[$min-num (min {num (length line)})]}
       (match-all line (multiset string)
         [(loop $i [1 min-num] <cons $a_i ...> _)
          (map (1#a_%1 $) (between 1 min-num))]))))
 
 (define $filter-conv-each
   (lambda [$num $line]
-    (filter-conv [(min [num (length line)]) line])))
+    (filter-conv [(min {num (length line)}) line])))
 
 (define $filter-conv
   (lambda [$num $line]
@@ -117,12 +117,12 @@
 
 (define $filter-takel
   (lambda [$num $line]
-    (let {[$min-num (min [num (length line)])]}
+    (let {[$min-num (min {num (length line)})]}
       {(take min-num line)})))
 
 (define $filter-taker
   (lambda [$num $line]
-    (let {[$min-num (min [num (length line)])]}
+    (let {[$min-num (min {num (length line)})]}
       {(drop (- (length line) min-num) line)})))
 
 (define $filter-takelx
@@ -145,12 +145,12 @@
 
 (define $filter-dropl
   (lambda [$num $line]
-    (let {[$min-num (min [num (length line)])]}
+    (let {[$min-num (min {num (length line)})]}
       {(drop min-num line)})))
 
 (define $filter-dropr
   (lambda [$num $line]
-    (let {[$min-num (min [num (length line)])]}
+    (let {[$min-num (min {num (length line)})]}
       {(take (- (length line) min-num) line)})))
 
 (define $filter-zrep

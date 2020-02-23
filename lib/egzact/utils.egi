@@ -26,12 +26,13 @@
 
 (define $num-validation
   (lambda [$num]
-    (match {num} (list integer)
-      {
-      [<cons (& $n ?(integer? $) ?(gt? $ 0)) _> [(min n ARGMAX)]]
-      [<cons (& $n ?(string? $)) _> [(num-validation (read n))]]
-      [_ ARGMAX]
-      })))
+    (if (integer? num)
+      (if (gt? num 0)
+        (min {num ARGMAX})
+        ARGMAX)
+      (if (string? num)
+        (min {(read num) ARGMAX})
+        ARGMAX))))
 
 (define $option-usage
   (do {
@@ -103,13 +104,13 @@
 (define $set-default-value
   (lambda [$ls]
     (match ls (list something) {
-      [<join _ <cons (& $x ?(string? $)) $xs>> [x]] })))
+      [<join _ <cons (& $x !,[] ?(string? $)) $xs>> [x]] })))
 
 ; When the first element is string, put it between new lines.
 (define $set-default-value2
   (lambda [$ls]
     (match ls (list something) {
-      [<cons (& $x ?(string? $)) $xs> [(S.concat {"\n" x "\n"})]]
+      [<cons (& $x !,[] ?(string? $)) $xs> [(S.concat {"\n" x "\n"})]]
       [_ [(set-default-value ls)]]})))
 
 ; Define Hash<String, String>
@@ -145,7 +146,7 @@
   (lambda [$target]
     (match-lambda (list char)
       {[<nil> {}]
-       [<cons (& $c ,target) $cs>  (append {c#\ c} ((escape-chars target) cs))]
+       [<cons (& $c ,target) $cs>  (append {c#\\ c} ((escape-chars target) cs))]
        [<cons $c $cs>  (append {c} ((escape-chars target) cs))]
        })))
 
