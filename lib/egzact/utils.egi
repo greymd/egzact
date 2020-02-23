@@ -26,12 +26,13 @@
 
 (define $num-validation
   (lambda [$num]
-    (match {num} (list integer)
-      {
-      [<cons (& $n ?(integer? $) ?(gt? $ 0)) _> [(min n ARGMAX)]]
-      [<cons (& $n ?(string? $)) _> [(num-validation (read n))]]
-      [_ ARGMAX]
-      })))
+    (if (integer? num)
+      (if (gt? num 0)
+        (min {num ARGMAX})
+        ARGMAX)
+      (if (string? num)
+        (min {(read num) ARGMAX})
+        ARGMAX))))
 
 (define $option-usage
   (do {
