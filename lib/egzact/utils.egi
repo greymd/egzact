@@ -104,13 +104,13 @@
 (define $set-default-value
   (lambda [$ls]
     (match ls (list something) {
-      [<join _ <cons (& $x ?(string? $)) $xs>> [x]] })))
+      [<join _ <cons (& $x !,[] ?(string? $)) $xs>> [x]] })))
 
 ; When the first element is string, put it between new lines.
 (define $set-default-value2
   (lambda [$ls]
     (match ls (list something) {
-      [<cons (& $x ?(string? $)) $xs> [(S.concat {"\n" x "\n"})]]
+      [<cons (& $x !,[] ?(string? $)) $xs> [(S.concat {"\n" x "\n"})]]
       [_ [(set-default-value ls)]]})))
 
 ; Define Hash<String, String>
