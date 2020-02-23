@@ -2,6 +2,8 @@
 <img src="./img/logo.png" />
 </p>
 
+[![Build Status](https://github.com/greymd/egzact/workflows/test/badge.svg?branch=master)](https://github.com/greymd/egzact/actions?query=workflow%3Atest)
+
 # Generate flexible patterns on the shell
 
 How to utilize it? See [examples](./doc/example.md).
