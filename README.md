@@ -16,7 +16,7 @@ How to utilize it? See [examples](./doc/example.md).
 
 ## Installation
 
-egzact requires [Egison](https://www.egison.org/) version 3.7.14.
+egzact requires [Egison](https://www.egison.org/) version 3.10.3.
 Following installation procedure include installation of Egison.
 
 #### Linux users (RHEL compatible distros)
