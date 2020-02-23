@@ -22,13 +22,13 @@ Following installation procedure include installation of Egison.
 #### Linux users (RHEL compatible distros)
 
 ```
-$ sudo yum install https://git.io/{egison.x86_64,egzact-1.3.1}.rpm
+$ sudo yum install https://git.io/{egison.x86_64,egzact-1.3.2}.rpm
 ```
 
 #### Linux users (Debian base distros)
 
 ```
-$ wget https://git.io/{egison.x86_64,egzact-1.3.1}.deb
+$ wget https://git.io/{egison.x86_64,egzact-1.3.2}.deb
 $ sudo dpkg -i ./eg*.deb
 ```
 
