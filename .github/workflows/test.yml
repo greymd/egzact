@@ -15,6 +15,6 @@ jobs:
     - name: Install egison
       run: |
         curl --retry 3 -OL https://git.io/egison.x86_64.deb
-        dpkg -i ./egison.x86_64.deb
+        sudo dpkg -i ./egison.x86_64.deb
     - name: Run tests
       run: ./test.sh
