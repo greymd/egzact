@@ -68,8 +68,8 @@ printEachLine FILTER ARGS IFS OFS EOR EOS EOF INF :=
     (intersperse2
        EOS
        (map
-          1#(twocol2string OFS EOR %1)
-          (map (FILTER ARGS %1) (splitEachLine IFS INF))) ++ [EOF])
+         (\n -> twocol2string OFS EOR n)
+          (map (\n -> FILTER ARGS n) (splitEachLine IFS INF))) ++ [EOF])
 
 setDefaultValue ls :=
   match ls as list something with
