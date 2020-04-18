@@ -40,13 +40,13 @@ assertEqual
   (numValidation "10000000000")
   ARGMAX
 
-assertEqual (debug "S.nats? -- case 1") (S.nats? "100000000") True
+assertEqual (debug "S.isNats -- case 1") (S.isNats "100000000") True
 
-assertEqual (debug "S.nats? -- case 2") (S.nats? "1a") False
+assertEqual (debug "S.isNats -- case 2") (S.isNats "1a") False
 
-assertEqual (debug "S.nats? -- case 3") (S.nats? "02") False
+assertEqual (debug "S.isNats -- case 3") (S.isNats "02") False
 
-assertEqual (debug "S.nats? -- case 4") (S.nats? "1") True
+assertEqual (debug "S.isNats -- case 4") (S.isNats "1") True
 
 assertEqual (debug "num-validation -- case 8") (numValidation y) ARGMAX
 
