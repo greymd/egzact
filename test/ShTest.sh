@@ -145,7 +145,7 @@ test_flat() {
 	result=`seq 10 | tr ' ' '@' | egison ./flat.egi -- fs=@`
 	assertEquals "1@2@3@4@5@6@7@8@9@10" "${result}"
 
-	result=`seq 10 | egison ./flat.egi -- 5 | ./flat.egi each`
+	result=`seq 10 | egison ./flat.egi -- 5 | egison ./flat.egi each`
 	assertEquals "1 2 3 4 5
 6 7 8 9 10" "${result}"
 
@@ -215,7 +215,7 @@ test_slit() {
 7-8
 9-10" "${result}"
 
-	result=`seq 10 | egison ./flat.egi -- ofs="@" | ./slit.egi fs="@" 2`
+	result=`seq 10 | egison ./flat.egi -- ofs="@" | egison ./slit.egi fs="@" 2`
 	assertEquals "1@2@3@4@5
 6@7@8@9@10" "${result}"
 
