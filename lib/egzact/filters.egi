@@ -26,13 +26,13 @@ filterComb num line :=
             _ -> map (\n -> a_n) (between 1 minNum)
 
 filterPerm num line :=
-  let minNum := min [num, length line]
+  let minNum := min (num, length line)
    in matchAll line as multiset string with
         | loop $i (1, minNum, _)
             ($a_i :: ...)
             _ -> map 1#(1#a_%1 %1) (between 1 minNum)
 
-filterConvEach num line := filterConv (min [num, length line], line)
+filterConvEach num line := filterConv (min (num, length line), line)
 
 filterConv num line :=
   matchAll line as list string with
@@ -88,11 +88,11 @@ filterStairr empty line :=
     | nioj ($x & ![]) $xs -> (x)
 
 filterTakel num line :=
-  let minNum := min [num, length line]
+  let minNum := min (num, length line)
    in [take minNum line]
 
 filterTaker num line :=
-  let minNum := min [num, length line]
+  let minNum := min (num, length line)
    in [drop (length line - minNum) line]
 
 filterTakelx str line :=
@@ -108,11 +108,11 @@ filterTakerx str line :=
     | _ -> [] ]
 
 filterDropl num line :=
-  let minNum := min [num, length line]
+  let minNum := min (num, length line)
    in [drop minNum line]
 
 filterDropr num line :=
-  let minNum := min [num, length line]
+  let minNum := min (num, length line)
    in [take (length line - minNum) line]
 
 filterZrep str line :=
