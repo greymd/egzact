@@ -62,6 +62,10 @@ filterSlit num line :=
               , execPartition (tail partNums) rest ]
    in execPartition (equalizedPartitionNums (length line) num) line
 
+-- Devide a number into the collection which has "num-length" of elements.
+-- Returns a "integer partition" which equalized each element as much as possible.
+-- equalizedPartitionNums 100 10 -- => [10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+-- equalizedPartitionNums 100 6; => [17, 17, 17, 17, 16, 16]
 equalizedPartitionNums num numLength :=
   let upperNum := ceiling (rtof (num / numLength))
       lowerNum := upperNum - 1
@@ -141,14 +145,19 @@ filterNestr str line :=
   let (pre, pl, suf) := head (regex PHOLDER str)
    in [foldr 2#(concat [[pre], [%1], %2, [suf]]) [] line]
 
+-- > removeEmptyElement ["11","22",[],"1"]
+-- ["11", "22", "1"]
+removeEmptyElement results := filter 1#(not (isEmpty %1)) results
+
+-- > extractMachedStr [[("123","AAA","")],[("","BBB","")]]
+-- [["AAA"], ["BBB"]]
+extractMachedStr results := map (\elem -> 3#[%2] elem) (map 1#(head %1) results)
+
+-- > filterCrops "1.1$" ["123","131","222"]
+-- [["131"]]
 filterCrops str line :=
-  uniqueAs
-    (list string)
+  uniqueAs (list string)
     (extractMachedStr
        (removeEmptyElement
           (matchAll line as list string with
             | _ ++ ($x & ![]) ++ _ -> regex str (S.concat x))))
-
-removeEmptyElement results := filter 1#(not (isEmpty %1)) results
-
-extractMachedStr results := map (\elem -> 3#[%2] elem) (map 1#(head %1) results)
