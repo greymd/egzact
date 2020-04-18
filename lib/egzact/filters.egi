@@ -23,14 +23,14 @@ filterComb num line :=
    in matchAll line as list string with
         | loop $i (1, minNum)
             (_ ++ $a_i :: ...)
-            _ -> map (\n -> a_n) (between 1 minNum)
+            _ -> map 1#a_%1 (between 1 minNum)
 
 filterPerm num line :=
   let minNum := min (num, length line)
    in matchAll line as multiset string with
         | loop $i (1, minNum, _)
             ($a_i :: ...)
-            _ -> map 1#(1#a_%1 %1) (between 1 minNum)
+            _ -> map 1#a_%1 (between 1 minNum)
 
 filterConvEach num line := filterConv (min (num, length line), line)
 
@@ -38,7 +38,7 @@ filterConv num line :=
   matchAll line as list string with
     | _ ++ (loop $i (1, num, _)
               ($a_i :: ...)
-              _) -> map 1#(1#a_%1 %1) (between 1 num)
+              _) -> map 1#a_%1 (between 1 num)
 
 filterDupl num line := take num (repeat1 line)
 
@@ -58,7 +58,7 @@ filterSlit num line :=
               ($a_n :: ...)
               $rest ->
             concat
-              [ [map 1#(1#a_%1 %1) (between 1 (head partNums))]
+              [ [map 1#a_%1 (between 1 (head partNums))]
               , execPartition (tail partNums) rest ]
    in execPartition (equalizedPartitionNums (length line) num) line
 
@@ -97,13 +97,13 @@ filterTaker num line :=
 
 filterTakelx str line :=
   [ match line as list string with
-    | $left ++ ($elem & ?(\n -> not (isEmpty (regex str n))) & ![]) :: _ ->
+    | $left ++ ($elem & ?1#(not (isEmpty (regex str %1))) & ![]) :: _ ->
       left ++ [elem]
     | _ -> [] ]
 
 filterTakerx str line :=
   [ match line as list string with
-    | nioj $right (snoc ($elem & ?(\n -> not (isEmpty (regex str n))) & ![]) _) ->
+    | nioj $right (snoc ($elem & ?1#(not (isEmpty (regex str %1))) & ![]) _) ->
       [elem] ++ right
     | _ -> [] ]
 
@@ -117,7 +117,7 @@ filterDropr num line :=
 
 filterZrep str line :=
   [ match line as list string with
-    | $left ++ ($elem & ?(\n -> not (isEmpty (regex str n))) & ![]) :: $right ->
+    | $left ++ ($elem & ?1#(not (isEmpty (regex str %1))) & ![]) :: $right ->
       concat ([elem] :: filterZrep str right)
     | _ -> [] ]
 
@@ -149,6 +149,6 @@ filterCrops str line :=
           (matchAll line as list string with
             | _ ++ ($x & ![]) ++ _ -> regex str (S.concat x))))
 
-removeEmptyElement results := filter (\n -> not (isEmpty n)) results
+removeEmptyElement results := filter 1#(not (isEmpty %1)) results
 
 extractMachedStr results := map (\elem -> 3#[%2] elem) (map 1#(head %1) results)
