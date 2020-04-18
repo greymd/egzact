@@ -16,7 +16,7 @@ filterObrev str line := [line, reverse line]
 
 filterCycle num line :=
   matchAll line as list string with
-    | ($x & _) ++ $xs & ![] -> (concat [xs, x])
+    | ($x & _) ++ ($xs & ![]) -> (concat [xs, x])
 
 filterComb num line :=
   let minNum := min [num, length line]
