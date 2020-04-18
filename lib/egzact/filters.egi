@@ -149,6 +149,6 @@ filterCrops str line :=
           (matchAll line as list string with
             | _ ++ ($x & ![]) ++ _ -> regex str (S.concat x))))
 
-removeEmptyElement results := filter 1#(not (empty? %1)) results
+removeEmptyElement results := filter (\n -> not (isEmpty n)) results
 
 extractMachedStr results := map (\elem -> 3#[%2] elem) (map 1#(head %1) results)
