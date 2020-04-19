@@ -1,210 +1,149 @@
-(define $ARGMAX 65535)
-(define $ESCAPE-TARGET "\\\"")
+ARGMAX := 65535
 
-(define $S.nats?
-  (lambda [$str] (not (empty? (regex "^[1-9][0-9]*$" str)))))
+S.isNats str := not (isEmpty (regex "^[1-9][0-9]*$" str))
 
-(define $args-check-opts
-  (pattern-function [$opts]
-                    <join (& opts ?1#(check-opts %1)) <nil>>))
+argsCheckOpts := \opts => (~opts & ?1#(checkOpts %1)) ++ []
 
-(define $args-check-opts-num
-  (pattern-function [$opts $arg]
-                    <join (& opts ?1#(check-opts %1)) <cons (& arg ?(S.nats? $)) <nil>>>))
+argsCheckOptsNum :=
+  \opts arg => (~opts & ?1#(checkOpts %1)) ++ (~arg & ?1#(S.isNats %1)) :: []
 
-(define $args-check-opts-str
-  (pattern-function [$opts $arg]
-                    <join (& opts ?1#(check-opts %1)) <cons arg <nil>>>))
+argsCheckOptsStr := \opts arg => (~opts & ?1#(checkOpts %1)) ++ ~arg :: []
 
-(define $check-opts
-  (lambda [$opts]
-    (match opts (list string){
-      [<nil> #t]
-      [(loop $n [1 (length opts)] <cons ?1#(not (empty? (regex "=" %1))) ...> <nil>) #t]
-      [_ #f]
-      })))
+checkOpts opts :=
+  match opts as (list string) with
+    | [] -> True
+    | loop $n (1, length opts, _)
+        (?1#(not (isEmpty (regex "=" %1))) :: ...)
+        [] -> True
+    | _ -> False
 
-(define $num-validation
-  (lambda [$num]
-    (if (integer? num)
-      (if (gt? num 0)
-        (min {num ARGMAX})
-        ARGMAX)
-      (if (string? num)
-        (min {(read num) ARGMAX})
-        ARGMAX))))
+numValidation num :=
+  if isInteger num
+    then if num > 0 then min num ARGMAX else ARGMAX
+    else if isString num then min (read num) ARGMAX else ARGMAX
 
-(define $option-usage
-  (do {
-       (print "OPTIONS:")
-       (print "    fs=STR     Field separator.")
-       (print "    ifs=STR    Input field separator.")
-       (print "    ofs=STR    Output field separator.")
-       (print "    eor=STR    End of record.")
-       (print "    eos=STR    End of set.")
-       }))
+optionUsage :=
+  do print "OPTIONS:"
+     print "    fs=STR     Field separator."
+     print "    ifs=STR    Input field separator."
+     print "    ofs=STR    Output field separator."
+     print "    eor=STR    End of record."
+     print "    eos=STR    End of set."
 
-(define $option-usage2
-  (do {
-       (print "OPTIONS:")
-       (print "    eor=STR    End of record.")
-       (print "    eos=STR    End of set.")
-       }))
+optionUsage2 :=
+  do print "OPTIONS:"
+     print "    eor=STR    End of record."
+     print "    eos=STR    End of set."
 
-(define $execution
-  (lambda [$this-printer $this-filter $this-opts $this-arg $this-input]
-    (let {[[$IFS $OFS $EOR $EOS $EOF]
-           (set-default-opts
-             (opts2hash this-opts))]}
-           (this-printer
-             this-filter
-             this-arg
-             IFS OFS EOR EOS EOF
-             this-input))))
+execution thisPrinter thisFilter thisOpts thisArg thisInput :=
+  let (IFS, OFS, EOR, EOS, EOF) := setDefaultOpts (opts2hash thisOpts)
+   in thisPrinter thisFilter thisArg IFS OFS EOR EOS EOF thisInput
 
-; Set default value of each command line options.
-(define $set-default-opts
-  (lambda [$opts] [
-                   (set-default-value  {(opts "ifs") (opts "fs") " "}) ; input field separator
-                   (set-default-value  {(opts "ofs") (opts "fs") " "}) ; output field separator
-                   (set-default-value  {(opts "eor") "\n"})          ; output row separator
-                   (set-default-value2 {(opts "eos") "\n"})          ; output set separator
-                   (set-default-value  {(opts "eof") "\n"})          ; end of file
-                   ]))
 
-; Infinite input stream
-(define $stdin
-  (take-while
-    1#(not (eq? <EOF> %1))
-    (recursive-read read-line)))
+-- Set default value of each command line options.
+setDefaultOpts opts :=
+  ( setDefaultValue [opts "ifs", opts "fs", " "] -- input field separator
+  , setDefaultValue [opts "ofs", opts "fs", " "] -- output field separator
+  , setDefaultValue [opts "eor", "\n"]           -- output row separator
+  , setDefaultValue2 [opts "eos", "\n"]          -- output set separator
+  , setDefaultValue [opts "eof", "\n"] )         -- end of file
 
-(define $recursive-read
-  (lambda [$proc] {(if (io (eof?))
-                       <EOF>
-                       (io (proc)))
-                   @(recursive-read proc)}))
+-- Infinite input stream
+stdin := takeWhile 1#(not (EOF = %1)) (recursiveRead readLine)
 
-; Print whole the input stream with specified fieds.
-(define $print-whole-input
-  (lambda [$FILTER $ARGS $IFS $OFS $EOR $EOS $EOF $INF]
-    (each 1#(write (S.append (join-string OFS %1) EOR))
-      (FILTER ARGS
-            (split-whole-input IFS INF)))))
+recursiveRead proc :=
+  (if io isEof () then EOF else io proc ()) :: recursiveRead proc
 
-; Print each lines with specified fields.
-(define $print-each-line
-  (lambda [$FILTER $ARGS $IFS $OFS $EOR $EOS $EOF $INF]
-    (each write
-          (append (intersperse2 EOS
-                    (map 1#(twocol2string OFS EOR %1)
-                         (map (FILTER ARGS $)
-                              (split-each-line IFS INF)))) {EOF}))))
+-- Print whole the input stream with specified fieds.
+printWholeInput FILTER ARGS IFS OFS EOR EOS EOF INF :=
+  each
+    1#(write (S.append (joinString OFS %1) EOR))
+    (FILTER ARGS (splitWholeInput IFS INF))
 
-; Returns the string which is found most early.
-(define $set-default-value
-  (lambda [$ls]
-    (match ls (list something) {
-      [<join _ <cons (& $x !,[] ?(string? $)) $xs>> [x]] })))
+-- Print each lines with specified fields.
+printEachLine FILTER ARGS IFS OFS EOR EOS EOF INF :=
+  each
+    write
+    (intersperse2
+       EOS
+       (map
+         1#(twocol2string OFS EOR %1)
+          (map 1#(FILTER ARGS %1) (splitEachLine IFS INF))) ++ [EOF])
 
-; When the first element is string, put it between new lines.
-(define $set-default-value2
-  (lambda [$ls]
-    (match ls (list something) {
-      [<cons (& $x !,[] ?(string? $)) $xs> [(S.concat {"\n" x "\n"})]]
-      [_ [(set-default-value ls)]]})))
+-- Returns the string which is found most early.
+setDefaultValue ls :=
+  match ls as list something with
+    | _ ++ ($x & !#() & ?1#(isString %1)) :: $xs -> (x)
 
-; Define Hash<String, String>
-; Convert string collection to function which acts like key-value hash.
-; {"P1=A" "P2=B"} => (match-lambda something {[,"P1" "A"] [,"P2" "B"]})
-; Example:
-; > (define $myhash (opts2hash {"A=B" "C=D"}))
-; > (myhash "A")
-; > "B"
-(define $opts2hash
-  (lambda [$args]
-    (read
-      (S.concat
-        { "(match-lambda something {"
-        (S.concat
-          (map 2#(S.concat {"[," %1 " " %2 "] "})
-               (map 3#[(show (escape-string %1)) (show (escape-string %3))]
-                    (map 1#(car (regex "=" %1)) args))))
-        " [_ []]})"}))))
+-- When the first element is string, put it between new lines.
+setDefaultValue2 ls :=
+  match ls as list something with
+    | ($x & !#() & ?1#(isString %1)) :: $xs -> (S.concat ["\n", x, "\n"])
+    | _ -> (setDefaultValue ls)
 
-; Convert two-dimensional-collection to string
-; (proc "-" "@" {{"a" "b" "c"} {"d" "e" "f"} {"g"}}) => "a-b-c@d-e-f@g"
-(define $twocol2string
-  (lambda [$field-sep $row-sep $cols]
-    (join-string row-sep
-                 (map (join-string field-sep $) cols))))
+-- Define Hash<String, String>
+-- Convert string collection to function which acts like key-value hash.
+-- ["P1=A","P2=B"]
+-- match as something with
+-- | #"P1" -> "A"
+-- | #"P2" -> "B"
+-- Example:
+-- > myhash := opts2hash ["A=B", "C=D"]
+-- > myhash "A"
+-- > "B"
+opts2hash args :=
+    read $ S.concat [ "\\match as something with\n"
+    , S.concat (map 1#(3#(S.concat [
+        "  | #"
+        , show %1,
+        " -> ",
+        show %3,
+        "\n"]) $ head $ regex "=" %1) args)
+    , "  | _ -> []\n"
+    ]
 
-; Escape particular character
-; Example: escaping "a" character.
-; > ((escape-chars c#a) {c#a c#b c#c c#a c#b c#d})
-; {c#\ c#a c#b c#c c#\ c#a c#b c#d}
-(define $escape-chars
-  (lambda [$target]
-    (match-lambda (list char)
-      {[<nil> {}]
-       [<cons (& $c ,target) $cs>  (append {c#\\ c} ((escape-chars target) cs))]
-       [<cons $c $cs>  (append {c} ((escape-chars target) cs))]
-       })))
+-- Convert two-dimensional-collection to string
+-- > twocol2string "-" "@" [["a","b","c"],["d","e","f"],["g"]] -- => "a-b-c@d-e-f@g"
+twocol2string fieldSep rowSep cols :=
+  joinString rowSep (map 1#(joinString fieldSep %1) cols)
 
-; Escape doubole quotation.
-; Example:
-; > (escape-string "\"hoge\"fuga")
-; "\"hoge\"fuga"
-; ; (Not ""hoge"fuga")
-(define $escape-string
-  (lambda [$target]
-    (pack (foldl 2#((escape-chars %2) %1) (unpack target) (unpack ESCAPE-TARGET)))))
+-- Escape particular character
+-- Example: escaping "a" character.
+-- > (escapeChars 'a') ['a','b','c','a','b','d'] -- => ['\', 'a', 'b', 'c', '\', 'a', 'b', 'd']
+escapeChars target :=
+  \match as list char with
+    | [] -> []
+    | ($c & #target) :: $cs -> ['\\', c] ++ (escapeChars target) cs
+    | $c :: $cs -> [c] ++ (escapeChars target) cs
 
-; (proc "," {"a" "b" "c"}); => "a,b,c"
-(define $join-string
-  (lambda [$fs $ls]
-    (match ls (list string)
-      {
-      [<nil> ""] ; in case of empty element
-      [<cons (& $lst ?(string? $)) <nil>> lst]
-      [<cons $x $xs> [(S.append (S.append x fs) (join-string fs xs))]]
-      })))
+-- joinString "," ["a","b","c"] -- "a,b,c"
+joinString fs ls :=
+  match ls as list string with
+    | [] -> ""
+    | ($lst & ?1#(isString %1)) :: [] -> lst
+    | $x :: $xs -> (S.append (S.append x fs) (joinString fs xs))
 
-; new split-string function which can deal with empty separator
-(define $S.split2
-  (lambda [$in $ls]
-    (if (S.empty? in)
-        (map 1#(pack {%1}) (unpack ls))
-        (S.split in ls))))
+-- new split-string function which can deal with empty separator
+S.split2 delim ls :=
+  if S.isEmpty delim then map 1#(pack [%1]) (unpack ls) else S.split delim ls
 
-; (proc " " {"a b c" "1 2 3"}) => {"a" "b" "c" "1" "2" "3"}
-(define $split-whole-input
-  (lambda [$str $line]
-    (match line (list string)
-      {
-      [<nil> {}]
-      [<cons $x $xs>
-             (concat {(S.split2 str x) (split-whole-input str xs)})]
-      })))
+-- splitWholeInput " " ["a b c","1 2 3"] -- => ["a","b","c","1","2","3"]
+splitWholeInput str line :=
+  match line as list string with
+    | [] -> []
+    | $x :: $xs -> concat [S.split2 str x, splitWholeInput str xs]
 
-; (proc " " {"a b c" "1 2 3"}) => {{"a" "b" "c"} {"1" "2" "3"}}
-; (proc "" {"a b c" "1 2 3"}) => {{"a" " " "b" " " "c"} {"1" " " "2" " " "3"}}
-(define $split-each-line
-  (lambda [$str $line]
-    (match line (list string)
-      {
-      [<nil> {}]
-      [<cons $x $xs>
-             (append {(S.split2 str x)} (split-each-line str xs))]
-      })))
+-- splitEachLine " " ["a b c","1 2 3"] --  => [["a", "b", "c"], ["1", "2", "3"]]
+-- splitEachLine ""  ["a b c","1 2 3"] -- => [["a", " ", "b", " ", "c"], ["1", " ", "2", " ", "3"]]
+splitEachLine str line :=
+  match line as list string with
+    | [] -> []
+    | $x :: $xs -> [S.split2 str x] ++ splitEachLine str xs
 
-; The behavior is same as intersperse.
-; But it works even the input is infinite stream.
-; (proc "---" {"a b c" "1 2 3" "e f g"}) => {"a b c" "---" "1 2 3" "---" "e f g"}
-(define $intersperse2
-  (lambda [$str $line]
-    (match line (list string)
-      {
-      [<cons $x <nil>> {x}] ;last element
-      [<cons $x $xs>
-             (append (append {x} {str}) (intersperse2 str xs))] ;first and before last element
-      })))
+-- The behavior is same as intersperse.
+-- But it works even the input is infinite stream.
+-- intersperse2 "---" ["a b c","1 2 3","e f g"] -- => ["a b c", "---", "1 2 3", "---", "e f g"]
+intersperse2 str line :=
+  match line as list string with
+    | $x :: [] -> [x]
+    | $x :: $xs -> ([x] ++ [str]) ++ intersperse2 str xs -- first and before last element

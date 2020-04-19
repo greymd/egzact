@@ -1,215 +1,159 @@
-(define $PHOLDER "\\*")
+PHOLDER := "\\*"
 
-(define $filter-plain
-  (lambda [$str $line]
-    {line}))
+filterPlain str line := [line]
 
-(define $filter-addl
-  (lambda [$str $line]
-    {(cons str line)}))
+filterAddl str line := [str :: line]
 
-(define $filter-addr
-  (lambda [$str $line]
-    {(append line {str})}))
+filterAddr str line := [line ++ [str]]
 
-(define $filter-mirror
-  (lambda [$str $line]
-    {(reverse line)}))
+filterMirror str line := [reverse line]
 
-(define $filter-obrev
-  (lambda [$str $line]
-    {line (reverse line)}))
+filterObrev str line := [line, reverse line]
 
-(define $filter-cycle
-  (lambda [$num $line]
-    (match-all line (list string)
-      [<join (& $x _) (& $xs !<nil>)>
-       [(concat {xs x})]])))
+filterCycle num line :=
+  matchAll line as list string with
+    | ($x & _) ++ ($xs & ![]) -> (concat [xs, x])
 
-(define $filter-comb
-  (lambda [$num $line]
-    (let {[$min-num (min {num (length line)})]}
-      (match-all line (list string)
-        [(loop $i [1 min-num] <join _ <cons $a_i ...>> _)
-         (map (1#a_%1 $) (between 1 min-num))]))))
+filterComb num line :=
+  let minNum := min (num, length line)
+   in matchAll line as list string with
+        | loop $i (1, minNum)
+            (_ ++ $a_i :: ...)
+            _ -> map 1#a_%1 (between 1 minNum)
 
-(define $filter-perm
-  (lambda [$num $line]
-    (let {[$min-num (min {num (length line)})]}
-      (match-all line (multiset string)
-        [(loop $i [1 min-num] <cons $a_i ...> _)
-         (map (1#a_%1 $) (between 1 min-num))]))))
+filterPerm num line :=
+  let minNum := min (num, length line)
+   in matchAll line as multiset string with
+        | loop $i (1, minNum, _)
+            ($a_i :: ...)
+            _ -> map 1#a_%1 (between 1 minNum)
 
-(define $filter-conv-each
-  (lambda [$num $line]
-    (filter-conv [(min {num (length line)}) line])))
+filterConvEach num line := filterConv (min (num, length line), line)
 
-(define $filter-conv
-  (lambda [$num $line]
-    (match-all line (list string)
-      [<join _ (loop $i [1 num] <cons $a_i ...> _) >
-             (map (1#a_%1 $) (between 1 num))])))
+filterConv num line :=
+  matchAll line as list string with
+    | _ ++ (loop $i (1, num, _)
+              ($a_i :: ...)
+              _) -> map 1#a_%1 (between 1 num)
 
-(define $filter-dupl
-  (lambda [$num $line]
-    (take num (repeat1 line))))
+filterDupl num line := take num (repeat1 line)
 
-(define $filter-flat
-  (lambda [$num $line]
-    (match line (list string)
-      {
-      [(loop $i [1 num] <cons $a_i ...> $xs)
-       {(map 1#a_%1 (between 1 num)) @(filter-flat num xs)}]
-      [<join $x <cons $xs <nil>>> {(append x {xs})}]
-      [<nil> {}]
-       })))
+filterFlat num line :=
+  match line as list string with
+    | loop $i (1, num, _)
+        ($a_i :: ...)
+        $xs -> map 1#a_%1 (between 1 num) :: filterFlat num xs
+    | $x ++ $xs :: [] -> [x ++ [xs]]
+    | [] -> []
 
-(define $filter-slit
-  (lambda [$num $line]
-    (letrec {[$exec-partition
-               (lambda [$part-nums $ls]
-                 (match ls (list integer)
-                   {
-                   [<nil> {}]
-                   [(loop $n [1 (car part-nums)] <cons $a_n ...> $rest)
-                    (concat
-                      {{(map (1#a_%1 $) (between 1 (car part-nums)))}
-                      (exec-partition (cdr part-nums) rest)})]
-                   }))]}
-      (exec-partition
-        (equalized-partition-nums (length line) num)
-        line))))
+filterSlit num line :=
+  let execPartition partNums ls :=
+        match ls as list integer with
+          | [] -> []
+          | loop $n (1, head partNums, _)
+              ($a_n :: ...)
+              $rest ->
+            concat
+              [ [map 1#a_%1 (between 1 (head partNums))]
+              , execPartition (tail partNums) rest ]
+   in execPartition (equalizedPartitionNums (length line) num) line
 
-; Devide a number into the collection which has "num-length" of elements.
-; Returns a "integer partition" which equalized each element as much as possible.
-; (equalized-partition-nums 100 10); => {10 10 10 10 10 10 10 10 10 10}
-; (equalized-partition-nums 100 6); => {17 17 17 17 16 16}
-(define $equalized-partition-nums
-  (lambda [$num $num-length]
-  (let* {
-        [$upper-num (ceiling (rtof (/ num num-length)))]
-        [$lower-num (- upper-num 1)]
-        [$lower-num-count (- (* upper-num num-length) num)]
-        [$upper-num-count (- num-length lower-num-count)]}
-        (concat
-          {(take upper-num-count (repeat1 upper-num))
-          (take lower-num-count (repeat1 lower-num))}))))
+-- Devide a number into the collection which has "num-length" of elements.
+-- Returns a "integer partition" which equalized each element as much as possible.
+-- equalizedPartitionNums 100 10 -- => [10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
+-- equalizedPartitionNums 100 6; => [17, 17, 17, 17, 16, 16]
+equalizedPartitionNums num numLength :=
+  let upperNum := ceiling (rtof (num / numLength))
+      lowerNum := upperNum - 1
+      lowerNumCount := upperNum * numLength - num
+      upperNumCount := numLength - lowerNumCount
+   in concat
+        [ take upperNumCount (repeat1 upperNum)
+        , take lowerNumCount (repeat1 lowerNum) ]
 
-(define $filter-sublist
-  (lambda [$empty $line]
-    (match-all line (list string)
-      [<join _ <join (& $x !<nil>) _>>
-       {@x}])))
+filterSublist empty line :=
+  matchAll line as list string with
+    | _ ++ ($x & ![]) ++ _ -> x
 
-(define $filter-subset
-  (lambda [$empty $line]
-    (match-all line (set string)
-      [<join (& $x !<nil>) _>
-       {@x}])))
+filterSubset empty line :=
+  matchAll line as set string with
+    | ($x & ![]) ++ _ -> x
 
-(define $filter-stairl
-  (lambda [$empty $line]
-    (match-all line (list string) [<join (& $x !<nil>) $xs> [x]])))
+filterStairl empty line :=
+  matchAll line as list string with
+    | ($x & ![]) ++ $xs -> (x)
 
-(define $filter-stairr
-  (lambda [$empty $line]
-    (match-all line (list string) [<nioj (& $x !<nil>) $xs> [x]])))
+filterStairr empty line :=
+  matchAll line as list string with
+    | nioj ($x & ![]) $xs -> (x)
 
-(define $filter-takel
-  (lambda [$num $line]
-    (let {[$min-num (min {num (length line)})]}
-      {(take min-num line)})))
+filterTakel num line :=
+  let minNum := min (num, length line)
+   in [(take minNum line)]
 
-(define $filter-taker
-  (lambda [$num $line]
-    (let {[$min-num (min {num (length line)})]}
-      {(drop (- (length line) min-num) line)})))
+filterTaker num line :=
+  let minNum := min (num, length line)
+   in [drop (length line - minNum) line]
 
-(define $filter-takelx
-  (lambda [$str $line]
-    {(match line (list string)
-       {
-       [<join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
-              (append left {elem})]
-       [_ {}] ;If there is no mached patterns.
-       })}))
+filterTakelx str line :=
+  [ match line as list string with
+    | $left ++ ($elem & ?1#(not (isEmpty (regex str %1))) & ![]) :: _ ->
+      left ++ [elem]
+    | _ -> [] ]
 
-(define $filter-takerx
-  (lambda [$str $line]
-    {(match line (list string)
-       {
-       [<nioj $right <snoc (& $elem ?1#(not (empty? (regex str %1))) !<nil>) _>>
-              (append {elem} right)]
-       [_ {}] ;If there is no mached patterns.
-       })}))
+filterTakerx str line :=
+  [ match line as list string with
+    | nioj $right (snoc ($elem & ?1#(not (isEmpty (regex str %1))) & ![]) _) ->
+      [elem] ++ right
+    | _ -> [] ]
 
-(define $filter-dropl
-  (lambda [$num $line]
-    (let {[$min-num (min {num (length line)})]}
-      {(drop min-num line)})))
+filterDropl num line :=
+  let minNum := min (num, length line)
+   in [drop minNum line]
 
-(define $filter-dropr
-  (lambda [$num $line]
-    (let {[$min-num (min {num (length line)})]}
-      {(take (- (length line) min-num) line)})))
+filterDropr num line :=
+  let minNum := min (num, length line)
+   in [take (length line - minNum) line]
 
-(define $filter-zrep
-  (lambda [$str $line]
-    {(match line (list string)
-       {
-       [ <join $left <cons (& $elem ?1#(not (empty? (regex str %1))) !<nil>) $right>>
-               (concat {{elem} @(filter-zrep str right)})]
-       [_ {}] ;If there is no mached patterns.
-       })}))
+filterZrep str line :=
+  [ match line as list string with
+    | $left ++ ($elem & ?1#(not (isEmpty (regex str %1))) & ![]) :: $right ->
+      concat ([elem] :: filterZrep str right)
+    | _ -> [] ]
 
-(define $filter-zniq
-  (lambda [$str $line]
-    {(unique/m string line)}))
+filterZniq str line := [uniqueAs string line]
 
-(define $filter-wrap
-  (lambda [$str $line]
-    (let {[[$pre $pl $suf] (car (regex PHOLDER str))]}
-      (filter-wrap-impl pre suf line))))
+filterWrap str line :=
+  let (pre, pl, suf) := head (regex PHOLDER str)
+   in filterWrapImpl pre suf line
 
-(define $filter-wrap-impl
-  (lambda [$pre $suf $line]
-    {(match line (list string)
-       {
-       [ <join _ <cons $elem $right>>
-               (concat {{(S.concat {pre elem suf})} @(filter-wrap-impl pre suf right)})]
-       [_ {}] ;If there is no mached patterns.
-       })}))
+filterWrapImpl pre suf line :=
+  [ match line as list string with
+    | _ ++ $elem :: $right ->
+      concat ([S.concat [pre, elem, suf]] :: filterWrapImpl pre suf right)
+    | _ -> [] ]
 
-(define $filter-nestl
-  (lambda [$str $line]
-    (let {[[$pre $pl $suf] (car (regex PHOLDER str))]}
-     {(foldl 2#(concat {{pre} %1 {%2} {suf}}) {} line)})))
+filterNestl str line :=
+  let (pre, pl, suf) := head (regex PHOLDER str)
+   in [foldl 2#(concat [[pre], %1, [%2], [suf]]) [] line]
 
-(define $filter-nestr
-  (lambda [$str $line]
-    (let {[[$pre $pl $suf] (car (regex PHOLDER str))]}
-     {(foldr 2#(concat {{pre} {%1} %2 {suf}}) {} line)})))
+filterNestr str line :=
+  let (pre, pl, suf) := head (regex PHOLDER str)
+   in [foldr 2#(concat [[pre], [%1], %2, [suf]]) [] line]
 
-; > (filter-crops "1.1$" {"123" "131" "222"})
-; {{"131"}}
-(define $filter-crops
-  (lambda [$str $line]
-    (unique/m (list string)
-              (extract-mached-str
-                (remove-empty-element
-                  (match-all line (list string)
-                    [<join _ <join (& $x !<nil>) _>>
-                           (regex str (S.concat x))]))))))
+-- > removeEmptyElement ["11","22",[],"1"]
+-- ["11", "22", "1"]
+removeEmptyElement results := filter 1#(not (isEmpty %1)) results
 
-; > (remove-empty-element {"11" "22" {} "1"})
-; {"11" "22" "1"}
-(define $remove-empty-element
-  (lambda [$results]
-    (filter 1#(not (empty? %1)) results)))
+-- > extractMachedStr [[("123","AAA","")],[("","BBB","")]]
+-- [["AAA"], ["BBB"]]
+extractMachedStr results := map (\elem -> 3#[%2] elem) (map 1#(head %1) results)
 
-; > (extract-mached-str {{["123" "AAA" ""]} {["" "BBB" ""]}})
-; {{"AAA"} {"BBB"}}
-(define $extract-mached-str
-  (lambda [$results]
-    (map (lambda [$elem] (3#{%2} elem))
-         (map 1#(car %1) results))))
+-- > filterCrops "1.1$" ["123","131","222"]
+-- [["131"]]
+filterCrops str line :=
+  uniqueAs (list string)
+    (extractMachedStr
+       (removeEmptyElement
+          (matchAll line as list string with
+            | _ ++ ($x & ![]) ++ _ -> regex str (S.concat x))))
