@@ -104,11 +104,6 @@ assertEqual
   ['\\', 'a', 'b', 'c', '\\', 'a', 'b', 'd']
 
 assertEqual
-  (debug "escape-string")
-  (escapeString "\"hoge\"fuga")
-  "\\\"hoge\\\"fuga"
-
-assertEqual
   (debug "set-default-opts -- case 1")
   (setDefaultOpts
      (\match as something with

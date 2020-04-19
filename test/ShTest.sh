@@ -108,21 +108,21 @@ AD BA BB
 BA BB BC
 BB BC BD" "${result}"
 
-# 	result=`printf "AA AB AC AD\nBA BB BC BD" | egison ./conv.egi -- ofs='"' 3`
-# 	assertEquals 'AA"AB"AC
-# AB"AC"AD
-# AC"AD"BA
-# AD"BA"BB
-# BA"BB"BC
-# BB"BC"BD' "${result}"
+	result=`printf "AA AB AC AD\nBA BB BC BD" | egison ./conv.egi -- ofs='"' 3`
+	assertEquals 'AA"AB"AC
+AB"AC"AD
+AC"AD"BA
+AD"BA"BB
+BA"BB"BC
+BB"BC"BD' "${result}"
 
-# 	result=`echo 'AA"AB"AC"AD"BA"BB"BC"BD' | egison ./conv.egi -- ifs="\"" ofs="\"\"" 3`
-# 	assertEquals 'AA""AB""AC
-# AB""AC""AD
-# AC""AD""BA
-# AD""BA""BB
-# BA""BB""BC
-# BB""BC""BD' "${result}"
+	result=`echo 'AA"AB"AC"AD"BA"BB"BC"BD' | egison ./conv.egi -- ifs="\"" ofs="\"\"" 3`
+	assertEquals 'AA""AB""AC
+AB""AC""AD
+AC""AD""BA
+AD""BA""BB
+BA""BB""BC
+BB""BC""BD' "${result}"
 
 	result=`printf "AA AB AC AD\nBA BB BC BD" | egison ./conv.egi -- each 3`
 	assertEquals "AA AB AC
