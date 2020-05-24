@@ -14,6 +14,6 @@ trap 'rm -f "${THIS_DIR}"/egzact.tar.gz' EXIT
     tar zcvf /work/egzact.tar.gz -C "/usr/$_pholder" bin lib .tar2package.yml
   '
   _version="$(awk "/^version/{print \$NF}" "${THIS_DIR}"/pkg/.tar2package.yml)"
-  docker run -i greymd/tar2rpm < egzact.tar.gz > "${THIS_DIR}"/pkg/egzact-"${_version}".rpm
-  docker run -i greymd/tar2deb < egzact.tar.gz > "${THIS_DIR}"/pkg/egzact-"${_version}".deb
+  docker run -i greymd/tar2rpm:1.0.1 < egzact.tar.gz > "${THIS_DIR}"/pkg/egzact-"${_version}".rpm
+  docker run -i greymd/tar2deb:1.0.1 < egzact.tar.gz > "${THIS_DIR}"/pkg/egzact-"${_version}".deb
 }
