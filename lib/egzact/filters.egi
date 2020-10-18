@@ -15,20 +15,20 @@ def filterCycle num line :=
     | ($x & _) ++ ($xs & ![]) -> (concat [xs, x])
 
 def filterComb num line :=
-  let minNum := min (num, length line)
+  let minNum := min num (length line)
    in matchAll line as list string with
         | loop $i (1, minNum)
             (_ ++ $a_i :: ...)
             _ -> map 1#a_%1 (between 1 minNum)
 
 def filterPerm num line :=
-  let minNum := min (num, length line)
+  let minNum := min num (length line)
    in matchAll line as multiset string with
         | loop $i (1, minNum, _)
             ($a_i :: ...)
             _ -> map 1#a_%1 (between 1 minNum)
 
-def filterConvEach num line := filterConv (min (num, length line), line)
+def filterConvEach num line := filterConv (min num (length line)) line
 
 def filterConv num line :=
   matchAll line as list string with
@@ -88,11 +88,11 @@ def filterStairr empty line :=
     | nioj ($x & ![]) $xs -> (x)
 
 def filterTakel num line :=
-  let minNum := min (num, length line)
+  let minNum := min num (length line)
    in [(take minNum line)]
 
 def filterTaker num line :=
-  let minNum := min (num, length line)
+  let minNum := min num (length line)
    in [drop (length line - minNum) line]
 
 def filterTakelx str line :=
@@ -108,11 +108,11 @@ def filterTakerx str line :=
     | _ -> [] ]
 
 def filterDropl num line :=
-  let minNum := min (num, length line)
+  let minNum := min num (length line)
    in [drop minNum line]
 
 def filterDropr num line :=
-  let minNum := min (num, length line)
+  let minNum := min num (length line)
    in [take (length line - minNum) line]
 
 def filterZrep str line :=
@@ -147,7 +147,7 @@ def removeEmptyElement results := filter 1#(not (isEmpty %1)) results
 
 -- > extractMachedStr [[("123","AAA","")],[("","BBB","")]]
 -- [["AAA"], ["BBB"]]
-def extractMachedStr results := map (\elem -> 3#[%2] elem) (map 1#(head %1) results)
+def extractMachedStr results := map (\(_, elem, _) -> [elem]) (map head results)
 
 -- > filterCrops "1.1$" ["123","131","222"]
 -- [["131"]]
