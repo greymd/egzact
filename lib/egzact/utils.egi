@@ -1,15 +1,15 @@
-ARGMAX := 65535
+def ARGMAX := 65535
 
-S.isNats str := not (isEmpty (regex "^[1-9][0-9]*$" str))
+def S.isNats str := not (isEmpty (regex "^[1-9][0-9]*$" str))
 
-argsCheckOpts := \opts => (~opts & ?1#(checkOpts %1)) ++ []
+def argsCheckOpts := \opts => (~opts & ?1#(checkOpts %1)) ++ []
 
-argsCheckOptsNum :=
+def argsCheckOptsNum :=
   \opts arg => (~opts & ?1#(checkOpts %1)) ++ (~arg & ?1#(S.isNats %1)) :: []
 
-argsCheckOptsStr := \opts arg => (~opts & ?1#(checkOpts %1)) ++ ~arg :: []
+def argsCheckOptsStr := \opts arg => (~opts & ?1#(checkOpts %1)) ++ ~arg :: []
 
-checkOpts opts :=
+def checkOpts opts :=
   match opts as (list string) with
     | [] -> True
     | loop $n (1, length opts, _)
@@ -17,12 +17,12 @@ checkOpts opts :=
         [] -> True
     | _ -> False
 
-numValidation num :=
+def numValidation num :=
   if isInteger num
     then if num > 0 then min num ARGMAX else ARGMAX
     else if isString num then min (read num) ARGMAX else ARGMAX
 
-optionUsage :=
+def optionUsage :=
   do print "OPTIONS:"
      print "    fs=STR     Field separator."
      print "    ifs=STR    Input field separator."
@@ -30,18 +30,18 @@ optionUsage :=
      print "    eor=STR    End of record."
      print "    eos=STR    End of set."
 
-optionUsage2 :=
+def optionUsage2 :=
   do print "OPTIONS:"
      print "    eor=STR    End of record."
      print "    eos=STR    End of set."
 
-execution thisPrinter thisFilter thisOpts thisArg thisInput :=
+def execution thisPrinter thisFilter thisOpts thisArg thisInput :=
   let (IFS, OFS, EOR, EOS, EOF) := setDefaultOpts (opts2hash thisOpts)
    in thisPrinter thisFilter thisArg IFS OFS EOR EOS EOF thisInput
 
 
 -- Set default value of each command line options.
-setDefaultOpts opts :=
+def setDefaultOpts opts :=
   ( setDefaultValue [opts "ifs", opts "fs", " "] -- input field separator
   , setDefaultValue [opts "ofs", opts "fs", " "] -- output field separator
   , setDefaultValue [opts "eor", "\n"]           -- output row separator
@@ -49,19 +49,19 @@ setDefaultOpts opts :=
   , setDefaultValue [opts "eof", "\n"] )         -- end of file
 
 -- Infinite input stream
-stdin := takeWhile 1#(not (EOF = %1)) (recursiveRead readLine)
+def stdin := takeWhile 1#(not (EOF = %1)) (recursiveRead readLine)
 
-recursiveRead proc :=
-  (if io isEof () then EOF else io proc ()) :: recursiveRead proc
+def recursiveRead proc :=
+  (if io (isEof ()) then EOF else io (proc ())) :: recursiveRead proc
 
 -- Print whole the input stream with specified fieds.
-printWholeInput FILTER ARGS IFS OFS EOR EOS EOF INF :=
+def printWholeInput FILTER ARGS IFS OFS EOR EOS EOF INF :=
   each
     1#(write (S.append (joinString OFS %1) EOR))
     (FILTER ARGS (splitWholeInput IFS INF))
 
 -- Print each lines with specified fields.
-printEachLine FILTER ARGS IFS OFS EOR EOS EOF INF :=
+def printEachLine FILTER ARGS IFS OFS EOR EOS EOF INF :=
   each
     write
     (intersperse2
@@ -71,12 +71,12 @@ printEachLine FILTER ARGS IFS OFS EOR EOS EOF INF :=
           (map 1#(FILTER ARGS %1) (splitEachLine IFS INF))) ++ [EOF])
 
 -- Returns the string which is found most early.
-setDefaultValue ls :=
+def setDefaultValue ls :=
   match ls as list something with
     | _ ++ ($x & !#() & ?1#(isString %1)) :: $xs -> (x)
 
 -- When the first element is string, put it between new lines.
-setDefaultValue2 ls :=
+def setDefaultValue2 ls :=
   match ls as list something with
     | ($x & !#() & ?1#(isString %1)) :: $xs -> (S.concat ["\n", x, "\n"])
     | _ -> (setDefaultValue ls)
@@ -91,7 +91,7 @@ setDefaultValue2 ls :=
 -- > myhash := opts2hash ["A=B", "C=D"]
 -- > myhash "A"
 -- > "B"
-opts2hash args :=
+def opts2hash args :=
     read $ S.concat [ "\\match as something with\n"
     , S.concat (map 1#(3#(S.concat [
         "  | #"
@@ -104,38 +104,38 @@ opts2hash args :=
 
 -- Convert two-dimensional-collection to string
 -- > twocol2string "-" "@" [["a","b","c"],["d","e","f"],["g"]] -- => "a-b-c@d-e-f@g"
-twocol2string fieldSep rowSep cols :=
+def twocol2string fieldSep rowSep cols :=
   joinString rowSep (map 1#(joinString fieldSep %1) cols)
 
 -- Escape particular character
 -- Example: escaping "a" character.
 -- > (escapeChars 'a') ['a','b','c','a','b','d'] -- => ['\', 'a', 'b', 'c', '\', 'a', 'b', 'd']
-escapeChars target :=
+def escapeChars target :=
   \match as list char with
     | [] -> []
     | ($c & #target) :: $cs -> ['\\', c] ++ (escapeChars target) cs
     | $c :: $cs -> [c] ++ (escapeChars target) cs
 
 -- joinString "," ["a","b","c"] -- "a,b,c"
-joinString fs ls :=
+def joinString fs ls :=
   match ls as list string with
     | [] -> ""
     | ($lst & ?1#(isString %1)) :: [] -> lst
     | $x :: $xs -> (S.append (S.append x fs) (joinString fs xs))
 
 -- new split-string function which can deal with empty separator
-S.split2 delim ls :=
+def S.split2 delim ls :=
   if S.isEmpty delim then map 1#(pack [%1]) (unpack ls) else S.split delim ls
 
 -- splitWholeInput " " ["a b c","1 2 3"] -- => ["a","b","c","1","2","3"]
-splitWholeInput str line :=
+def splitWholeInput str line :=
   match line as list string with
     | [] -> []
     | $x :: $xs -> concat [S.split2 str x, splitWholeInput str xs]
 
 -- splitEachLine " " ["a b c","1 2 3"] --  => [["a", "b", "c"], ["1", "2", "3"]]
 -- splitEachLine ""  ["a b c","1 2 3"] -- => [["a", " ", "b", " ", "c"], ["1", " ", "2", " ", "3"]]
-splitEachLine str line :=
+def splitEachLine str line :=
   match line as list string with
     | [] -> []
     | $x :: $xs -> [S.split2 str x] ++ splitEachLine str xs
@@ -143,7 +143,7 @@ splitEachLine str line :=
 -- The behavior is same as intersperse.
 -- But it works even the input is infinite stream.
 -- intersperse2 "---" ["a b c","1 2 3","e f g"] -- => ["a b c", "---", "1 2 3", "---", "e f g"]
-intersperse2 str line :=
+def intersperse2 str line :=
   match line as list string with
     | $x :: [] -> [x]
     | $x :: $xs -> ([x] ++ [str]) ++ intersperse2 str xs -- first and before last element
