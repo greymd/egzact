@@ -10,7 +10,7 @@ def argsCheckOptsNum :=
 def argsCheckOptsStr := \opts arg => (~opts & ?checkOpts) ++ ~arg :: []
 
 def checkOpts opts :=
-  match opts as (list string) with
+  match opts as list string with
     | [] -> True
     | loop $n (1, length opts, _)
         (?1#(not (isEmpty (regex "=" %1))) :: ...)
@@ -73,13 +73,13 @@ def printEachLine filter args ifs ofs eor eos eof inf :=
 -- Returns the string which is found most early.
 def setDefaultValue ls :=
   match ls as list something with
-    | _ ++ ($x & !#() & ?isString) :: $xs -> (x)
+    | _ ++ ($x & !#() & ?isString) :: $xs -> x
 
 -- When the first element is string, put it between new lines.
 def setDefaultValue2 ls :=
   match ls as list something with
-    | ($x & !#() & ?isString) :: $xs -> (S.concat ["\n", x, "\n"])
-    | _ -> (setDefaultValue ls)
+    | ($x & !#() & ?isString) :: $xs -> S.concat ["\n", x, "\n"]
+    | _ -> setDefaultValue ls
 
 -- Define Hash<String, String>
 -- Convert string collection to function which acts like key-value hash.
@@ -94,7 +94,7 @@ def setDefaultValue2 ls :=
 def opts2hash args :=
     read $ S.concat [ "\\match as something with\n"
     , S.concat (map 1#(let (key, _, val) := head (regex "=" %1)
-                        in (S.concat ["  | #", show key, " -> ", show val, "\n"])) args)
+                        in S.concat ["  | #", show key, " -> ", show val, "\n"]) args)
     , "  | _ -> []\n"
     ]
 
@@ -117,7 +117,7 @@ def joinString fs ls :=
   match ls as list string with
     | [] -> ""
     | ($lst & ?isString) :: [] -> lst
-    | $x :: $xs -> (S.append (S.append x fs) (joinString fs xs))
+    | $x :: $xs -> S.append (S.append x fs) (joinString fs xs)
 
 -- new split-string function which can deal with empty separator
 def S.split2 delim ls :=
@@ -142,4 +142,4 @@ def splitEachLine str line :=
 def intersperse2 str line :=
   match line as list string with
     | $x :: [] -> [x]
-    | $x :: $xs -> ([x] ++ [str]) ++ intersperse2 str xs -- first and before last element
+    | $x :: $xs -> [x] ++ [str] ++ intersperse2 str xs -- first and before last element
