@@ -2,12 +2,12 @@ def ARGMAX := 65535
 
 def S.isNats str := not (isEmpty (regex "^[1-9][0-9]*$" str))
 
-def argsCheckOpts := \opts => (~opts & ?1#(checkOpts %1)) ++ []
+def argsCheckOpts := \opts => (~opts & ?checkOpts) ++ []
 
 def argsCheckOptsNum :=
-  \opts arg => (~opts & ?1#(checkOpts %1)) ++ (~arg & ?1#(S.isNats %1)) :: []
+  \opts arg => (~opts & ?checkOpts) ++ (~arg & ?S.isNats) :: []
 
-def argsCheckOptsStr := \opts arg => (~opts & ?1#(checkOpts %1)) ++ ~arg :: []
+def argsCheckOptsStr := \opts arg => (~opts & ?checkOpts) ++ ~arg :: []
 
 def checkOpts opts :=
   match opts as (list string) with
@@ -73,12 +73,12 @@ def printEachLine filter args ifs ofs eor eos eof inf :=
 -- Returns the string which is found most early.
 def setDefaultValue ls :=
   match ls as list something with
-    | _ ++ ($x & !#() & ?1#(isString %1)) :: $xs -> (x)
+    | _ ++ ($x & !#() & ?isString) :: $xs -> (x)
 
 -- When the first element is string, put it between new lines.
 def setDefaultValue2 ls :=
   match ls as list something with
-    | ($x & !#() & ?1#(isString %1)) :: $xs -> (S.concat ["\n", x, "\n"])
+    | ($x & !#() & ?isString) :: $xs -> (S.concat ["\n", x, "\n"])
     | _ -> (setDefaultValue ls)
 
 -- Define Hash<String, String>
@@ -116,7 +116,7 @@ def escapeChars target :=
 def joinString fs ls :=
   match ls as list string with
     | [] -> ""
-    | ($lst & ?1#(isString %1)) :: [] -> lst
+    | ($lst & ?isString) :: [] -> lst
     | $x :: $xs -> (S.append (S.append x fs) (joinString fs xs))
 
 -- new split-string function which can deal with empty separator
