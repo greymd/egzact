@@ -28,7 +28,7 @@ def filterPerm num line :=
             ($a_i :: ...)
             _ -> map 1#a_%1 (between 1 minNum)
 
-def filterConvEach num line := filterConv (min num (length line), line)
+def filterConvEach num line := filterConv (min num (length line)) line
 
 def filterConv num line :=
   matchAll line as list string with
