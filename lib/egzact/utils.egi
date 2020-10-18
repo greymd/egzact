@@ -93,12 +93,8 @@ def setDefaultValue2 ls :=
 -- > "B"
 def opts2hash args :=
     read $ S.concat [ "\\match as something with\n"
-    , S.concat (map 1#(3#(S.concat [
-        "  | #"
-        , show %1,
-        " -> ",
-        show %3,
-        "\n"]) $ head $ regex "=" %1) args)
+    , S.concat (map 1#(let (key, _, val) := head (regex "=" %1)
+                        in (S.concat ["  | #", show key, " -> ", show val, "\n"])) args)
     , "  | _ -> []\n"
     ]
 

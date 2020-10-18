@@ -147,7 +147,7 @@ def removeEmptyElement results := filter 1#(not (isEmpty %1)) results
 
 -- > extractMachedStr [[("123","AAA","")],[("","BBB","")]]
 -- [["AAA"], ["BBB"]]
-def extractMachedStr results := map (\elem -> 3#[%2] elem) (map 1#(head %1) results)
+def extractMachedStr results := map (\(_, elem, _) -> [elem]) (map 1#(head %1) results)
 
 -- > filterCrops "1.1$" ["123","131","222"]
 -- [["131"]]
