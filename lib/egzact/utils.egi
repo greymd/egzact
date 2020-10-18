@@ -36,8 +36,8 @@ def optionUsage2 :=
      print "    eos=STR    End of set."
 
 def execution thisPrinter thisFilter thisOpts thisArg thisInput :=
-  let (IFS, OFS, EOR, EOS, EOF) := setDefaultOpts (opts2hash thisOpts)
-   in thisPrinter thisFilter thisArg IFS OFS EOR EOS EOF thisInput
+  let (ifs, ofs, eor, eos, eof) := setDefaultOpts (opts2hash thisOpts)
+   in thisPrinter thisFilter thisArg ifs ofs eor eos eof thisInput
 
 
 -- Set default value of each command line options.
@@ -55,20 +55,20 @@ def recursiveRead proc :=
   (if io (isEof ()) then EOF else io (proc ())) :: recursiveRead proc
 
 -- Print whole the input stream with specified fieds.
-def printWholeInput FILTER ARGS IFS OFS EOR EOS EOF INF :=
+def printWholeInput filter args ifs ofs eor eos eof inf :=
   each
-    1#(write (S.append (joinString OFS %1) EOR))
-    (FILTER ARGS (splitWholeInput IFS INF))
+    1#(write (S.append (joinString ofs %1) eor))
+    (filter args (splitWholeInput ifs inf))
 
 -- Print each lines with specified fields.
-def printEachLine FILTER ARGS IFS OFS EOR EOS EOF INF :=
+def printEachLine filter args ifs ofs eor eos eof inf :=
   each
     write
     (intersperse2
-       EOS
+       eos
        (map
-         1#(twocol2string OFS EOR %1)
-          (map 1#(FILTER ARGS %1) (splitEachLine IFS INF))) ++ [EOF])
+         1#(twocol2string ofs eor %1)
+          (map 1#(filter args %1) (splitEachLine ifs inf))) ++ [eof])
 
 -- Returns the string which is found most early.
 def setDefaultValue ls :=
