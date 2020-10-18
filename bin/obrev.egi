@@ -6,12 +6,12 @@ loadFile "../lib/egzact/utils.egi"
 
 loadFile "../lib/egzact/filters.egi"
 
-main :=
+def main :=
   \match as list string with
     | argsCheckOpts $opts -> execution printEachLine filterObrev opts () stdin
     | _ -> usage
 
-usage :=
+def usage :=
   do print "Usage: obrev [OPTIONS]"
      optionUsage
      print "tldr:"

@@ -6,13 +6,13 @@ loadFile "../lib/egzact/utils.egi"
 
 loadFile "../lib/egzact/filters.egi"
 
-main :=
+def main :=
   \match as list string with
     | argsCheckOptsNum $opts $num ->
       execution printEachLine filterDropr opts (read num) stdin
     | _ -> usage
 
-usage :=
+def usage :=
   do print "Usage: dropr [OPTIONS] number"
      optionUsage
      print "tldr:"

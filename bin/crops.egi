@@ -6,13 +6,13 @@ loadFile "../lib/egzact/utils.egi"
 
 loadFile "../lib/egzact/filters.egi"
 
-main :=
+def main :=
   \match as list string with
     | argsCheckOptsStr $opts $arg ->
       execution printEachLine filterCrops (["ifs=", "ofs="] ++ opts) arg stdin
     | _ -> usage
 
-usage :=
+def usage :=
   do print "Usage: crops [OPTIONS] string"
      optionUsage2
      print "tldr:"

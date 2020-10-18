@@ -1,44 +1,44 @@
-PHOLDER := "\\*"
+def PHOLDER := "\\*"
 
-filterPlain str line := [line]
+def filterPlain str line := [line]
 
-filterAddl str line := [str :: line]
+def filterAddl str line := [str :: line]
 
-filterAddr str line := [line ++ [str]]
+def filterAddr str line := [line ++ [str]]
 
-filterMirror str line := [reverse line]
+def filterMirror str line := [reverse line]
 
-filterObrev str line := [line, reverse line]
+def filterObrev str line := [line, reverse line]
 
-filterCycle num line :=
+def filterCycle num line :=
   matchAll line as list string with
     | ($x & _) ++ ($xs & ![]) -> (concat [xs, x])
 
-filterComb num line :=
+def filterComb num line :=
   let minNum := min (num, length line)
    in matchAll line as list string with
         | loop $i (1, minNum)
             (_ ++ $a_i :: ...)
             _ -> map 1#a_%1 (between 1 minNum)
 
-filterPerm num line :=
+def filterPerm num line :=
   let minNum := min (num, length line)
    in matchAll line as multiset string with
         | loop $i (1, minNum, _)
             ($a_i :: ...)
             _ -> map 1#a_%1 (between 1 minNum)
 
-filterConvEach num line := filterConv (min (num, length line), line)
+def filterConvEach num line := filterConv (min (num, length line), line)
 
-filterConv num line :=
+def filterConv num line :=
   matchAll line as list string with
     | _ ++ (loop $i (1, num, _)
               ($a_i :: ...)
               _) -> map 1#a_%1 (between 1 num)
 
-filterDupl num line := take num (repeat1 line)
+def filterDupl num line := take num (repeat1 line)
 
-filterFlat num line :=
+def filterFlat num line :=
   match line as list string with
     | loop $i (1, num, _)
         ($a_i :: ...)
@@ -46,7 +46,7 @@ filterFlat num line :=
     | $x ++ $xs :: [] -> [x ++ [xs]]
     | [] -> []
 
-filterSlit num line :=
+def filterSlit num line :=
   let execPartition partNums ls :=
         match ls as list integer with
           | [] -> []
@@ -62,7 +62,7 @@ filterSlit num line :=
 -- Returns a "integer partition" which equalized each element as much as possible.
 -- equalizedPartitionNums 100 10 -- => [10, 10, 10, 10, 10, 10, 10, 10, 10, 10]
 -- equalizedPartitionNums 100 6; => [17, 17, 17, 17, 16, 16]
-equalizedPartitionNums num numLength :=
+def equalizedPartitionNums num numLength :=
   let upperNum := ceiling (rtof (num / numLength))
       lowerNum := upperNum - 1
       lowerNumCount := upperNum * numLength - num
@@ -71,87 +71,87 @@ equalizedPartitionNums num numLength :=
         [ take upperNumCount (repeat1 upperNum)
         , take lowerNumCount (repeat1 lowerNum) ]
 
-filterSublist empty line :=
+def filterSublist empty line :=
   matchAll line as list string with
     | _ ++ ($x & ![]) ++ _ -> x
 
-filterSubset empty line :=
+def filterSubset empty line :=
   matchAll line as set string with
     | ($x & ![]) ++ _ -> x
 
-filterStairl empty line :=
+def filterStairl empty line :=
   matchAll line as list string with
     | ($x & ![]) ++ $xs -> (x)
 
-filterStairr empty line :=
+def filterStairr empty line :=
   matchAll line as list string with
     | nioj ($x & ![]) $xs -> (x)
 
-filterTakel num line :=
+def filterTakel num line :=
   let minNum := min (num, length line)
    in [(take minNum line)]
 
-filterTaker num line :=
+def filterTaker num line :=
   let minNum := min (num, length line)
    in [drop (length line - minNum) line]
 
-filterTakelx str line :=
+def filterTakelx str line :=
   [ match line as list string with
     | $left ++ ($elem & ?1#(not (isEmpty (regex str %1))) & ![]) :: _ ->
       left ++ [elem]
     | _ -> [] ]
 
-filterTakerx str line :=
+def filterTakerx str line :=
   [ match line as list string with
     | nioj $right (snoc ($elem & ?1#(not (isEmpty (regex str %1))) & ![]) _) ->
       [elem] ++ right
     | _ -> [] ]
 
-filterDropl num line :=
+def filterDropl num line :=
   let minNum := min (num, length line)
    in [drop minNum line]
 
-filterDropr num line :=
+def filterDropr num line :=
   let minNum := min (num, length line)
    in [take (length line - minNum) line]
 
-filterZrep str line :=
+def filterZrep str line :=
   [ match line as list string with
     | $left ++ ($elem & ?1#(not (isEmpty (regex str %1))) & ![]) :: $right ->
       concat ([elem] :: filterZrep str right)
     | _ -> [] ]
 
-filterZniq str line := [uniqueAs string line]
+def filterZniq str line := [uniqueAs string line]
 
-filterWrap str line :=
+def filterWrap str line :=
   let (pre, pl, suf) := head (regex PHOLDER str)
    in filterWrapImpl pre suf line
 
-filterWrapImpl pre suf line :=
+def filterWrapImpl pre suf line :=
   [ match line as list string with
     | _ ++ $elem :: $right ->
       concat ([S.concat [pre, elem, suf]] :: filterWrapImpl pre suf right)
     | _ -> [] ]
 
-filterNestl str line :=
+def filterNestl str line :=
   let (pre, pl, suf) := head (regex PHOLDER str)
    in [foldl 2#(concat [[pre], %1, [%2], [suf]]) [] line]
 
-filterNestr str line :=
+def filterNestr str line :=
   let (pre, pl, suf) := head (regex PHOLDER str)
    in [foldr 2#(concat [[pre], [%1], %2, [suf]]) [] line]
 
 -- > removeEmptyElement ["11","22",[],"1"]
 -- ["11", "22", "1"]
-removeEmptyElement results := filter 1#(not (isEmpty %1)) results
+def removeEmptyElement results := filter 1#(not (isEmpty %1)) results
 
 -- > extractMachedStr [[("123","AAA","")],[("","BBB","")]]
 -- [["AAA"], ["BBB"]]
-extractMachedStr results := map (\elem -> 3#[%2] elem) (map 1#(head %1) results)
+def extractMachedStr results := map (\elem -> 3#[%2] elem) (map 1#(head %1) results)
 
 -- > filterCrops "1.1$" ["123","131","222"]
 -- [["131"]]
-filterCrops str line :=
+def filterCrops str line :=
   uniqueAs (list string)
     (extractMachedStr
        (removeEmptyElement

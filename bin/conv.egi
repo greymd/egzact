@@ -6,7 +6,7 @@ loadFile "../lib/egzact/utils.egi"
 
 loadFile "../lib/egzact/filters.egi"
 
-main :=
+def main :=
   \match as list string with
     | #"each" :: argsCheckOptsNum $opts $arg ->
       execution printEachLine filterConvEach opts (numValidation arg) stdin
@@ -17,7 +17,7 @@ main :=
     | argsCheckOpts $opts -> execution printWholeInput filterConv opts 1 stdin
     | _ -> usage
 
-usage :=
+def usage :=
   do print "Usage: conv [OPTIONS] [number]"
      print "       conv each [OPTIONS] [number]"
      print "Description:"

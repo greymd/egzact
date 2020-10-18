@@ -6,7 +6,7 @@ loadFile "../lib/egzact/utils.egi"
 
 loadFile "../lib/egzact/filters.egi"
 
-main :=
+def main :=
   \match as list string with
     | #"each" :: argsCheckOptsNum $opts $arg ->
       execution printEachLine filterSlit opts (numValidation arg) stdin
@@ -18,7 +18,7 @@ main :=
       execution printWholeInput filterSlit opts ARGMAX stdin
     | _ -> usage
 
-usage :=
+def usage :=
   do print "Usage: slit [OPTIONS] [number]"
      print "       slit each [OPTIONS] [number]"
      print "Description:"
