@@ -23,7 +23,7 @@ Following installation procedure include installation of Egison.
 
 ```
 $ sudo yum install https://git.io/egison-4.1.2.x86_64.rpm   ## Install Egison
-$ sudo yum install https://git.io/egzact-2.1.0.rpm          ## Install egzact
+$ sudo yum install https://git.io/egzact-2.1.1.rpm          ## Install egzact
 ```
 
 #### Linux users (Debian base distros)
@@ -31,8 +31,8 @@ $ sudo yum install https://git.io/egzact-2.1.0.rpm          ## Install egzact
 ```
 $ wget https://git.io/egison-4.1.2.x86_64.deb
 $ sudo dpkg -i egison-4.1.2.x86_64.deb   ## Install Egison
-$ wget https://git.io/egzact-2.1.0.deb
-$ sudo dpkg -i egzact-2.1.0.deb  ## Install egzact
+$ wget https://git.io/egzact-2.1.1.deb
+$ sudo dpkg -i egzact-2.1.1.deb  ## Install egzact
 ```
 
 #### macOS users

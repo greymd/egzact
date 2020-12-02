@@ -2,8 +2,8 @@ name : egzact
 cmdname : egzact
 summary : Strengthen weak points of the shell
 description : New command line tools with three concepts.
-version : 2.1.0
-changelog : Support Egison 4.1.2
+version : 2.1.1
+changelog : Fix rpm/deb package misconfiguration
 url : https://github.com/greymd/egzact
 author : Yasuhiro, Yamada
 email : yamadagrep@gmail.com

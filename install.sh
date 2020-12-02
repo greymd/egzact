@@ -25,8 +25,8 @@ _install () {
   local _mode="$1" ;shift
   local _src="$1" ;shift
   local _dst="$1" ;shift
-  echo "sed \"5,7s:\\.\\.:${PREFIX}:\" \"${_src}\" > \"${_dst}\""
-  sed "5,7s:\\.\\.:${PREFIX}:" "${_src}" > "${_dst}"
+  echo "sed \"1,3s:\\.\\.:${PREFIX}:\" \"${_src}\" > \"${_dst}\""
+  sed "1,3s:\\.\\.:${PREFIX}:" "${_src}" > "${_dst}"
   chmod "${_mode}" "${_dst}"
 }
 
