@@ -16,23 +16,23 @@ How to utilize it? See [examples](./doc/example.md).
 
 ## Installation
 
-egzact requires [Egison](https://www.egison.org/) version 4.0.3.
+egzact requires [Egison](https://www.egison.org/) version 4.1.2.
 Following installation procedure include installation of Egison.
 
 #### Linux users (RHEL compatible distros)
 
 ```
-$ sudo yum install https://git.io/egison-4.0.3.x86_64.rpm   ## Install Egison
-$ sudo yum install https://git.io/egzact-2.0.0.rpm          ## Install egzact
+$ sudo yum install https://git.io/egison-4.1.2.x86_64.rpm   ## Install Egison
+$ sudo yum install https://git.io/egzact-2.1.0.rpm          ## Install egzact
 ```
 
 #### Linux users (Debian base distros)
 
 ```
-$ wget https://git.io/egison-4.0.3.x86_64.deb
-$ sudo dpkg -i egison-4.0.3.x86_64.deb   ## Install Egison
-$ wget https://git.io/egzact-2.0.0.deb
-$ sudo dpkg -i egzact-2.0.0.deb  ## Install egzact
+$ wget https://git.io/egison-4.1.2.x86_64.deb
+$ sudo dpkg -i egison-4.1.2.x86_64.deb   ## Install Egison
+$ wget https://git.io/egzact-2.1.0.deb
+$ sudo dpkg -i egzact-2.1.0.deb  ## Install egzact
 ```
 
 #### macOS users
